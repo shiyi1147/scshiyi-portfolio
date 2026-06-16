@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.npm-cache/
+*.log
+
+# Local source videos kept outside the web build
+/*.mp4
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
