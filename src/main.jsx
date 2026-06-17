@@ -20,11 +20,13 @@ import './styles.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const asset = (file) => `${import.meta.env.BASE_URL}assets/${file}`;
+
 const videos = [
-  '/assets/hero-visual.mp4',
-  '/assets/project-brand.mp4',
-  '/assets/project-scene.mp4',
-  '/assets/project-campaign.mp4',
+  asset('hero-visual.mp4'),
+  asset('project-brand.mp4'),
+  asset('project-scene.mp4'),
+  asset('project-campaign.mp4'),
 ];
 
 const projects = [
@@ -59,56 +61,56 @@ const strengths = [
     title: 'AI视觉生成',
     text: '熟悉用 AI 辅助完成风格探索、画面生成、质感强化与视觉提案。',
     icon: Wand2,
-    images: ['/assets/adv-01-opt.jpg', '/assets/adv-02-opt.jpg', '/assets/adv-03-opt.jpg'],
+    images: [asset('adv-01-opt.jpg'), asset('adv-02-opt.jpg'), asset('adv-03-opt.jpg')],
   },
   {
     title: '效果表现能力',
     text: '关注光影、材质、构图和氛围，能将概念快速转化为高完成度画面。',
     icon: Sparkles,
-    images: ['/assets/adv-04-opt.jpg', '/assets/adv-05-opt.jpg', '/assets/adv-06-opt.jpg'],
+    images: [asset('adv-04-opt.jpg'), asset('adv-05-opt.jpg'), asset('adv-06-opt.jpg')],
   },
   {
     title: '品牌审美判断',
     text: '在克制的系统感和鲜明的视觉记忆之间建立平衡，避免模板化表达。',
     icon: Brush,
-    images: ['/assets/adv-07-opt.jpg', '/assets/adv-08-opt.jpg', '/assets/adv-09-opt.jpg'],
+    images: [asset('adv-07-opt.jpg'), asset('adv-08-opt.jpg'), asset('adv-09-opt.jpg')],
   },
   {
     title: '跨媒介落地',
     text: '适配海报、网页、视频、社媒与展示场景，让视觉资产形成连续体验。',
     icon: Bot,
-    images: ['/assets/adv-10-opt.jpg', '/assets/adv-11-opt.jpg', '/assets/adv-12-opt.jpg'],
+    images: [asset('adv-10-opt.jpg'), asset('adv-11-opt.jpg'), asset('adv-12-opt.jpg')],
   },
   {
     title: '视觉策略思维',
     text: '从目标、受众和传播渠道反推设计语言，让作品不只停留在好看。',
     icon: BrainCircuit,
-    images: ['/assets/adv-13-opt.jpg', '/assets/adv-14-opt.jpg', '/assets/adv-15-opt.jpg'],
+    images: [asset('adv-13-opt.jpg'), asset('adv-14-opt.jpg'), asset('adv-15-opt.jpg')],
   },
 ];
 
 const aboutSlides = [
-  '/assets/about-slide-01-opt.jpg',
-  '/assets/about-slide-02-opt.jpg',
-  '/assets/about-slide-03-opt.jpg',
-  '/assets/about-slide-04-opt.jpg',
-  '/assets/about-slide-05-opt.jpg',
-  '/assets/about-slide-06-opt.jpg',
+  asset('about-slide-01-opt.jpg'),
+  asset('about-slide-02-opt.jpg'),
+  asset('about-slide-03-opt.jpg'),
+  asset('about-slide-04-opt.jpg'),
+  asset('about-slide-05-opt.jpg'),
+  asset('about-slide-06-opt.jpg'),
 ];
 
 const metricSlides = [
-  '/assets/metric-slide-01-opt.jpg',
-  '/assets/metric-slide-02-opt.jpg',
-  '/assets/metric-slide-03-opt.jpg',
-  '/assets/metric-slide-04-opt.jpg',
-  '/assets/metric-slide-05-opt.jpg',
+  asset('metric-slide-01-opt.jpg'),
+  asset('metric-slide-02-opt.jpg'),
+  asset('metric-slide-03-opt.jpg'),
+  asset('metric-slide-04-opt.jpg'),
+  asset('metric-slide-05-opt.jpg'),
 ];
 
 const contactVideos = [
-  '/assets/contact-slide-01.mp4',
-  '/assets/contact-slide-02.mp4',
-  '/assets/contact-slide-03.mp4',
-  '/assets/contact-slide-04.mp4',
+  asset('contact-slide-01.mp4'),
+  asset('contact-slide-02.mp4'),
+  asset('contact-slide-03.mp4'),
+  asset('contact-slide-04.mp4'),
 ];
 
 function App() {
@@ -358,7 +360,7 @@ function App() {
               </p>
               <div className="heroActions">
                 <a className="primaryButton" href="#projects">查看作品</a>
-                <a className="ghostButton" href="/assets/portfolio.pdf" target="_blank" rel="noreferrer">
+                <a className="ghostButton" href={asset('portfolio.pdf')} target="_blank" rel="noreferrer">
                   完整作品集
                 </a>
               </div>
@@ -370,7 +372,7 @@ function App() {
 
             <aside className="floatingWorkStack" aria-label="动态视觉作品预览">
               <article className="floatingWorkCard">
-                <LazyVideo src="/assets/header-card-top.mp4" autoPlay muted loop playsInline loadDelay={900} />
+                <LazyVideo src={asset('header-card-top.mp4')} autoPlay muted loop playsInline loadDelay={900} />
                 <span>AI Motion / 01</span>
                 <strong>Dark bloom visual</strong>
               </article>
@@ -380,7 +382,7 @@ function App() {
                 <strong>Motion visual system</strong>
               </article>
               <article className="floatingWorkCard">
-                <LazyVideo src="/assets/header-card-bottom.mp4" autoPlay muted loop playsInline loadDelay={1700} />
+                <LazyVideo src={asset('header-card-bottom.mp4')} autoPlay muted loop playsInline loadDelay={1700} />
                 <span>AI Motion / 02</span>
                 <strong>Fluid wallpaper loop</strong>
               </article>
@@ -493,7 +495,7 @@ function App() {
         <div className="sectionHead">
           <p className="sectionKicker">SELECTED WORKS</p>
           <h2>精选项目</h2>
-          <a href="/assets/portfolio.pdf" target="_blank" rel="noreferrer">
+          <a href={asset('portfolio.pdf')} target="_blank" rel="noreferrer">
             查看 PDF 作品集
             <ArrowUpRight size={18} />
           </a>
@@ -559,7 +561,7 @@ function App() {
           <div className="finalLinks">
             <a href="tel:13347214948"><Phone size={18} />13347214948</a>
             <a href="mailto:1483399012@qq.com"><Mail size={18} />1483399012@qq.com</a>
-            <a href="/assets/portfolio.pdf" target="_blank" rel="noreferrer">
+            <a href={asset('portfolio.pdf')} target="_blank" rel="noreferrer">
               完整作品集
               <ArrowUpRight size={18} />
             </a>
