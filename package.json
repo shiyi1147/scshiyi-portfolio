@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0"
+    "preview": "vite preview --host 0.0.0.0",
+    "prepare:assets": "node scripts/prepare-assets.cjs",
+    "prebuild": "npm run prepare:assets",
+    "postbuild": "node scripts/finalize-build.cjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
@@ -14,6 +17,10 @@
     "lucide-react": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "three": "^0.185.1",
     "vite": "latest"
+  },
+  "devDependencies": {
+    "sharp": "0.35.4"
   }
 }

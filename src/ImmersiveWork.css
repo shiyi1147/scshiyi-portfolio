@@ -1,0 +1,167 @@
+/* Full-screen typographic project index. All selectors are scoped to this view. */
+.immersiveWork { --mx:0; --my:0; position:relative; min-height:820px; height:100svh; isolation:isolate; overflow:hidden; background:#080e0f; color:var(--work-tint); transition:color .7s ease; }
+.immersiveBackdrop,.immersiveCanvas,.immersiveFallback,.immersiveShade,.immersiveGrid { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+.immersiveBackdrop { z-index:-2; }
+.immersiveFallback { object-fit:cover; filter:saturate(.55); }
+.immersiveCanvas { opacity:0; transition:opacity .8s; }
+.immersiveCanvas.is-ready { opacity:1; }
+.immersiveCanvas canvas { display:block; width:100%; height:100%; }
+.immersiveShade { background:linear-gradient(90deg,rgba(4,13,15,.8),rgba(4,12,14,.27) 62%,rgba(4,12,14,.44)),linear-gradient(0deg,rgba(4,12,14,.9),rgba(4,12,14,.28) 48%,rgba(4,12,14,.52)); }
+.immersiveGrid { z-index:-1; opacity:.25; background:linear-gradient(90deg,transparent calc(22% - 1px),#bafbe124 22%,transparent calc(22% + 1px)),linear-gradient(90deg,transparent calc(93% - 1px),#bafbe124 93%,transparent calc(93% + 1px)); }
+.immersiveHeading { position:absolute; left:40px; top:116px; }
+.immersiveHeading h1 { font-size:12px; font-weight:400; letter-spacing:.16em; margin-bottom:9px; }
+.immersiveHeading > span { font-size:8px; letter-spacing:.13em; opacity:.6; }
+.immersiveFilters { position:absolute; z-index:4; left:40px; top:42%; width:175px; display:grid; gap:16px; }
+.immersiveMicro { margin-bottom:15px; font-size:8px; letter-spacing:.19em; opacity:.6; }
+.immersiveFilters button { position:relative; display:flex; flex-direction:column; gap:5px; align-items:flex-start; padding:0 0 0 18px; border:0; color:inherit; background:none; text-align:left; cursor:pointer; opacity:.5; transition:opacity .3s,transform .3s; }
+.immersiveFilters button > span { font-size:10px; letter-spacing:.17em; }
+.immersiveFilters button small { font-size:9px; letter-spacing:.12em; }
+.immersiveFilters button i { position:absolute; left:0; top:4px; width:4px; height:4px; background:currentColor; border-radius:50%; transform:scale(0); transition:transform .3s; }
+.immersiveFilters button[aria-pressed=true],.immersiveFilters button:hover { opacity:1; transform:translateX(3px); }
+.immersiveFilters button[aria-pressed=true] i { transform:scale(1); box-shadow:0 0 14px currentColor; }
+.immersiveFilterCount { margin-top:25px; font-size:8px; letter-spacing:.13em; opacity:.5; }
+.immersiveList { position:absolute; left:27%; right:10%; top:22%; display:flex; flex-direction:column; gap:clamp(10px,2.5vh,27px); perspective:1300px; transform:translate3d(calc(var(--mx)*-12px),calc(var(--my)*-9px),0); transition:transform .8s cubic-bezier(.16,1,.3,1); }
+.immersiveWorkRow { position:relative; display:flex; align-items:center; justify-content:flex-end; gap:24px; width:100%; padding:0 0 24px; border:0; background:none; color:inherit; text-align:right; cursor:pointer; }
+.immersiveWorkName { display:block; color:transparent; -webkit-text-stroke:1px color-mix(in srgb,var(--work-tint) 72%,transparent); font-size:clamp(48px,6.9vw,116px); font-weight:700; line-height:1.1; letter-spacing:.065em; white-space:nowrap; transition:color .45s,text-shadow .45s,transform .7s cubic-bezier(.16,1,.3,1); }
+.immersiveWorkRow.is-active .immersiveWorkName,.immersiveWorkRow:hover .immersiveWorkName { color:var(--work-tint); -webkit-text-stroke-color:transparent; transform:translateX(-20px); text-shadow:0 0 60px color-mix(in srgb,var(--work-tint) 18%,transparent); }
+.immersiveWorkNumber { font-size:10px; align-self:flex-start; padding-top:12px; opacity:.5; letter-spacing:.08em; }
+.immersiveWorkEnglish { position:absolute; right:26px; bottom:4px; font-size:8px; letter-spacing:.3em; opacity:.46; transition:opacity .4s; }
+.immersiveWorkRow.is-active .immersiveWorkEnglish { opacity:.9; }
+.immersiveRowArrow { position:absolute; right:-10px; top:38%; width:20px; height:20px; opacity:0; transform:translate(-15px,10px); transition:opacity .4s,transform .4s; }
+.immersiveWorkRow.is-active .immersiveRowArrow { opacity:1; transform:none; }
+.immersiveInfo { position:absolute; left:40px; bottom:100px; max-width:220px; animation:workInfoIn .6s both; }
+.immersiveInfo > span { font-size:8px; letter-spacing:.12em; opacity:.65; }
+.immersiveInfo p { margin:12px 0 18px; font-size:13px; letter-spacing:.06em; line-height:1.6; }
+.immersiveInfo button { display:flex; align-items:center; gap:15px; padding:0 0 8px; background:none; color:inherit; border:0; border-bottom:1px solid #caffed65; font-size:10px; cursor:pointer; }
+.immersivePosition { position:absolute; right:34px; top:50%; display:flex; flex-direction:column; align-items:center; gap:20px; }
+.immersivePosition button { display:grid; place-items:center; padding:8px; color:inherit; border:1px solid #caffed3a; border-radius:50%; background:transparent; cursor:pointer; transition:background .25s; }
+.immersivePosition button:hover { background:#caffed20; }
+.immersivePosition > span { font-size:12px; writing-mode:vertical-rl; letter-spacing:.1em; }
+.immersivePosition i { font-size:9px; opacity:.5; font-style:normal; }
+.immersiveFooter { position:absolute; bottom:27px; left:40px; right:40px; display:flex; align-items:center; justify-content:space-between; gap:20px; padding-top:20px; border-top:1px solid #caffed25; font-size:8px; letter-spacing:.16em; }
+.immersiveFooter button,.immersiveFooter a { display:flex; align-items:center; gap:10px; color:inherit; font-size:9px; border:0; background:none; padding:0; cursor:pointer; }
+.immersiveFooter .immersiveAboutLink svg { animation:workNudge 2.5s ease-in-out infinite; }
+.immersiveEdgeLabel { position:absolute; top:170px; right:40px; writing-mode:vertical-rl; font-size:8px; letter-spacing:.21em; opacity:.5; }
+.immersiveCursor { display:none; position:absolute; z-index:8; top:-39px; left:-39px; width:78px; height:78px; border:1px solid #caffed55; border-radius:50%; pointer-events:none; opacity:0; transition:opacity .25s; }
+.immersiveCursor span { position:absolute; top:33px; width:100%; text-align:center; font-size:8px; letter-spacing:.2em; }
+@media (hover:hover) and (pointer:fine) { .immersiveCursor {display:block;} .immersiveWork:has(.immersiveWorkRow:hover) .immersiveCursor {opacity:1;} }
+.immersiveWork button:focus-visible,.immersiveWork a:focus-visible { outline:2px solid var(--work-tint); outline-offset:7px; }
+@keyframes workInfoIn { from {opacity:0;transform:translateY(12px);} to {opacity:1;transform:none;} }
+@keyframes workNudge { 0%,100% {transform:translateY(-3px);} 50% {transform:translateY(3px);} }
+@media (min-width:1600px) { .immersiveList {top:20%;gap:2.1vh;} }
+@media (max-height:820px) and (min-width:761px) { .immersiveWork {min-height:650px;} .immersiveList {top:21%;gap:10px;} .immersiveWorkName {font-size:clamp(45px,8.6vh,83px);} .immersiveWorkRow {padding-bottom:20px;} .immersiveHeading {top:90px;} .immersiveInfo {bottom:94px;} }
+@media (max-width:1000px) and (min-width:761px) { .immersiveFilters {left:25px;width:150px;} .immersiveList {left:23%;right:12%;} .immersiveWorkName {font-size:7vw;} .immersiveInfo {left:25px;max-width:170px;} }
+@media (max-width:760px) {
+  .immersiveWork {height:auto;min-height:850px;min-height:max(850px,100svh);}
+  .immersiveHeading {left:22px;top:91px;} .immersiveHeading h1 {font-size:11px;} .immersiveHeading > span {font-size:7px;}
+  .immersiveFilters {left:22px;right:22px;top:166px;width:auto;display:flex;gap:18px;justify-content:space-between;}
+  .immersiveFilters button {padding-left:0;gap:6px;} .immersiveFilters button span {font-size:8px;letter-spacing:.02em;} .immersiveFilters button small {font-size:9px;letter-spacing:0;}
+  .immersiveFilters button i {top:auto;bottom:-10px;left:0;width:100%;height:1px;border-radius:0;} .immersiveFilters button[aria-pressed=true],.immersiveFilters button:hover {transform:none;}
+  .immersiveMicro,.immersiveFilterCount {display:none;}
+  .immersiveList {left:26px;right:34px;top:260px;gap:23px;transform:none;} .immersiveWorkRow {gap:10px;padding-bottom:22px;}
+  .immersiveWorkName {font-size:clamp(38px,10.6vw,66px);letter-spacing:.02em;-webkit-text-stroke-width:.7px;} .immersiveWorkNumber {padding-top:4px;font-size:8px;}
+  .immersiveWorkRow.is-active .immersiveWorkName,.immersiveWorkRow:hover .immersiveWorkName {transform:translateX(-9px);}
+  .immersiveWorkEnglish {right:14px;font-size:7px;letter-spacing:.18em;}
+  .immersiveRowArrow {right:-14px;width:14px;top:25%;}
+  .immersiveInfo {left:22px;bottom:97px;max-width:235px;} .immersiveInfo p {font-size:12px;margin:8px 0 10px;} .immersiveInfo > span {font-size:7px;}
+  .immersivePosition {top:auto;bottom:102px;right:22px;flex-direction:row;gap:8px;} .immersivePosition > span {writing-mode:initial;font-size:10px;} .immersivePosition i {display:none;}
+  .immersiveEdgeLabel {display:none;} .immersiveFooter {left:22px;right:22px;bottom:24px;gap:8px;font-size:7px;} .immersiveFooter > span {max-width:95px;line-height:1.7;} .immersiveFooter button,.immersiveFooter a {font-size:8px;gap:5px;}
+}
+@media (prefers-reduced-motion:reduce) { .immersiveWork *, .immersiveWork { animation:none!important;transition:none!important; } .immersiveList {transform:none;} .immersiveCursor {display:none;} }
+@media (min-width:761px) {
+  .immersiveList {top:20%;gap:1.8vh;}
+  .immersiveWorkName {font-size:clamp(48px,6.4vw,106px);line-height:1.04;}
+  .immersiveWorkRow {padding-bottom:22px;}
+}
+@media (max-height:950px) and (min-width:761px) {
+  .immersiveList {top:21%;gap:1.6vh;}
+  .immersiveWorkName {font-size:clamp(42px,8vh,76px);}
+}
+
+/* Navigation switches views; the work index always stays inside one viewport. */
+html.portfolio-home,html.portfolio-home body {height:100%;overflow:hidden;overscroll-behavior:none;}
+.workAtlas > [hidden] {display:none!important;}
+.workAtlas[data-page="top"] {height:100dvh;min-height:0;overflow:hidden;}
+.workAtlas[data-page="top"] .immersiveWork {height:100dvh;min-height:0;max-height:100dvh;overflow:hidden;touch-action:pinch-zoom;}
+.workAtlasNav a[aria-current="page"]::after {transform:scaleX(1);}
+.immersiveFooter .immersiveAboutLink svg {animation:none;}
+@media (max-width:760px) {
+  .workAtlas[data-page="top"] .immersiveHeading {top:80px;}
+  .workAtlas[data-page="top"] .immersiveFilters {top:136px;}
+  .workAtlas[data-page="top"] .immersiveList {top:196px;bottom:170px;display:grid;grid-template-rows:repeat(var(--work-count),minmax(0,1fr));gap:0;}
+  .workAtlas[data-page="top"] .immersiveWorkRow {min-height:0;padding-bottom:12px;}
+  .workAtlas[data-page="top"] .immersiveWorkName {font-size:clamp(22px,min(10vw,4.7dvh),46px);line-height:1.04;}
+  .workAtlas[data-page="top"] .immersiveWorkEnglish {bottom:1px;font-size:6px;}
+  .workAtlas[data-page="top"] .immersiveInfo {bottom:85px;}
+  .workAtlas[data-page="top"] .immersivePosition {bottom:95px;}
+  .workAtlas[data-page="top"] .immersiveFooter {bottom:18px;padding-top:12px;}
+}
+@media (min-width:761px) and (max-height:620px) {
+  .workAtlas[data-page="top"] .immersiveList {top:100px;bottom:75px;display:grid;grid-template-rows:repeat(var(--work-count),minmax(0,1fr));gap:0;}
+  .workAtlas[data-page="top"] .immersiveWorkRow {min-height:0;padding-bottom:12px;}
+  .workAtlas[data-page="top"] .immersiveWorkName {font-size:clamp(20px,6dvh,38px);}
+  .workAtlas[data-page="top"] .immersiveHeading {top:78px;}
+  .workAtlas[data-page="top"] .immersiveFilters {top:145px;gap:10px;}
+  .workAtlas[data-page="top"] .immersiveMicro,.workAtlas[data-page="top"] .immersiveFilterCount {display:none;}
+  .workAtlas[data-page="top"] .immersiveInfo {bottom:70px;}
+  .workAtlas[data-page="top"] .immersiveInfo p {display:none;}
+  .workAtlas[data-page="top"] .immersiveFooter {bottom:16px;padding-top:12px;}
+  .workAtlas[data-page="top"] .immersiveEdgeLabel {display:none;}
+}
+@media (min-width:761px) and (max-height:620px) {
+  .workAtlas[data-page="top"] .immersiveInfo > span {display:none;}
+}
+
+@media (max-width:760px) {
+  .immersiveFilters {gap:8px;}
+  .immersiveFilters button {gap:3px;}
+  .immersiveFilters button span {font-size:7px;letter-spacing:0;}
+  .immersiveFilters button small {font-size:9px;}
+}
+/* The original full-screen index: only the type list and category rail scroll. */
+.workAtlas[data-page="top"] .immersiveWork {touch-action:pan-y pinch-zoom;}
+.workAtlas[data-page="top"] .immersiveList {top:20%;bottom:100px;display:flex;flex-direction:column;gap:clamp(12px,1.8vh,24px);overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y pinch-zoom;scrollbar-width:thin;scrollbar-color:#caffed44 transparent;padding:12px 22px 25px 12px;transform:none;transition:none;scroll-padding-block:18px;}
+.workAtlas[data-page="top"] .immersiveWorkRow {flex:0 0 auto;min-height:0;padding-bottom:24px;}
+.workAtlas[data-page="top"] .immersiveWorkName {font-size:clamp(26px,var(--name-size,6.4vw),106px);line-height:1.12;letter-spacing:.035em;}
+.workAtlas[data-page="top"] .immersiveFilters {top:27%;bottom:230px;gap:12px;display:flex;flex-direction:column;}
+.immersiveFilterItems {display:flex;flex-direction:column;gap:15px;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y pinch-zoom;scrollbar-width:thin;scrollbar-color:#caffed33 transparent;padding:7px;}
+.immersiveMicro {flex-shrink:0;margin-bottom:0;}.immersiveFilterCount {flex-shrink:0;margin-top:10px;}
+.immersiveList:focus-visible {outline:1px solid #caffed70;outline-offset:5px;}
+@media (max-width:1000px) and (min-width:761px) {.workAtlas[data-page="top"] .immersiveList {left:25%;right:10%;}.workAtlas[data-page="top"] .immersiveFilters {width:160px;}}
+@media (max-width:760px) {
+ .workAtlas[data-page="top"] .immersiveFilters {top:134px;bottom:auto;left:22px;right:22px;width:auto;display:block;}
+ .immersiveFilterItems {flex-direction:row;gap:21px;overflow-x:auto;overflow-y:hidden;padding:3px 2px 14px;touch-action:pan-x pinch-zoom;scrollbar-width:thin;}
+ .immersiveFilterItems button {flex:0 0 auto;}
+ .workAtlas[data-page="top"] .immersiveList {top:202px;bottom:180px;left:22px;right:22px;gap:21px;padding:8px 18px 20px 5px;}
+ .workAtlas[data-page="top"] .immersiveWorkRow {padding-bottom:19px;gap:12px;}
+ .workAtlas[data-page="top"] .immersiveWorkName {font-size:clamp(17px,calc(var(--name-size,6.4vw) * 1.52),46px);}
+ .workAtlas[data-page="top"] .immersiveInfo {max-width:calc(100% - 150px);}
+ .workAtlas[data-page="top"] .immersiveInfo p {font-size:11px;line-height:1.5;max-height:34px;overflow:hidden;}
+ .workAtlas[data-page="top"] .immersiveMicro,.workAtlas[data-page="top"] .immersiveFilterCount {display:none;}
+}
+@media (min-width:761px) and (max-height:620px) {
+ .workAtlas[data-page="top"] .immersiveList {top:112px;bottom:66px;gap:14px;}
+ .workAtlas[data-page="top"] .immersiveWorkName {font-size:clamp(23px,var(--name-size),48px);}
+ .workAtlas[data-page="top"] .immersiveFilters {top:135px;bottom:100px;}
+ .immersiveFilterItems {gap:14px;}.immersiveFilterItems button {flex-direction:row;align-items:center;gap:8px;}
+}
+@media (max-width:760px) and (max-height:580px) {
+ .workAtlas[data-page="top"] .immersiveHeading {display:none;}
+ .workAtlas[data-page="top"] .immersiveFilters {top:84px;}
+ .workAtlas[data-page="top"] .immersiveList {top:148px;bottom:105px;}
+ .workAtlas[data-page="top"] .immersiveInfo {bottom:58px;}.workAtlas[data-page="top"] .immersiveInfo p {display:none;}
+ .workAtlas[data-page="top"] .immersivePosition {bottom:61px;}
+ .workAtlas[data-page="top"] .immersiveFooter {bottom:12px;padding-top:8px;}
+}
+@media (min-width:761px) and (min-height:621px) {
+ .workAtlas[data-page="top"] .immersiveFilters {top:24%;bottom:205px;gap:10px;}
+ .immersiveFilterItems {gap:7px;}
+ .immersiveFilterItems button {flex-shrink:0;}
+ .workAtlas[data-page="top"] .immersiveWork[data-filter="selected"] .immersiveWorkName {font-size:clamp(38px,8vh,76px);}
+}
+@media (max-width:760px) {
+ .workAtlas[data-page="top"] .immersiveWorkName {font-size:clamp(14px,calc(var(--name-size,6.4vw) * 1.4),46px);}
+}
+@media (min-width:761px) and (min-height:621px) {
+ .workAtlas[data-page="top"] .immersiveWork[data-filter="selected"] .immersiveList {gap:1.4vh;}
+}

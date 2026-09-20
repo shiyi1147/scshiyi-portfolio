@@ -1,0 +1,39 @@
+@property --scene-tint {syntax:'<color>';inherits:true;initial-value:#bff3df;}
+.spatialStage {position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;isolation:isolate;background:#050b10;transition:--scene-tint .6s ease;}
+.cyberFilterDefinitions {position:absolute;pointer-events:none;}
+.cyberAmbientBackdrop {position:absolute;inset:-20px;width:calc(100% + 40px);height:calc(100% + 40px);object-fit:cover;}
+.cyberRig {position:absolute;inset:0;transform:perspective(max(1400px,120vw)) translate3d(calc(var(--mx,0)*-8px),calc(var(--my,0)*-6px),0) rotateX(calc(var(--my,0)*-4deg)) rotateY(calc(var(--mx,0)*6deg)) scale(1.08);transform-origin:center;transition:transform .85s cubic-bezier(.16,1,.3,1);}
+.cyberWorld {position:absolute;left:0;top:0;transform-origin:0 0;}
+.cyberPlate {position:absolute;inset:0;display:block;width:100%;height:100%;}
+.cyberFloorTint {position:absolute;left:26%;top:66%;width:49%;height:34%;background:radial-gradient(ellipse at 51% 17%,var(--scene-tint),transparent 72%);mix-blend-mode:color;opacity:.64;pointer-events:none;}
+/* Darken the scenery beneath the live screen, keeping project media at full brightness. */
+.cyberSurroundMask {position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 48% 54% at 51.2% 47%,rgb(0 0 0 / .18) 18%,rgb(0 0 0 / .5) 46%,rgb(0 0 0 / .76) 78%,rgb(0 0 0 / .86) 100%);}
+.cyberStage .spatialScreenAnchor {position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.cyberStage .spatialScreen {position:absolute;left:0;top:0;width:640px;height:320px;transform-origin:0 0;border:0;border-radius:0;overflow:hidden;padding:0;background:#071219;box-shadow:none;pointer-events:auto;cursor:pointer;}
+.spatialMedia {position:absolute;inset:0;background:#071219;}.spatialMedia>img,.spatialMedia>video {display:block;width:100%;height:100%;object-fit:contain;}
+.spatialMedia.is-current {z-index:2;}.spatialMedia.is-previous {z-index:1;}
+.spatialScreenEdge {position:absolute;inset:0;z-index:4;pointer-events:none;box-shadow:inset 0 0 18px #020c1829;background:linear-gradient(135deg,#b9e6ff06,transparent 55%);}
+.spatialBobo {position:absolute;inset:0;overflow:hidden;}.spatialBoboAtmosphere{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}.spatialBoboMain{position:absolute;width:33%;height:auto;left:30%;top:5%;transform:rotate(-7deg);filter:drop-shadow(0 18px 24px #0008);animation:spatialFloat 6s ease-in-out infinite;}.spatialBoboRound{position:absolute;width:20%;height:auto;left:61%;top:42%;transform:rotate(9deg);filter:drop-shadow(0 15px 20px #0009);animation:spatialFloat 6s -2s ease-in-out infinite;}
+.spatialVignette {position:absolute;inset:0;background:linear-gradient(90deg,#01081070,transparent 31%,transparent 76%,#01071035),linear-gradient(0deg,#01070bb8,transparent 24%,transparent 75%,#01070b66);pointer-events:none;}
+.cyberStage.is-portrait .cyberPlate,.cyberStage.is-portrait .cyberSurroundMask {mask-image:linear-gradient(transparent,#000 9%,#000 86%,transparent);}
+.cyberStage.is-portrait .cyberRig {transform:none;}
+.spatialStage.is-paused *{animation-play-state:paused!important;}.spatialStage.is-paused .cyberRig{transform:perspective(max(1400px,120vw)) translate3d(0,0,0) rotateX(0deg) rotateY(0deg) scale(1.08);}.spatialStage.is-paused.is-portrait .cyberRig{transform:none;}
+@keyframes spatialMediaIn{from{opacity:0;filter:blur(4px);transform:scale(1.025);}to{opacity:1;filter:blur(0);transform:scale(1);}}
+@keyframes spatialFloat{0%,100%{translate:0 0;}50%{translate:0 -5px;}}
+@media(prefers-reduced-motion:reduce){.spatialStage *{animation:none!important;transition:none!important;}}
+
+.spatialLiveMedia {position:absolute;inset:0;}
+.spatialBootSignal {display:none;position:absolute;inset:0;z-index:5;overflow:hidden;background:#080d10;pointer-events:none;box-shadow:inset 0 0 0 1px #d3eae5a6,inset 0 0 30px #d3eae528;}
+.spatialBootNoise {position:absolute;inset:-3%;width:106%;height:106%;opacity:.72;}
+.spatialBootScanlines {position:absolute;inset:0;background:repeating-linear-gradient(0deg,#0004 0px,#0004 1px,transparent 1px,transparent 3px),radial-gradient(ellipse,transparent 35%,#0009);}
+
+/* Keep touch devices static; desktop input rotates the entire photographed scene. */
+@media(hover:none),(pointer:coarse) {.cyberRig {transform:scale(1.08);}}
+
+.watchfaceCarousel{position:absolute;inset:0;background:radial-gradient(ellipse at 31% 48%,#29483f 0%,#112824 40%,#081715 78%);color:#c6ded1;text-align:left}
+.watchfaceCarouselKicker{position:absolute;left:30px;top:18px;font-size:7px;letter-spacing:2px;color:#89a799}
+.watchfaceCarouselImage{position:absolute;left:62px;top:38px;width:245px;height:242px;object-fit:contain;filter:drop-shadow(0 9px 12px #0005)}
+.watchfaceCarouselImage.is-incoming{animation:watchfaceFadeIn .7s ease both}.watchfaceCarouselImage.is-outgoing{animation:watchfaceFadeOut .7s ease both}
+.watchfaceCarouselCaption{position:absolute;left:76px;bottom:20px;width:216px;display:flex;justify-content:space-between;align-items:center;font-size:10px;letter-spacing:1px}.watchfaceCarouselCaption small{font-size:7px;color:#809e90}
+.watchfaceCarouselTrack{position:absolute;left:76px;bottom:12px;width:216px;height:1px;background:#bff3df26;overflow:hidden}.watchfaceCarouselTrack span{display:block;width:100%;height:100%;background:#bff3df99;transform-origin:left;animation:watchfaceProgress 2s linear both}
+@keyframes watchfaceFadeIn{from{opacity:0}to{opacity:1}}@keyframes watchfaceFadeOut{from{opacity:1}to{opacity:0}}@keyframes watchfaceProgress{from{transform:scaleX(0)}to{transform:scaleX(1)}}

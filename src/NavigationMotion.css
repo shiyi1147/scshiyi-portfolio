@@ -1,0 +1,21 @@
+/* An opaque curtain joins the old and new views without a blank frame. */
+.navigationTransition {position:fixed;z-index:28;inset:0;overflow:hidden;visibility:hidden;opacity:0;background:#071217;color:#c9ffea;pointer-events:auto;contain:paint;}
+.navigationAtmosphere {position:absolute;inset:-25%;background:radial-gradient(ellipse at 30% 75%,#2965644d,transparent 55%),radial-gradient(ellipse at 78% 24%,#343f6840,transparent 55%),linear-gradient(125deg,#040b10,#0a1b20 50%,#030b0f);}
+.navigationTrail {position:absolute;inset:-50% -15%;background:linear-gradient(112deg,transparent 39%,#91fbe80d 45%,#9deed23b 49.5%,#d6ffedb0 50%,#72d8c733 50.5%,transparent 58%);filter:blur(12px);transform:translateX(-115%);}
+.navigationTitle {position:absolute;inset:0;display:grid;place-items:center;font-family:"Helvetica Neue",Arial,sans-serif!important;font-size:clamp(70px,15vw,240px);font-weight:300;letter-spacing:.11em;color:transparent;-webkit-text-stroke:1px #b2e9d66b;opacity:0;}
+.navigationCoordinates {position:absolute;bottom:34px;left:40px;font-size:9px;letter-spacing:.2em;opacity:.6;}
+.navigationEdge {position:absolute;inset:0;border-top:1px solid #bfffe780;border-bottom:1px solid #bfffe730;box-shadow:inset 0 12px 38px -25px #9affdf;pointer-events:none;}
+html.portfolio-transitioning,html.portfolio-transitioning body {overflow:hidden!important;overscroll-behavior:none;}
+.workAtlas[data-transitioning] .workAtlasHeader {z-index:40;mix-blend-mode:normal;color:#dbfff1;}
+.workAtlas[data-transitioning] .workAtlasNav a[aria-current="page"]::after {box-shadow:0 0 12px #b7fce7;}
+@media(max-width:760px) {
+  .navigationTitle {font-size:clamp(43px,12vw,90px);letter-spacing:.06em;}
+  .navigationCoordinates {left:22px;bottom:25px;font-size:7px;}
+  .navigationTrail {filter:blur(8px);}
+}
+@media(prefers-reduced-motion:reduce) {.navigationTransition {display:none;}}
+.workAtlas > #about,.workAtlas > #contact {min-height:100dvh;}
+@media(min-width:761px) {
+  .workAtlas[data-page="about"] .workAtlasAbout h2 {font-size:clamp(34px,4.5vw,78px);letter-spacing:-.05em;}
+}
+.workAtlas[data-page="about"] .workAtlasEyebrow {color:#66766d;}

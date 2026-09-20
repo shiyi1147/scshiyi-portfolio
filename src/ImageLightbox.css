@@ -1,0 +1,46 @@
+.imageLightbox {position:fixed;inset:0;z-index:300;height:100dvh;background:#081115f5;color:#def4ec;font-family:var(--portfolio-font),sans-serif;isolation:isolate;overflow:hidden;animation:detailReveal .22s ease-out both;}
+.imageLightbox * {box-sizing:border-box;}
+.imageLightbox button,.imageLightbox a {font:inherit;color:inherit;}
+.imageLightbox button {border:0;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;min-width:44px;min-height:44px;}
+.imageLightbox button:disabled {opacity:.3;cursor:default;}
+.imageLightbox button:focus-visible,.imageLightbox a:focus-visible {outline:2px solid #c5f9df;outline-offset:3px;}
+.imageLightboxHeader {position:absolute;top:22px;left:32px;right:32px;display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.imageLightboxHeader>div {min-width:0;}
+.imageLightboxHeader div>span {font-size:8px;letter-spacing:.22em;opacity:.5;}
+.imageLightboxHeader h2 {font-size:15px;font-weight:400;line-height:1.5;margin:7px 0 0;}
+.imageLightboxHeader button {flex-shrink:0;font-size:11px;}
+.imageLightboxViewport {position:absolute;inset:94px 22px 108px;overflow:hidden;touch-action:none;overscroll-behavior:none;cursor:grab;user-select:none;-webkit-user-select:none;}
+.imageLightboxViewport.is-dragging {cursor:grabbing;}
+.imageLightboxViewport>img {position:absolute;left:50%;top:50%;max-width:none;max-height:none;transform-origin:center;pointer-events:none;-webkit-user-drag:none;will-change:transform;}
+.imageLightboxFooter {position:absolute;left:20px;right:20px;bottom:19px;display:flex;align-items:center;flex-direction:column;gap:12px;}
+.imageLightboxTools {display:flex;align-items:center;gap:5px;padding:4px 10px;background:#132125;border:1px solid #c5f9df35;border-radius:12px;box-shadow:0 12px 35px #0004;}
+.imageLightboxTools button {font-size:12px;border-radius:7px;padding:0 11px;}
+.imageLightboxTools button:hover:not(:disabled) {background:#c5f9df18;}
+.imageLightboxTools output {min-width:48px;text-align:center;font-size:11px;font-variant-numeric:tabular-nums;}
+.imageLightboxTools i {height:22px;width:1px;background:#c5f9df30;margin:0 5px;}
+.imageLightboxFooter p {margin:0;font-size:10px;letter-spacing:.04em;color:#9aaea9;text-align:center;}
+.imageLightboxStatus {position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;font-size:13px;}
+.imageLightboxStatus a {padding:12px;text-decoration:underline;}
+.exhibitionFrameCaption button {display:flex;align-items:center;gap:8px;padding:0;font-size:inherit;letter-spacing:inherit;pointer-events:auto;}
+@keyframes detailReveal {from {opacity:0;}to {opacity:1;}}
+@media(max-width:760px) {
+ .imageLightboxHeader {left:20px;right:14px;top:16px;gap:10px;}
+ .imageLightboxHeader h2 {font-size:13px;}
+ .imageLightboxHeader button span {display:none;}
+ .imageLightboxViewport {inset:87px 8px 116px;}
+ .imageLightboxFooter {left:8px;right:8px;bottom:18px;}
+ .imageLightboxTools {padding:3px 5px;gap:1px;}
+ .imageLightboxTools button {font-size:11px;padding:0 6px;gap:5px;}
+ .imageLightboxTools output {min-width:39px;}
+ .imageLightboxTools i {margin:0 2px;}
+ .imageLightboxFooter p {max-width:280px;font-size:9px;line-height:1.7;}
+}
+@media(max-height:500px) {
+ .imageLightboxHeader {top:10px;}
+ .imageLightboxHeader div>span {display:none;}
+ .imageLightboxHeader h2 {margin:0;}
+ .imageLightboxViewport {top:62px;bottom:72px;}
+ .imageLightboxFooter {bottom:10px;}
+ .imageLightboxFooter p {display:none;}
+}
+@media(prefers-reduced-motion:reduce) {.imageLightbox {animation:none;}}

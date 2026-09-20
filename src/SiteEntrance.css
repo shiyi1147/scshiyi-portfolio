@@ -1,0 +1,23 @@
+.siteEntrance {position:fixed;inset:0;z-index:300;overflow:hidden;isolation:isolate;color:#dededb;font-family:var(--portfolio-font),sans-serif;touch-action:pinch-zoom;}
+.siteEntranceBlackout {position:absolute;inset:0;background:#000;pointer-events:none;}
+.siteEntranceFrame {position:absolute;left:50%;top:46%;width:min(46vw,860px);aspect-ratio:1.92;transform:translate(-50%,-50%);display:grid;place-items:center;box-sizing:border-box;pointer-events:none;}
+.siteEntranceNumber {font-family:'Helvetica Neue',Arial,sans-serif;font-size:clamp(30px,3vw,54px);font-weight:300;font-variant-numeric:tabular-nums;line-height:1;letter-spacing:.08em;padding-left:.08em;}
+.siteEntranceSkip {position:absolute;top:30px;right:38px;display:flex;align-items:center;gap:15px;padding:10px 0;border:0;background:none;color:#a8aba9;font:10px var(--portfolio-font),sans-serif;letter-spacing:.1em;cursor:pointer;}
+.siteEntranceSkip span {font-size:18px;}
+.siteEntranceSkip:hover {color:#fff;}
+.siteEntranceSkip:focus-visible {outline:1px solid #b6efd560;outline-offset:7px;}
+html.portfolio-entering,html.portfolio-entering body {overflow:hidden!important;overscroll-behavior:none;}
+@media(max-width:760px) {
+ .siteEntranceFrame {width:calc(100vw - 44px);}
+ .siteEntranceNumber {font-size:32px;}
+ .siteEntranceSkip {top:20px;right:24px;font-size:9px;}
+}
+@media(prefers-reduced-motion:reduce) {.siteEntrance {display:none;}}
+
+.siteEntranceProgress {position:absolute;background:#d8d8d1;pointer-events:none;}
+.siteEntranceProgressTop,.siteEntranceProgressBottom {left:0;width:100%;height:1px;transform:scaleX(clamp(0,calc(var(--entrance-progress,0)*1.5),1));}
+.siteEntranceProgressTop {top:0;transform-origin:left;}
+.siteEntranceProgressBottom {bottom:0;transform-origin:right;}
+.siteEntranceProgressLeft,.siteEntranceProgressRight {top:0;height:100%;width:1px;transform:scaleY(clamp(0,calc((var(--entrance-progress,0) - .6666666667)*3),1));}
+.siteEntranceProgressRight {right:0;transform-origin:top;}
+.siteEntranceProgressLeft {left:0;transform-origin:bottom;}

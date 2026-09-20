@@ -11,3 +11,11 @@ dist/
 Thumbs.db
 .vscode/
 .idea/
+
+# Local reports, test tools, and original materials
+/output/
+/tmp/
+/.preview/
+/ai视频/
+/网站背景.png
+/会议纪要.md

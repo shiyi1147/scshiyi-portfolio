@@ -1,0 +1,215 @@
+.exhibition { --ex:0;--ey:0; position:fixed;z-index:200;inset:0;width:100%;height:100dvh;overflow:hidden;isolation:isolate;background:#070e10;color:#d0f3e9;font-family:var(--portfolio-font),sans-serif; }
+.exhibition * {box-sizing:border-box;}
+.exhibition button,.exhibition a {font:inherit;color:inherit;}
+.exhibition button {border:0;background:none;cursor:pointer;}
+.exhibition button:disabled {opacity:.25;cursor:default;}
+.exhibition button:focus-visible,.exhibition a:focus-visible {outline:2px solid #c6ffe9;outline-offset:5px;}
+.exhibition button,.exhibition a { -webkit-tap-highlight-color:transparent; }
+.exhibitionBackdrop {position:absolute;inset:0;z-index:-3;transition:filter 1.1s,opacity 1.1s,transform 1.1s;}
+.exhibitionBackdrop .immersiveShade {background:linear-gradient(0deg,#020c10de,transparent 80%),linear-gradient(90deg,#06111665,transparent 85%);}
+.exhibitionBackdrop .immersiveFallback {filter:saturate(.62);}
+.exhibition.is-gallery .exhibitionBackdrop {filter:blur(20px) saturate(.65);opacity:.42;transform:scale(1.08);}
+.exhibitionVignette {position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#020b11a8,transparent 30%,transparent 64%,#020b11c9),radial-gradient(ellipse at center,transparent 30%,#03101388);}
+.exhibitionGrain {position:absolute;inset:0;z-index:8;opacity:.055;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");}
+.exhibitionHeader {position:absolute;z-index:10;left:38px;right:38px;top:27px;display:flex;align-items:flex-start;justify-content:space-between;gap:35px;}
+.exhibitionProjectMark {max-width:40%;}
+.exhibitionProjectMark > span {display:block;font-size:8px;letter-spacing:.22em;opacity:.6;margin-bottom:10px;}
+.exhibitionProjectMark h2 {margin:0;font-size:13px;font-weight:500;line-height:1.5;letter-spacing:.1em;}
+.exhibitionClose {position:absolute;left:50%;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;padding:3px 12px;}
+.exhibitionClose span {font-size:8px;letter-spacing:.1em;opacity:0;transition:opacity .2s;}
+.exhibitionClose:hover span,.exhibitionClose:focus-visible span {opacity:1;}
+.exhibitionClose svg {transition:transform .4s;}
+.exhibitionClose:hover svg {transform:rotate(90deg);}
+.exhibitionInfoButton {display:flex;align-items:center;gap:24px;padding:8px 0;font-size:10px!important;letter-spacing:.1em;}
+.exhibitionInfoButton span {font-size:22px;font-weight:200;}
+.exhibitionGestureArea {position:absolute;inset:92px 0 72px;touch-action:none;user-select:none;}
+.exhibitionIntroBody {position:absolute;inset:0;}
+.exhibitionTitle {position:absolute;left:7%;right:7%;top:10%;text-align:center;transform:translate3d(calc(var(--ex) * -16px),calc(var(--ey) * -12px),0);transition:transform .75s cubic-bezier(.16,1,.3,1);pointer-events:none;}
+.exhibitionTitle > div {overflow:hidden;}
+.exhibitionTitle span {display:block;font-family:"Arial Narrow","Helvetica Neue",Arial,sans-serif;font-size:clamp(65px,10.8vw,190px);font-weight:300;line-height:1.32;letter-spacing:.085em;color:transparent;-webkit-text-stroke:1px #c8fae7a1;text-shadow:0 0 80px #aefadc12;}
+.exhibitionIntroCopy {position:absolute;left:38px;bottom:43px;max-width:365px;}
+.exhibitionIntroCopy > span {font-size:8px;letter-spacing:.18em;opacity:.75;}
+.exhibitionIntroCopy p {margin:16px 0 22px;font-size:12px;line-height:1.95;letter-spacing:.035em;color:#e1f4eed9;text-wrap:pretty;}
+.exhibitionIntroActions {display:flex;gap:12px;align-items:center;}
+.exhibitionIntroActions button,.exhibitionIntroActions a {display:flex;align-items:center;justify-content:center;gap:25px;border:1px solid #c7fbe455;padding:11px 15px;font-size:10px;letter-spacing:.07em;transition:background .3s,border-color .3s;}
+.exhibitionIntroActions button:hover,.exhibitionIntroActions a:hover {background:#bfffe318;border-color:#c7fbe4;}
+.exhibitionScrollHint {position:absolute;left:50%;bottom:40px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:18px;font-size:8px;letter-spacing:.23em;opacity:.8;}
+.exhibitionScrollHint i {display:block;width:1px;height:40px;background:linear-gradient(#c7fbe4,transparent);transform-origin:top;animation:exhibitionScrollLine 2s ease-in-out infinite;}
+.exhibitionProgress {position:absolute;right:34px;top:50%;transform:translateY(-50%);z-index:5;display:grid;gap:1px;max-height:55%;overflow-y:auto;scrollbar-width:none;}
+.exhibitionProgress button {display:flex;align-items:center;justify-content:flex-end;gap:10px;min-width:52px;height:18px;padding:2px 0;}
+.exhibitionProgress i {display:block;width:12px;height:1px;background:#c7fbe456;transition:width .4s,background .4s;}
+.exhibitionProgress span {position:absolute;right:36px;font-size:7px;letter-spacing:.1em;opacity:0;transition:opacity .25s;}
+.exhibitionProgress .is-active i {width:28px;background:#d1ffeb;box-shadow:0 0 12px #c7fbe478;}
+.exhibitionProgress .is-active span,.exhibitionProgress button:hover span {opacity:1;}
+.exhibitionFooter {position:absolute;z-index:10;left:38px;right:38px;bottom:25px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.exhibitionFooter button {display:flex;align-items:center;gap:13px;font-size:9px;letter-spacing:.1em;}
+.exhibitionBack,.exhibitionNextProject {padding:9px 0;}
+.exhibitionControls {position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:22px;}
+.exhibitionControls button {width:32px;height:32px;padding:5px;display:grid;place-items:center;border:1px solid #c7fbe43a;border-radius:50%;transition:background .3s;}
+.exhibitionControls button:hover:not(:disabled) {background:#c7fbe428;}
+.exhibitionControls > span {min-width:76px;text-align:center;font-size:9px;letter-spacing:.17em;}
+.exhibitionGalleryBody {position:fixed;inset:0;pointer-events:none;}
+.exhibitionFrameMeta {position:absolute;top:105px;left:10%;}
+.exhibitionFrameMeta > span {font-size:8px;letter-spacing:.16em;opacity:.55;}
+.exhibitionFrameMeta h3 {font-size:14px;line-height:1.4;font-weight:400;letter-spacing:.08em;margin:9px 0 0;}
+.exhibitionImageStage {position:absolute;inset:165px 10% 199px;perspective:1400px;cursor:grab;pointer-events:auto;}
+.exhibitionImageStage:active {cursor:grabbing;}
+.exhibitionFrame {position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transform-origin:center;}
+.exhibitionFrame img {display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;box-shadow:0 25px 90px #0000004d;user-select:none;-webkit-user-drag:none;}
+.exhibitionCurrent {z-index:2;}
+.exhibitionPrevious {z-index:1;pointer-events:none;}
+.exhibitionImageError {position:absolute;inset:0;display:grid;place-content:center;gap:15px;background:#0a1418;font-size:13px;text-align:center;pointer-events:auto;}
+.exhibitionImageError a {display:flex;justify-content:center;align-items:center;gap:10px;font-size:11px;}
+.exhibitionFrameCaption {position:absolute;left:10%;right:10%;bottom:160px;display:flex;justify-content:space-between;gap:20px;font-size:8px;letter-spacing:.14em;}
+.exhibitionFrameCaption span i {font-style:normal;margin-left:22px;opacity:.45;font-size:9px;letter-spacing:.04em;}
+.exhibitionFrameCaption a {display:flex;align-items:center;gap:8px;pointer-events:auto;}
+.exhibitionThumbnails {position:absolute;z-index:6;left:50%;bottom:79px;transform:translateX(-50%);display:flex;gap:9px;max-width:75%;overflow-x:auto;padding:5px 2px;scrollbar-width:thin;scrollbar-color:#c7fbe450 transparent;overscroll-behavior:contain;}
+.exhibitionThumbnails button {position:relative;flex:0 0 76px;height:47px;padding:0;overflow:hidden;opacity:.4;border:1px solid transparent;transition:opacity .3s,border-color .3s;}
+.exhibitionThumbnails button:hover,.exhibitionThumbnails button.is-active {opacity:1;border-color:#c7fbe4;}
+.exhibitionThumbnails img {display:block;width:100%;height:100%;object-fit:cover;}
+.exhibitionThumbnails span {position:absolute;right:3px;bottom:3px;font-size:7px;line-height:1;background:#0009;color:#fff;padding:3px;}
+.exhibitionInfoScrim {position:absolute;z-index:30;inset:0;background:#01070878;backdrop-filter:blur(10px);animation:exhibitionFade .35s both;}
+.exhibitionInfoPanel {position:absolute;inset:0 0 0 auto;width:min(530px,100%);overflow:auto;overscroll-behavior:contain;background:#0b171bea;border-left:1px solid #c7fbe426;padding:30px 42px 60px;color:#d0f3e9;animation:exhibitionDrawer .5s cubic-bezier(.16,1,.3,1) both;}
+.exhibitionInfoHeader {display:flex;align-items:center;justify-content:space-between;margin-bottom:66px;}
+.exhibitionInfoHeader span {font-size:9px;letter-spacing:.2em;opacity:.65;}
+.exhibitionInfoHeader button {padding:5px;}
+.exhibitionEyebrow {font-size:8px;letter-spacing:.16em;opacity:.6;margin-bottom:22px;}
+.exhibitionInfoPanel h3 {font-size:34px;line-height:1.35;font-weight:400;letter-spacing:.015em;margin:0;}
+.exhibitionSummary {font-size:13px;line-height:1.95;opacity:.7;margin:26px 0 38px;text-wrap:pretty;}
+.exhibitionInfoPanel dl {margin:0;}
+.exhibitionInfoPanel dl > div {padding:23px 0;border-top:1px solid #c7fbe427;}
+.exhibitionInfoPanel dt {font-size:9px;letter-spacing:.12em;opacity:.5;margin-bottom:13px;}
+.exhibitionInfoPanel dd {font-size:12px;line-height:1.95;margin:0;text-wrap:pretty;}
+.exhibitionDocument {display:flex;align-items:center;justify-content:space-between;gap:18px;border-bottom:1px solid #c7fbe462;padding:18px 0;margin-top:20px;font-size:12px;}
+@keyframes exhibitionScrollLine {0%,100% {transform:scaleY(.6);opacity:.5;}50% {transform:scaleY(1);opacity:1;}}
+@keyframes exhibitionFade {from {opacity:0;}to {opacity:1;}}
+@keyframes exhibitionDrawer {from {transform:translateX(100%);}to {transform:none;}}
+@media (max-width:760px) {
+  .exhibitionHeader {left:20px;right:20px;top:21px;gap:18px;}
+  .exhibitionProjectMark {max-width:59%;padding-right:18px;}
+  .exhibitionProjectMark > span {font-size:7px;margin-bottom:7px;}
+  .exhibitionProjectMark h2 {font-size:11px;letter-spacing:.02em;}
+  .exhibitionClose {position:static;order:3;transform:none;padding:2px;margin-left:7px;}
+  .exhibitionClose span {display:none;}
+  .exhibitionInfoButton {font-size:9px!important;gap:7px;margin-left:auto;padding:2px 0;white-space:nowrap;}
+  .exhibitionInfoButton span {font-size:18px;}
+  .exhibitionGestureArea {inset:96px 0 72px;}
+  .exhibitionTitle {left:6%;right:6%;top:15%;}
+  .exhibitionTitle span {font-size:clamp(32px,9.3vw,65px);line-height:1.65;letter-spacing:.025em;-webkit-text-stroke-width:.7px;}
+  .exhibitionIntroCopy {left:22px;right:45px;max-width:none;bottom:46px;}
+  .exhibitionIntroCopy > span {font-size:7px;letter-spacing:.1em;}
+  .exhibitionIntroCopy p {font-size:12px;line-height:1.9;margin:14px 0 22px;}
+  .exhibitionIntroActions {gap:9px;}
+  .exhibitionIntroActions button,.exhibitionIntroActions a {font-size:9px;gap:15px;padding:11px 12px;}
+  .exhibitionScrollHint {left:22px;bottom:0;transform:none;flex-direction:row;gap:14px;font-size:7px;letter-spacing:.1em;}
+  .exhibitionScrollHint i {height:20px;}
+  .exhibitionProgress {right:10px;max-height:42%;}
+  .exhibitionProgress button {min-width:24px;height:16px;}
+  .exhibitionProgress i {width:6px;}
+  .exhibitionProgress .is-active i {width:16px;}
+  .exhibitionProgress span {display:none;}
+  .exhibitionFooter {left:20px;right:20px;bottom:22px;}
+  .exhibitionFooter button {font-size:8px;gap:6px;}
+  .exhibitionControls {gap:7px;}
+  .exhibitionControls > span {min-width:60px;font-size:8px;letter-spacing:.05em;}
+  .exhibitionControls button {width:28px;height:28px;}
+  .exhibitionFrameMeta {top:110px;left:22px;right:30px;}
+  .exhibitionFrameMeta > span {font-size:7px;}
+  .exhibitionFrameMeta h3 {font-size:12px;margin-top:7px;}
+  .exhibitionImageStage {inset:163px 28px 190px 22px;}
+  .exhibitionFrame img {box-shadow:0 15px 45px #0006;}
+  .exhibitionFrameCaption {left:22px;right:28px;bottom:150px;font-size:7px;gap:10px;}
+  .exhibitionFrameCaption span i {display:none;}
+  .exhibitionThumbnails {left:22px;right:22px;max-width:none;transform:none;bottom:80px;}
+  .exhibitionThumbnails button {flex-basis:62px;height:41px;}
+  .exhibitionInfoPanel {padding:24px 26px 45px;}
+  .exhibitionInfoHeader {margin-bottom:40px;}
+  .exhibitionInfoPanel h3 {font-size:28px;}
+}
+@media (max-height:620px) {
+  .exhibitionHeader {top:15px;}
+  .exhibitionTitle {top:0;left:23%;right:7%;}
+  .exhibitionTitle span {font-size:clamp(32px,11vh,76px);line-height:1.4;}
+  .exhibitionIntroCopy {bottom:14px;max-width:340px;}
+  .exhibitionIntroCopy p {font-size:11px;margin:10px 0 14px;}
+  .exhibitionScrollHint {display:none;}
+  .exhibitionFrameMeta {top:74px;}
+  .exhibitionFrameMeta h3 {font-size:11px;margin-top:5px;}
+  .exhibitionImageStage {inset:115px 13% 134px;}
+  .exhibitionFrameCaption {bottom:112px;font-size:7px;}
+  .exhibitionThumbnails {bottom:58px;}
+  .exhibitionThumbnails button {height:30px;flex-basis:50px;}
+  .exhibitionFooter {bottom:14px;}
+}
+@media (prefers-reduced-motion:reduce) {
+  .exhibition,.exhibition * {animation:none!important;transition:none!important;scroll-behavior:auto!important;}
+  .exhibitionTitle {transform:none;}
+}
+/* Keep decorative blur inside the viewport instead of enlarging its scroll bounds. */
+.exhibition.is-gallery .exhibitionBackdrop {transform:none;}
+@media (max-width:760px) and (max-height:620px) and (orientation:portrait) {
+  .exhibitionTitle {left:6%;right:6%;top:9%;}
+  .exhibitionTitle span {font-size:clamp(28px,9.3vw,55px);line-height:1.65;}
+}
+
+/* A short reading path accompanies the proposal without covering the artwork. */
+.exhibitionChapters {position:absolute;top:102px;left:10%;right:10%;display:flex;gap:30px;align-items:center;pointer-events:auto;}
+.exhibitionChapters button {display:flex;gap:8px;align-items:center;padding:0 0 10px;border-bottom:1px solid transparent;font-size:11px;letter-spacing:.08em;opacity:.48;transition:opacity .25s,border-color .25s;}
+.exhibitionChapters button span {font-size:8px;opacity:.6;letter-spacing:.12em;}
+.exhibitionChapters button[aria-current=step],.exhibitionChapters button:hover {opacity:1;border-color:#c7fbe481;}
+.exhibition.has-narrative .exhibitionFrameMeta {top:153px;right:10%;display:grid;grid-template-columns:minmax(165px,.6fr) minmax(0,1.4fr);gap:8px 35px;align-items:start;}
+.exhibition.has-narrative .exhibitionFrameMeta > span {grid-column:1;}
+.exhibition.has-narrative .exhibitionFrameMeta h3 {grid-column:1;margin:0;font-size:15px;}
+.exhibitionReadingNote {grid-column:2;grid-row:1 / span 2;align-self:center;max-width:620px;margin:0;font-size:12px;line-height:1.85;letter-spacing:.025em;color:#e1f4eed1;text-wrap:pretty;user-select:text;pointer-events:auto;}
+.exhibition.has-narrative .exhibitionImageStage {top:232px;}
+@media (max-width:760px) {
+  .exhibitionChapters {top:96px;left:22px;right:28px;gap:0;justify-content:space-between;}
+  .exhibitionChapters button {font-size:10px;gap:4px;padding-bottom:8px;}
+  .exhibitionChapters button span {font-size:7px;}
+  .exhibition.has-narrative .exhibitionFrameMeta {top:137px;left:22px;right:30px;display:block;}
+  .exhibition.has-narrative .exhibitionFrameMeta > span {display:none;}
+  .exhibition.has-narrative .exhibitionFrameMeta h3 {font-size:12px;}
+  .exhibitionReadingNote {margin:8px 0 0;font-size:11px;line-height:1.7;}
+  .exhibition.has-narrative .exhibitionImageStage {top:235px;}
+}
+@media (max-height:620px) and (min-width:761px) {
+  .exhibitionChapters {top:76px;left:5%;right:5%;gap:20px;}
+  .exhibitionChapters button {font-size:9px;padding-bottom:5px;}
+  .exhibition.has-narrative .exhibitionFrameMeta {top:127px;left:5%;right:auto;width:25%;display:block;}
+  .exhibition.has-narrative .exhibitionFrameMeta > span {display:none;}
+  .exhibition.has-narrative .exhibitionFrameMeta h3 {font-size:12px;}
+  .exhibitionReadingNote {margin-top:10px;font-size:11px;line-height:1.75;}
+  .exhibition.has-narrative .exhibitionImageStage {inset:110px 10% 134px 34%;}
+}
+@media (max-width:760px) and (max-height:620px) {
+  .exhibitionChapters {top:77px;}
+  .exhibition.has-narrative .exhibitionFrameMeta {top:114px;}
+  .exhibition.has-narrative .exhibitionImageStage {top:211px;bottom:134px;}
+}
+@media (prefers-reduced-motion:reduce) { .exhibitionTitle {display:none;} }
+
+/* Native playback owns gestures within the video; gallery controls stay outside it. */
+.exhibitionFrame video {display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;background:#000;box-shadow:0 25px 90px #0006;cursor:auto;touch-action:auto;}
+.exhibitionFrame video:focus-visible {outline:2px solid var(--ex-accent);outline-offset:4px;}
+.exhibition.has-video .exhibitionGestureArea {touch-action:auto;}
+.exhibition.has-video .exhibitionImageStage {cursor:auto;}
+.exhibitionChapters {overflow-x:auto;scrollbar-width:thin;overscroll-behavior:contain;}
+.exhibitionChapters button {flex-shrink:0;white-space:nowrap;}
+@media (max-width:760px) {
+  .exhibitionChapters {gap:16px;justify-content:flex-start;}
+}
+
+.exhibition.is-archive .exhibitionTitle span {font-size:clamp(34px,8vw,140px);letter-spacing:.045em;overflow-wrap:anywhere;}
+/* Project-opening posters have their own landscape and portrait compositions. */
+.exhibitionPoster {position:absolute;inset:0 4% 58px;display:block;pointer-events:none;animation:exhibitionPosterIn .9s cubic-bezier(.16,1,.3,1) both;}
+.exhibitionPoster img {width:100%;height:100%;display:block;object-fit:contain;user-select:none;}
+.exhibition.has-poster.is-intro .exhibitionIntroCopy {left:50%;bottom:0;transform:translateX(-50%);max-width:none;width:max-content;}
+.exhibition.has-poster.is-intro .exhibitionIntroCopy>span,.exhibition.has-poster.is-intro .exhibitionIntroCopy>p,.exhibition.has-poster.is-intro .exhibitionScrollHint {display:none;}
+.exhibition.has-poster.is-intro .exhibitionBackdrop {opacity:.45;filter:blur(12px);}
+@keyframes exhibitionPosterIn {from {opacity:0;transform:translateY(14px) scale(.985);}to {opacity:1;transform:none;}}
+@media (max-width:760px) {.exhibitionPoster {inset:0 0 52px;}.exhibition.has-poster.is-intro .exhibitionIntroCopy {bottom:0;}.exhibition.has-poster.is-intro .exhibitionIntroActions button {padding:10px 20px;}}
+@media (prefers-reduced-motion:reduce) {.exhibitionPoster {animation:none;}}
+
+@media(max-width:760px){.exhibitionClose,.exhibitionInfoHeader button{min-width:44px;min-height:44px}.exhibitionControls button{width:44px;height:44px}.exhibitionThumbnails button{min-height:44px}.exhibitionFrameCaption button{min-height:44px}}
+
+.exhibition .exhibitionTitle span{font-family:"Zaozi Yihei Portfolio",var(--portfolio-font),sans-serif;font-weight:400;font-synthesis:none}

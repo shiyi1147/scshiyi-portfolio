@@ -1,0 +1,84 @@
+.border-glow-card {
+  --edge-proximity: 0;
+  --cursor-angle: 0deg;
+  position: relative;
+  overflow: visible;
+  border-radius: var(--border-radius);
+  isolation: isolate;
+}
+
+.border-glow-card::before,
+.border-glow-card::after,
+.edge-light {
+  content: "";
+  position: absolute;
+  inset: calc(var(--glow-padding) * -1);
+  border-radius: calc(var(--border-radius) + var(--glow-padding));
+  opacity: calc(var(--edge-proximity) / var(--edge-sensitivity));
+  pointer-events: none;
+  transition: opacity 240ms ease;
+}
+
+.border-glow-card::before {
+  z-index: -2;
+  background:
+    conic-gradient(
+      from calc(var(--cursor-angle) - (var(--cone-spread) * 1deg)),
+      transparent 0deg,
+      var(--glow-color-10) 18deg,
+      var(--glow-color-40) 36deg,
+      var(--glow-color) 52deg,
+      var(--glow-color-40) 68deg,
+      transparent 96deg
+    );
+  filter: blur(22px);
+}
+
+.border-glow-card::after {
+  z-index: -1;
+  inset: -1px;
+  border-radius: var(--border-radius);
+  background:
+    conic-gradient(
+      from calc(var(--cursor-angle) - (var(--cone-spread) * 1deg)),
+      transparent 0deg,
+      var(--glow-color-20) 16deg,
+      var(--glow-color-60) 38deg,
+      var(--glow-color) 56deg,
+      var(--glow-color-30) 74deg,
+      transparent 100deg
+    );
+}
+
+.edge-light {
+  z-index: 0;
+  inset: 0;
+  border-radius: var(--border-radius);
+  background:
+    var(--gradient-one),
+    var(--gradient-two),
+    var(--gradient-three),
+    var(--gradient-four),
+    var(--gradient-five),
+    var(--gradient-six),
+    var(--gradient-seven),
+    var(--gradient-base);
+  mix-blend-mode: screen;
+  opacity: calc((var(--edge-proximity) / var(--edge-sensitivity)) * var(--fill-opacity));
+}
+
+.border-glow-inner {
+  position: relative;
+  z-index: 1;
+  min-height: inherit;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--border-radius);
+  background: var(--card-bg);
+}
+
+.border-glow-card.sweep-active::before,
+.border-glow-card.sweep-active::after,
+.border-glow-card.sweep-active .edge-light {
+  transition: none;
+}
