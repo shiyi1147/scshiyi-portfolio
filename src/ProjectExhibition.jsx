@@ -1,4 +1,4 @@
-import RefractiveBackdrop from './RefractiveBackdrop';
+import RefractiveBackdrop from './DeferredBackdrop';
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
