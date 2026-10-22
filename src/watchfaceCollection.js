@@ -9,6 +9,8 @@ export function withWatchfaceCollection(projects, baseUrl = '/') {
   const ordered = chapters.flatMap(chapter => watches.filter(project => chapterFor(project) === chapter));
   const collection = {
     id:'archive-watchfaces', name:'腕间万象', title:'腕间万象', group:'interface', category:'WATCHFACE DESIGN',
+    watchfaceCount:watches.length,
+    contextLabel:'含已上线案例',
     accent:'#bff3df', color:'#bff3df', surface:'#111c1d', number:'02', displayTitle:['腕间万象'],
     cover:baseUrl+'assets/posters/watchfaces/collection.webp', preview:baseUrl+'assets/posters/watchfaces/collection-thumb.webp',
     eyebrow:'智能表盘 / 多主题视觉设计', note:watches.length+' 款表盘 / 角色 · 科技 · 日常',

@@ -2,12 +2,14 @@ import RefractiveBackdrop from './DeferredBackdrop';
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
-import { ArrowDown, ArrowLeft, ArrowUpRight, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ArrowDown, ArrowLeft, ArrowUpRight, ChevronLeft, ChevronRight, Play, X } from 'lucide-react';
 import { useReducedMotion } from './ImmersiveWork';
 import './ProjectExhibition.css';
 import ImageLightbox from './ImageLightbox';
 import WatchfaceExhibition from './WatchfaceExhibition';
 import ExhibitionTransition from './ExhibitionTransition';
+import ProjectBrief from './ProjectBrief';
+import ProjectStrategy from './ProjectStrategy';
 
 const pad = n => String(n).padStart(2, '0');
 
@@ -18,7 +20,7 @@ function ExhibitionVideo({ item, paused, onError }) {
     return () => { video.pause(); video.removeAttribute('src'); video.load(); };
   }, [item.video]);
   useEffect(() => { if (paused) videoRef.current?.pause(); }, [paused]);
-  return <video ref={videoRef} src={item.video} poster={item.src} controls playsInline preload="metadata" tabIndex={0} aria-label={`${item.label}播放器`} onError={onError} />;
+  return <video ref={videoRef} src={item.video} poster={item.src} controls playsInline loop={Boolean(item.wallpaperMotion)} muted={Boolean(item.wallpaperMotion)} preload="metadata" tabIndex={0} aria-label={`${item.label}播放器`} onError={onError} />;
 }
 
 function StandardProjectExhibition({ project, onClose, onNextProject, entryRect }) {
@@ -35,6 +37,7 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
   const infoRef = useRef(null);
   const infoButtonRef = useRef(null);
   const thumbRefs = useRef([]);
+  const chapterRailRef = useRef(null);
   const gesture = useRef(null);
   const navigation = useRef(null);
   const closing = useRef(false);
@@ -80,14 +83,14 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
   // The title introduces the project, then leaves the artwork unobstructed.
   // The controls remain available throughout; reduced motion skips the title.
   useLayoutEffect(() => {
-    if (!isIntro || reduced || project.poster) return;
+    if (!isIntro || reduced || project.poster || project.brief || project.strategy) return;
     const ctx = gsap.context(() => {
       const timeline = gsap.timeline();
       timeline.fromTo('.exhibitionTitle span', { yPercent: 95, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .85, stagger: .1, delay: .15, ease: 'power3.out' });
       timeline.to('.exhibitionTitle', { opacity: 0, duration: .75, ease: 'power2.inOut' }, 2.25);
     }, rootRef);
     return () => ctx.revert();
-  }, [isIntro, reduced, project.poster]);
+  }, [isIntro, reduced, project.poster, project.brief, project.strategy]);
 
   useLayoutEffect(() => {
     if (isIntro || reduced || !imageRef.current) return;
@@ -104,6 +107,13 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
     if (!node || isIntro) return;
     const rail = node.parentElement;
     rail.scrollTo({ left: node.offsetLeft - rail.clientWidth / 2 + node.clientWidth / 2, behavior: reduced ? 'auto' : 'smooth' });
+  }, [frame, isIntro, reduced]);
+
+  useEffect(() => {
+    if (isIntro) return;
+    const rail = chapterRailRef.current;
+    const chapter = rail?.querySelector('[aria-current="step"]');
+    if (chapter) rail.scrollTo({ left:chapter.offsetLeft - (rail.clientWidth - chapter.offsetWidth) / 2, behavior:reduced ? 'auto' : 'smooth' });
   }, [frame, isIntro, reduced]);
 
   // Only load nearby full-size works; distant frames use their existing thumbnails.
@@ -126,6 +136,7 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
       const current = navigation.current;
       if (current.zoomOpen || document.fullscreenElement) return;
       if (event.target.closest?.('video') && !['Escape', 'Tab'].includes(event.key)) return;
+      if (event.target.closest?.('.exhibitionBrief') && !['Escape', 'Tab'].includes(event.key)) return;
       if (event.key === 'Escape') { event.preventDefault(); current.infoOpen ? setInfoOpen(false) : current.close(); }
       if (!current.infoOpen && ['ArrowRight', 'ArrowDown', 'PageDown', 'ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key)) {
         event.preventDefault(); current.step(['ArrowRight', 'ArrowDown', 'PageDown'].includes(event.key) ? 1 : -1);
@@ -140,7 +151,7 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
     };
     let lastWheel = 0, amount = 0;
     const handleWheel = event => {
-      if (event.ctrlKey || navigation.current.zoomOpen || navigation.current.infoOpen || event.target.closest('.exhibitionThumbnails, video')) return;
+      if (event.ctrlKey || navigation.current.zoomOpen || navigation.current.infoOpen || event.target.closest('.exhibitionThumbnails, video, .exhibitionBrief')) return;
       event.preventDefault();
       const now = performance.now();
       if (now - lastWheel < 800) return;
@@ -170,7 +181,7 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
     rootRef.current.style.setProperty('--ey', ((event.clientY - r.top) / r.height - .5).toFixed(3));
   };
   const pointerDown = event => {
-    if (event.button !== 0 || event.target.closest('button,a,video,.exhibitionReadingNote')) return;
+    if (event.button !== 0 || event.target.closest('button,a,video,.exhibitionReadingNote,.exhibitionBrief')) return;
     gesture.current = { x: event.clientX, y: event.clientY };
     event.currentTarget.setPointerCapture(event.pointerId);
   };
@@ -183,7 +194,7 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
   };
 
-  return createPortal(<section ref={rootRef} data-project={project.id} className={`exhibition ${project.id?.startsWith('archive-') ? 'is-archive' : ''} ${isIntro ? 'is-intro' : 'is-gallery'} ${project.poster ? 'has-poster' : ''} ${infoOpen ? 'has-info' : ''} ${chapters.length ? 'has-narrative' : ''} ${!isIntro && item.video ? 'has-video' : ''}`} role="dialog" aria-modal="true" aria-label={project.title} style={{ '--ex-accent': project.accent || '#c5f9e9' }} onPointerMove={pointerMove}>
+  return createPortal(<section ref={rootRef} data-project={project.id} className={`exhibition ${project.id?.startsWith('archive-') ? 'is-archive' : ''} ${isIntro ? 'is-intro' : 'is-gallery'} ${project.poster ? 'has-poster' : ''} ${project.brief || project.strategy ? 'has-brief' : ''} ${infoOpen ? 'has-info' : ''} ${chapters.length ? 'has-narrative' : ''} ${!isIntro && item.video ? 'has-video' : ''}`} role="dialog" aria-modal="true" aria-label={project.title} style={{ '--ex-accent': project.accent || '#c5f9e9' }} onPointerMove={pointerMove}>
     <div className="exhibitionBackdrop" aria-hidden="true"><RefractiveBackdrop src={isIntro ? (project.poster?.backgroundLandscape || project.cover) : (item.thumb || item.src)} mobileSrc={isIntro ? project.poster?.backgroundPortrait : undefined} reduced={reduced} /></div>
     <div className="exhibitionVignette" aria-hidden="true" />
     <div className="exhibitionGrain" aria-hidden="true" />
@@ -194,11 +205,13 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
     </header>
     <div className="exhibitionGestureArea" onPointerDown={pointerDown} onPointerUp={pointerUp} onPointerCancel={() => { gesture.current = null; }}>
       {isIntro ? <div className="exhibitionIntroBody">
+        {project.brief ? <ProjectBrief project={project} onBrowse={index=>select(index??0)}/> : project.strategy ? <ProjectStrategy project={project} onBrowse={()=>select(0)}/> : <>
         {project.poster ? <picture className="exhibitionPoster"><source media="(max-aspect-ratio: 4/5)" srcSet={project.poster.portrait}/><img src={project.poster.landscape} alt={project.poster.alt} draggable="false" fetchPriority="high"/></picture> : <div className="exhibitionTitle" aria-hidden="true">{project.displayTitle.map((line,index)=><div key={index}><span>{line}</span></div>)}</div>}
         <div className="exhibitionIntroCopy"><span>{project.eyebrow}</span><p>{project.summary}</p><div className="exhibitionIntroActions"><button type="button" onClick={() => select(0)}>浏览作品 <ArrowDown size={14}/></button>{project.document && <a href={project.document} target="_blank" rel="noreferrer">{project.documentLabel || '完整策划案'} <ArrowUpRight size={14}/></a>}</div></div>
         <span className="exhibitionScrollHint">SCROLL TO DISCOVER <i /></span>
+        </>}
       </div> : <div className="exhibitionGalleryBody">
-        {chapters.length > 0 && <nav className="exhibitionChapters" aria-label="案例阅读章节">{chapters.map((chapter,index)=><button key={chapter.label} type="button" aria-current={item.chapter === chapter.label ? 'step' : undefined} onClick={() => select(chapter.index)}><span>{pad(index+1)}</span>{chapter.label}</button>)}</nav>}
+        {chapters.length > 0 && <nav ref={chapterRailRef} className="exhibitionChapters" aria-label="案例阅读章节">{chapters.map((chapter,index)=><button key={chapter.label} type="button" aria-current={item.chapter === chapter.label ? 'step' : undefined} onClick={() => select(chapter.index)}><span>{pad(index+1)}</span>{chapter.label}</button>)}</nav>}
         <div className="exhibitionFrameMeta" key={frame} aria-live="polite"><span>{notes.eyebrow}</span><h3>{item.label}</h3>{item.caption && <p className="exhibitionReadingNote">{item.caption}</p>}</div>
         <div className="exhibitionImageStage">
           {!reduced && previous !== null && previous !== frame && <div className="exhibitionFrame exhibitionPrevious" ref={previousRef} aria-hidden="true"><img src={project.items[previous].src} alt="" /></div>}
@@ -211,7 +224,7 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
       </div>}
     </div>
     <aside className="exhibitionProgress" aria-label="展厅画面导航"><button type="button" className={isIntro ? 'is-active' : ''} onClick={() => setView('intro')} aria-label="返回项目封面" aria-current={isIntro ? 'step' : undefined}><i/><span>INTRO</span></button>{project.items.map((image,index)=><button key={image.src} type="button" className={!isIntro && frame === index ? 'is-active' : ''} onClick={() => select(index)} aria-label={`转到${image.label}`} aria-current={!isIntro && frame === index ? 'step' : undefined}><i/><span>{pad(index+1)}</span></button>)}</aside>
-    {!isIntro && <nav className="exhibitionThumbnails" aria-label="选择作品图片">{project.items.map((image,index)=><button ref={node=>{thumbRefs.current[index]=node;}} type="button" key={image.src} className={frame===index?'is-active':''} aria-pressed={frame===index} aria-label={`查看${image.label}`} onClick={() => select(index)}><img src={image.thumb || image.src} alt="" loading="lazy" draggable="false"/><span>{pad(index+1)}</span></button>)}</nav>}
+    {!isIntro && <nav className="exhibitionThumbnails" aria-label="选择作品图片">{project.items.map((image,index)=><button ref={node=>{thumbRefs.current[index]=node;}} type="button" key={image.src} className={frame===index?'is-active':''} aria-pressed={frame===index} aria-label={`查看${image.label}${image.video?'，播放视频':''}`} onClick={() => select(index)}><img src={image.thumb || image.src} alt="" loading="lazy" draggable="false"/>{image.video&&<Play className="exhibitionThumbnailPlay" size={12} aria-hidden="true"/>}<span>{pad(index+1)}</span></button>)}</nav>}
     <footer className="exhibitionFooter">
       <button type="button" className="exhibitionBack" onClick={isIntro ? close : () => setView('intro')}><ArrowLeft size={13}/>{isIntro ? '全部作品' : '项目封面'}</button>
       <div className="exhibitionControls"><button type="button" onClick={() => step(-1)} disabled={isIntro} aria-label="上一张作品"><ChevronLeft size={18}/></button><span aria-live="polite">{isIntro ? 'OVERVIEW' : `${pad(frame+1)} / ${pad(project.items.length)}`}</span><button type="button" onClick={() => step(1)} disabled={!isIntro && frame === project.items.length - 1} aria-label="下一张作品"><ChevronRight size={18}/></button></div>

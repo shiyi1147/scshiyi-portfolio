@@ -213,3 +213,4 @@
 @media(max-width:760px){.exhibitionClose,.exhibitionInfoHeader button{min-width:44px;min-height:44px}.exhibitionControls button{width:44px;height:44px}.exhibitionThumbnails button{min-height:44px}.exhibitionFrameCaption button{min-height:44px}}
 
 .exhibition .exhibitionTitle span{font-family:"Zaozi Yihei Portfolio",var(--portfolio-font),sans-serif;font-weight:400;font-synthesis:none}
+.exhibitionThumbnailPlay {position:absolute;left:4px;top:4px;width:16px;height:16px;padding:2px;border-radius:50%;background:#071610d9;color:#e2f3e6;}

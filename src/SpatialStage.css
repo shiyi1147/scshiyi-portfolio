@@ -1,8 +1,8 @@
 @property --scene-tint {syntax:'<color>';inherits:true;initial-value:#bff3df;}
-.spatialStage {position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;isolation:isolate;background:#050b10;transition:--scene-tint .6s ease;}
+.spatialStage {position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;isolation:isolate;background:#050b10;transition:--scene-tint .8s .1s ease;}
 .cyberFilterDefinitions {position:absolute;pointer-events:none;}
 .cyberAmbientBackdrop {position:absolute;inset:-20px;width:calc(100% + 40px);height:calc(100% + 40px);object-fit:cover;}
-.cyberRig {position:absolute;inset:0;transform:perspective(max(1400px,120vw)) translate3d(calc(var(--mx,0)*-8px),calc(var(--my,0)*-6px),0) rotateX(calc(var(--my,0)*-4deg)) rotateY(calc(var(--mx,0)*6deg)) scale(1.08);transform-origin:center;transition:transform .85s cubic-bezier(.16,1,.3,1);}
+.cyberRig {position:absolute;inset:0;transform:perspective(max(1600px,140vw)) translate3d(calc(var(--mx,0)*-6px),calc(var(--my,0)*-4px),0) rotateX(calc(var(--my,0)*-1.6deg)) rotateY(calc(var(--mx,0)*2.4deg)) scale(1.08);transform-origin:center;transition:transform .7s cubic-bezier(.16,1,.3,1);}
 .cyberWorld {position:absolute;left:0;top:0;transform-origin:0 0;}
 .cyberPlate {position:absolute;inset:0;display:block;width:100%;height:100%;}
 .cyberFloorTint {position:absolute;left:26%;top:66%;width:49%;height:34%;background:radial-gradient(ellipse at 51% 17%,var(--scene-tint),transparent 72%);mix-blend-mode:color;opacity:.64;pointer-events:none;}
@@ -37,3 +37,6 @@
 .watchfaceCarouselCaption{position:absolute;left:76px;bottom:20px;width:216px;display:flex;justify-content:space-between;align-items:center;font-size:10px;letter-spacing:1px}.watchfaceCarouselCaption small{font-size:7px;color:#809e90}
 .watchfaceCarouselTrack{position:absolute;left:76px;bottom:12px;width:216px;height:1px;background:#bff3df26;overflow:hidden}.watchfaceCarouselTrack span{display:block;width:100%;height:100%;background:#bff3df99;transform-origin:left;animation:watchfaceProgress 2s linear both}
 @keyframes watchfaceFadeIn{from{opacity:0}to{opacity:1}}@keyframes watchfaceFadeOut{from{opacity:1}to{opacity:0}}@keyframes watchfaceProgress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.wallpaperCarousel .watchfaceCarouselCaption>span {max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:9px;letter-spacing:.4px;}
+.wallpaperCarousel .watchfaceCarouselTrack>span {animation:none;transform:scaleX(0);}
+.wallpaperCarousel[data-playing=false] .watchfaceCarouselImage {animation:none;}

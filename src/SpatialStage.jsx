@@ -2,9 +2,11 @@ import React, { useEffect, useId, useLayoutEffect, useRef, useState } from 'reac
 import { gsap } from 'gsap';
 import './SpatialStage.css';
 import WatchfaceCarousel from './WatchfaceCarousel';
+import WallpaperCarousel from './WallpaperCarousel';
 
 const asset = name => `${import.meta.env.BASE_URL}assets/${name}`;
 export function stageMedia(project) {
+  if (project.id === 'archive-vcg') return { bobo:false, src:project.items[0]?.thumb || project.cover };
   const bobo = project.id === 'archive-bobo' || project.id === 'watchface';
   const film = project.items.find(item => item.video);
   return { bobo, src: bobo ? asset('posters/bobo/home-landscape.webp') : (film?.src || project.cover), video: film?.video };
@@ -28,7 +30,7 @@ function plateLayout(width,height) {
   const cover=Math.max(width/PLATE.width,height/PLATE.height);
   const scale=portrait?Math.min(cover,(width-36)/640):cover;
   return { scale, x:portrait?width/2-856*scale:(width-PLATE.width*scale)/2,
-    y:portrait?height*.43-442*scale:(height-PLATE.height*scale)/2, portrait };
+    y:portrait?Math.max(height*.43-442*scale,198-284*scale):(height-PLATE.height*scale)/2, portrait };
 }
 
 function ScreenMedia({ project, playing }) {
@@ -40,6 +42,7 @@ function ScreenMedia({ project, playing }) {
     sync();document.addEventListener('visibilitychange',sync);
     return()=>{document.removeEventListener('visibilitychange',sync);video.pause();};
   },[playing,media.video]);
+  if(project.id === 'archive-vcg') return <WallpaperCarousel project={project} playing={playing}/>;
   if(['archive-watchfaces','archive-solar','archive-solar-life','archive-solar-nature','archive-summer-3d'].includes(project.id)) return <WatchfaceCarousel project={project} playing={playing}/>;
   if(media.bobo)return <div className="spatialBobo"><img className="spatialBoboAtmosphere" src={asset('posters/bobo/atmosphere-landscape.webp')} alt=""/><img className="spatialBoboMain" src={asset('posters/bobo/watchface-original.png')} alt="心情啵啵方形表盘"/><img className="spatialBoboRound" src={asset('posters/bobo/watchface-round-original.png')} alt="心情啵啵圆形表盘"/></div>;
   return <>{media.video&&!failed?<video ref={videoRef} src={media.video} poster={media.src} muted loop playsInline preload="metadata" aria-label={`${project.name}静音预览`} onError={()=>setFailed(true)}/>:<img src={media.src} alt={`${project.name}作品预览`} draggable="false"/>}</>;
@@ -65,10 +68,10 @@ export default function SpatialStage({ project, paused, onOpen, screenRef }) {
     nodes.forEach(node=>{
       const current=node.dataset.project===project.id;
       if(!node.dataset.transitionReady){
-        gsap.set(node,{opacity:mediaMounted.current?0:1,filter:mediaMounted.current?'blur(5px)':'blur(0px)',scale:mediaMounted.current?1.015:1});
+        gsap.set(node,{opacity:mediaMounted.current?0:1,filter:mediaMounted.current?'blur(2px)':'blur(0px)',scale:mediaMounted.current?1.012:1});
         node.dataset.transitionReady='true';
       }
-      gsap.to(node,{opacity:current?1:0,filter:current?'blur(0px)':'blur(3px)',scale:current?1:1.008,duration:paused?0:current?.6:.5,ease:'power2.inOut',overwrite:true});
+      gsap.to(node,{opacity:current?1:0,filter:current?'blur(0px)':'blur(2px)',scale:current?1:1.006,duration:paused?0:current?.5:.4,ease:'power2.inOut',overwrite:true});
     });
     mediaMounted.current=true;
     return()=>gsap.killTweensOf(nodes);

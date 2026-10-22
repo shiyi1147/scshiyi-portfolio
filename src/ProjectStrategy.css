@@ -1,0 +1,29 @@
+.projectStrategyHeading>p {margin:0 0 14px;font-size:11px;letter-spacing:.1em;color:#b9c5b3;}
+.projectStrategyHeading h3 {margin:0 0 15px;font-size:clamp(26px,3.2vw,44px);line-height:1.4;font-weight:400;letter-spacing:.02em;color:#edf0df;}
+.projectStrategyHeading>span {display:inline-block;padding:7px 10px;border:1px solid #ffdda747;background:#ffdda70b;font-size:11px;line-height:1.6;color:#ffdda7;}
+.projectStrategyLayout {display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(26px,4vw,60px);align-items:center;margin-top:28px;}
+.projectStrategyLayout figure {margin:0;min-width:0;}
+.projectStrategyLayout figure>img {display:block;width:100%;height:auto;object-fit:contain;border:1px solid #ffdda72b;}
+.projectStrategyLayout figcaption {margin-top:12px;font-size:10px;line-height:1.7;color:#a8b8a5;}
+.projectStrategyCopy {min-width:0;}
+.projectStrategyLabel {margin:0 0 19px;color:#b9c5b3;font-size:11px;letter-spacing:.1em;}
+.projectStrategyCopy ol {display:grid;gap:19px;margin:0;padding:0;list-style:none;}
+.projectStrategyCopy li {display:flex;gap:15px;align-items:flex-start;}
+.projectStrategyCopy li>span {padding-top:2px;font-size:11px;line-height:1.8;color:#c8b58c;font-variant-numeric:tabular-nums;}
+.projectStrategyCopy h4 {margin:0 0 7px;font-size:14px;font-weight:400;line-height:1.6;color:#eee6cd;}
+.projectStrategyCopy li p {margin:0;color:#b8c6b7;font-size:12px;line-height:1.9;}
+.projectStrategyActions {display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;}
+.projectStrategy .projectStrategyActions button,.projectStrategy .projectStrategyActions a {display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:44px;padding:11px 15px;border:1px solid #ffdda755;background:#ffdda710;color:#eee6cd;font-size:11px;text-decoration:none;}
+.projectStrategy .projectStrategyActions button:hover,.projectStrategy .projectStrategyActions a:hover {background:#ffdda724;border-color:#ffdda7aa;}
+@media(max-width:760px) {
+ .projectStrategyHeading>p {font-size:10px;margin-bottom:11px;}
+ .projectStrategyHeading h3 {font-size:26px;margin-bottom:12px;}
+ .projectStrategyHeading>span {font-size:10px;padding:6px 8px;}
+ .projectStrategyLayout {grid-template-columns:minmax(0,1fr);gap:24px;margin-top:22px;}
+ .projectStrategyLayout figcaption {margin-top:9px;font-size:9px;}
+ .projectStrategyLabel {margin-bottom:16px;}
+ .projectStrategyCopy ol {gap:17px;}
+ .projectStrategyCopy li {gap:12px;}
+ .projectStrategyCopy h4 {font-size:13px;}
+ .projectStrategyActions {margin-top:22px;}
+}

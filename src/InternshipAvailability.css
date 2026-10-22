@@ -1,0 +1,10 @@
+.internshipAvailability {display:flex;flex-wrap:wrap;gap:4px 18px;margin:12px 0 0;color:#bdcfc2;font-size:12px;line-height:1.8;letter-spacing:.025em;}
+.internshipAvailability>span {white-space:nowrap;}
+.internshipAvailability strong {font-weight:500;color:#e2ece2;}
+.internshipAvailability i {margin:0 7px;color:#7e9786;font-style:normal;}
+.is-spatial .immersiveHeading .internshipAvailability {flex-direction:column;gap:1px;margin:0;font-size:11px;line-height:1.7;}
+@media(max-width:760px) {
+ .internshipAvailability {flex-direction:column;gap:2px;margin-top:10px;font-size:11px;letter-spacing:0;}
+ .internshipAvailability i {margin:0 5px;}
+ .is-spatial .immersiveHeading .internshipAvailability {font-size:10px;line-height:1.8;gap:0;}
+}

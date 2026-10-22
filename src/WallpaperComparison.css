@@ -1,0 +1,64 @@
+.wallpaperComparison {min-width:0;}
+.wallpaperComparisonToolbar {display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;}
+.wallpaperComparisonModes {display:flex;border:1px solid #c7fbe43a;}
+.wallpaperComparisonModes button,.wallpaperComparisonPlay {min-height:38px;padding:8px 12px;border:0;background:transparent;color:#a8c0b3;font-size:11px;cursor:pointer;}
+.wallpaperComparisonModes button[aria-pressed="true"] {background:#c5dfcc;color:#172b22;}
+.wallpaperComparisonModes button:hover {color:#e5efdf;}
+.wallpaperComparisonModes button[aria-pressed="true"]:hover {color:#172b22;}
+.wallpaperComparisonPlay {display:flex;align-items:center;gap:7px;border:1px solid #c7fbe43a;color:#d3e2d1;}
+.wallpaperComparisonPlay:hover {background:#bfdccf14;}
+.wallpaperComparisonPlay:disabled {opacity:.45;cursor:wait;}
+.wallpaperComparisonActions {display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.wallpaperComparisonExpand {display:flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:8px 12px;border:1px solid #c7fbe43a;background:transparent;color:#d3e2d1;font-size:11px;cursor:pointer;}
+.wallpaperComparisonExpand:hover {background:#bfdccf14;}
+.wallpaperComparison button:focus-visible {outline:2px solid #d9edc8;outline-offset:3px;}
+.wallpaperComparisonStage {position:relative;isolation:isolate;}
+.wallpaperComparisonStage img {display:block;width:100%;height:auto;aspect-ratio:9/16;object-fit:contain;background:#0b1a18;}
+.wallpaperComparisonStage figcaption {margin:10px 0 0;font-size:11px;line-height:1.8;color:#d4ddca;}
+.wallpaperComparisonStage.is-side {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,2.5vw,32px);}
+.wallpaperComparisonStage.is-wipe {width:min(100%,300px);aspect-ratio:9/16;margin-inline:auto;overflow:hidden;background:#0b1a18;}
+.wallpaperComparisonStage.is-wipe figure {position:absolute;inset:0;}
+.wallpaperComparisonStage.is-wipe img {position:absolute;inset:0;width:100%;height:100%;}
+.wallpaperComparisonStage.is-wipe .wallpaperComparisonBefore {z-index:1;clip-path:inset(0 calc(100% - var(--comparison-split)) 0 0);}
+.wallpaperComparisonStage.is-wipe .wallpaperComparisonAfter {z-index:0;clip-path:inset(0 0 0 var(--comparison-split));}
+.wallpaperComparisonStage.is-wipe figcaption {position:absolute;z-index:2;top:10px;max-width:calc(100% - 20px);margin:0;padding:5px 8px;background:#07140fd9;color:#eef3e4;font-size:10px;line-height:1.6;white-space:nowrap;}
+.wallpaperComparisonStage.is-wipe .wallpaperComparisonBefore figcaption {left:10px;}
+.wallpaperComparisonStage.is-wipe .wallpaperComparisonAfter figcaption {right:10px;}
+.wallpaperComparisonDivider {position:absolute;z-index:3;top:0;bottom:0;left:var(--comparison-split);width:1px;transform:translateX(-.5px);background:#eef4df;box-shadow:0 0 8px #06160b88;pointer-events:none;}
+.wallpaperComparisonDivider>span {position:absolute;top:50%;left:50%;display:grid;place-items:center;width:42px;height:42px;border:1px solid #eef4df;border-radius:50%;transform:translate(-50%,-50%);background:#102219d9;color:#eef4df;font-size:20px;letter-spacing:2px;}
+.wallpaperComparisonRange {position:absolute;z-index:4;inset:0;width:100%;height:100%;margin:0;padding:0;appearance:none;-webkit-appearance:none;background:transparent;cursor:ew-resize;touch-action:pan-y;}
+.wallpaperComparisonRange::-webkit-slider-runnable-track {height:100%;background:transparent;}
+.wallpaperComparisonRange::-webkit-slider-thumb {width:1px;height:100%;appearance:none;-webkit-appearance:none;background:transparent;}
+.wallpaperComparisonRange::-moz-range-track {height:100%;background:transparent;}
+.wallpaperComparisonRange::-moz-range-thumb {width:1px;height:100%;border:0;background:transparent;}
+.wallpaperComparisonRange:focus-visible {outline:2px solid #e0f0c8;outline-offset:-2px;}
+.wallpaperComparisonRange:disabled {cursor:wait;}
+.wallpaperComparisonLoading {position:absolute;z-index:5;inset:0;display:grid;place-items:center;margin:0;background:#0b1a18d9;color:#c9dbcc;font-size:12px;}
+.wallpaperComparisonFullscreen {--comparison-room:calc(100dvh - 180px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));position:fixed;z-index:320;inset:0;display:flex;flex-direction:column;gap:20px;height:100dvh;padding:max(20px,env(safe-area-inset-top)) max(24px,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(24px,env(safe-area-inset-left));overflow:hidden;overscroll-behavior:contain;background:#08130ffb;color:#dcebd9;font-family:var(--portfolio-font),sans-serif;}
+.wallpaperComparisonFullscreen * {box-sizing:border-box;}
+.wallpaperComparisonFullscreen button {font-family:inherit;}
+.wallpaperComparisonFullscreen figure {margin:0;min-width:0;}
+.wallpaperComparisonFullscreenHeader {display:flex;align-items:center;justify-content:space-between;gap:20px;flex:none;}
+.wallpaperComparisonFullscreenHeader p {margin:0 0 7px;font-size:8px;letter-spacing:.18em;color:#95ab98;}
+.wallpaperComparisonFullscreenHeader h2 {margin:0;font-size:15px;font-weight:400;line-height:1.6;}
+.wallpaperComparisonFullscreenHeader>button {display:flex;align-items:center;gap:9px;min-height:44px;padding:8px 10px;border:1px solid #c7fbe43a;background:transparent;color:#dcebd9;font-size:11px;cursor:pointer;}
+.wallpaperComparisonFullscreenHeader>button:focus-visible {outline:2px solid #d9edc8;outline-offset:3px;}
+.wallpaperComparisonFullscreen>.wallpaperComparison {display:grid;grid-template-rows:auto minmax(0,1fr);flex:1;min-height:0;}
+.wallpaperComparisonFullscreen .wallpaperComparisonToolbar {width:min(100%,1040px);margin:0 auto 14px;align-self:start;}
+.wallpaperComparisonFullscreen .wallpaperComparisonStage.is-wipe {width:min(100%,calc(var(--comparison-room) * .5625));margin:auto;align-self:center;}
+.wallpaperComparisonFullscreen .wallpaperComparisonStage.is-side {width:min(100%,calc((var(--comparison-room) - 32px) * 1.125 + 32px));margin:auto;align-self:center;}
+@media(max-width:760px) {
+ .wallpaperComparisonToolbar {gap:8px;}
+ .wallpaperComparisonModes button,.wallpaperComparisonPlay {padding:8px 10px;font-size:10px;min-height:40px;}
+ .wallpaperComparisonStage.is-wipe {width:min(100%,300px);}
+ .wallpaperComparisonStage figcaption {font-size:10px;}
+ .wallpaperComparisonStage.is-wipe figcaption {top:8px;padding:4px 6px;font-size:9px;}
+ .wallpaperComparisonStage.is-wipe .wallpaperComparisonBefore figcaption {left:8px;}
+ .wallpaperComparisonStage.is-wipe .wallpaperComparisonAfter figcaption {right:8px;}
+ .wallpaperComparisonActions {gap:6px;}
+ .wallpaperComparisonExpand {min-height:40px;padding:8px 10px;font-size:10px;}
+ .wallpaperComparisonFullscreen {padding-inline:16px;gap:16px;}
+ .wallpaperComparisonFullscreenHeader {gap:12px;}
+ .wallpaperComparisonFullscreenHeader h2 {font-size:12px;}
+ .wallpaperComparisonFullscreenHeader>button {padding:8px;gap:6px;font-size:10px;flex-shrink:0;}
+}

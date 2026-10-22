@@ -124,6 +124,7 @@ const projects = [
     "en": "WORLDS IN MOTION",
     "group": "motion",
     "category": "AI VISUAL / MOTION",
+    "contextLabel": "AI 影像探索",
     "note": "7 部横竖屏影像",
     "accent": "#d1d7ff",
     "color": "#d1d7ff",
@@ -216,6 +217,7 @@ const projects = [
   {
     "id": "archive-shanhai",
     "title": "山海经 · 幻兽系列",
+    "contextLabel": "AI 视觉探索",
     "name": "山海幻兽",
     "group": "illustration",
     "category": "ILLUSTRATION",
@@ -1063,7 +1065,9 @@ const projects = [
     "en": "A FRESH PERSPECTIVE",
     "group": "brand",
     "category": "BRAND / TEAM PROPOSAL",
-    "note": "比赛提案 · 项目主要负责人",
+    "contextLabel": "团队竞赛",
+    "achievementLabel": "全国优秀奖 · 4 人团队领队",
+    "note": "4 人团队 · 领队 / 全国优秀奖",
     "accent": "#ffdda7",
     "color": "#ffdda7",
     "surface": "#101b1b",
@@ -1073,16 +1077,25 @@ const projects = [
       "NUTRITION",
       "EXPRESS"
     ],
-    "eyebrow": "团队比赛提案 / 项目主要负责人",
-    "summary": "以“告别脆皮，特种兵上线”为主题，将品牌元素融入户外角色“快快”，延展到 Citywalk 海报、包装和活动视觉。我担任主要负责人，与团队共同完成本次比赛提案。",
+    "eyebrow": "团队比赛提案 / 领队 / 2025",
+    "summary": "以“告别脆皮，特种兵上线”为主题，围绕户外角色“快快”延展品牌视觉。我担任领队，带领 4 人团队完成品牌调研及全案视觉设计；项目获第 17 届全国大学生广告艺术大赛全国优秀奖，作品收录大赛年鉴。",
+    "strategy": [
+      ["目标人群", "面向喜欢结伴出游、探索新鲜生活的年轻人，以学生与年轻白领为沟通重点。"],
+      ["主题切入", "以“脆皮”自嘲与“特种兵”出游的反差切入，把日常疲惫转化为积极出发的品牌表达。"],
+      ["视觉延展", "将瓶盖头盔、橙白配色融入“快快”的户外造型，用同一角色串联 Citywalk 海报、包装与文创周边。"]
+    ],
     "details": [
       [
         "项目性质",
-        "比赛提案，团队共同完成。"
+        "第 17 届全国大学生广告艺术大赛比赛提案，团队共同完成。"
       ],
       [
         "我的角色",
-        "项目主要负责人，与团队共同完成本次提案。以下作品展示团队共同成果。"
+        "领队，带领 4 人团队完成品牌调研及全案视觉设计，输出主 KV、系列海报与周边。以下作品展示团队共同成果。"
+      ],
+      [
+        "项目成果",
+        "获第 17 届全国大学生广告艺术大赛全国优秀奖，作品收录大赛年鉴。"
       ],
       [
         "创意主线",
@@ -3234,333 +3247,364 @@ const projects = [
   },
   {
     "id": "archive-vcg",
-    "title": "视觉中国 · 壁纸主题选览",
+    "title": "视觉中国 · vivo 壁纸设计",
+    "contextLabel": "实习项目",
     "name": "视觉中国",
     "group": "wallpaper",
     "category": "WALLPAPER COLLECTION",
-    "summary": "从壁纸作品中选取不同主题的代表画面，呈现角色、自然、色彩与氛围的多种视觉探索。本页为主题选览，未逐一收录全部壁纸与动态版本。",
-    "details": [],
+    "summary": "2026 年 5 月至 8 月，在视觉中国 vivo 项目组担任 AI 视觉设计实习生，围绕壁纸主题开展静态与动态视觉设计，个人独立完成制作与优化。本页选览静态与动态壁纸作品。",
+    "details": [
+      [
+        "实习背景",
+        "视觉中国 / vivo 项目组，2026.05 - 2026.08；AI 视觉设计实习生，参与静态与动态壁纸设计。"
+      ],
+      [
+        "视觉设计职责",
+        "围绕 vivo 壁纸主题调整构图层次、色彩搭配与光影表现，结合画面内容优化动态节奏与视觉连贯性。"
+      ],
+      [
+        "工作流与工具",
+        "使用小云雀搭建视频生成工作流，参与工具配置与模型选择；整理可复用提示词模板，结合可灵 AI、Seedance、Gemini 等工具开展生成测试、素材筛选与后期优化。"
+      ],
+      [
+        "个人交付",
+        "个人独立完成制作与优化，日均最终交付约 72 张静态壁纸、30 条动态壁纸。"
+      ],
+      [
+        "作品选览",
+        "16 张静态精选按光影留白、材质构成、自然想象、趣味角色分组，另有 8 条动态壁纸可直接播放。本页为部分实习作品选览。"
+      ]
+    ],
+    "brief": {
+      "role": "AI 视觉设计实习生 / vivo 项目组",
+      "period": "2026.05 - 2026.08",
+      "headline": "静态与动态壁纸设计",
+      "intro": "围绕 vivo 壁纸主题开展视觉设计，调整构图、色彩与光影，并优化动态节奏和视觉连贯性。个人独立完成制作与优化。",
+      "metricsLabel": "个人日均最终交付约",
+      "metrics": [
+        [
+          "72",
+          "张静态壁纸"
+        ],
+        [
+          "30",
+          "条动态壁纸"
+        ]
+      ],
+      "workflow": [
+        [
+          "主题视觉设计",
+          "围绕壁纸主题，调整构图层次、色彩搭配与光影表现。"
+        ],
+        [
+          "生成工作流",
+          "使用小云雀搭建视频生成工作流，参与工具配置与模型选择。"
+        ],
+        [
+          "测试与筛选",
+          "整理可复用提示词模板，结合可灵 AI、Seedance、Gemini 开展生成测试与素材筛选。"
+        ],
+        [
+          "制作与优化",
+          "结合画面内容完成后期优化，调整动态节奏与视觉连贯性。"
+        ]
+      ],
+      "selectionNote": "四组静态精选展示光影、材质、自然与角色表达，动态壁纸可单独观看。",
+      "comparisons": [
+       {
+        "id": "tea",
+        "label": "圆窗茶影",
+        "focus": "构图与光影",
+        "thumb": "assets/vcg-selected/light-tea-thumb.webp",
+        "before": "assets/vcg-process/light-tea-initial-ai.png",
+        "after": "assets/vcg-selected/light-tea.webp",
+        "beforeAlt": "AI 模拟初始图：枝叶较密、光线偏冷的圆窗茶器画面",
+        "afterAlt": "现有壁纸成品：暖光下的圆窗、竹叶与茶器",
+        "notes": [
+          ["构图留白", "减少上部干扰，突出主体层次。"],
+          ["光影关系", "梳理明暗，让茶具与背景更清晰。"],
+          ["材质细节", "强化陶器与木纹的质感。"]
+        ]
+       },
+       {
+        "id": "gold",
+        "label": "暗涌鎏金",
+        "focus": "材质与高光",
+        "thumb": "assets/vcg-selected/material-gold-thumb.webp",
+        "before": "assets/vcg-process/material-gold-initial-ai.png",
+        "after": "assets/vcg-selected/material-gold.webp",
+        "beforeAlt": "AI 模拟初始图：金带较平滑、颗粒感较弱的黑金抽象构成",
+        "afterAlt": "现有壁纸成品：带有细密金色颗粒与明暗层次的流动褶皱",
+        "notes": [
+          ["金属颗粒", "让细密金色颗粒替代平滑色带，增加材质辨识度。"],
+          ["边缘高光", "沿起伏边缘组织亮部，突出曲面的流动感。"],
+          ["暗部层次", "区分黑色褶皱与灰色背景，保留深色区域的细节。"]
+        ]
+       },
+       {
+        "id": "sea",
+        "label": "椰影透蓝",
+        "focus": "景深与水体",
+        "thumb": "assets/vcg-selected/nature-sea-thumb.webp",
+        "before": "assets/vcg-process/nature-sea-initial-ai.png",
+        "after": "assets/vcg-selected/nature-sea.webp",
+        "beforeAlt": "AI 模拟初始图：远山较实、海水色调较均一的热带海景",
+        "afterAlt": "现有壁纸成品：远山淡化、近岸海水清透并呈现水下礁石的海景",
+        "notes": [
+          ["远近分层", "减弱远山的明暗反差，拉开前景、海面与远景的距离。"],
+          ["水体通透", "通过水下礁石与折射光纹，表现近岸浅水的清澈感。"],
+          ["色彩过渡", "从近岸青绿过渡到远处深蓝，让水深变化更自然。"]
+        ]
+       },
+       {
+        "id": "otter",
+        "label": "探墙的小水獭",
+        "focus": "主体与留白",
+        "thumb": "assets/vcg-selected/character-otter-thumb.webp",
+        "before": "assets/vcg-process/character-otter-initial-ai.png",
+        "after": "assets/vcg-selected/character-otter.webp",
+        "beforeAlt": "AI 模拟初始图：主体较大且靠上、顶部留白较少的小水獭壁纸",
+        "afterAlt": "现有壁纸成品：主体下移并缩小、上方保留大面积青色空间的小水獭壁纸",
+        "notes": [
+          ["主体比例", "缩小角色占比，保留探头动作与画面呼吸感。"],
+          ["顶部留白", "将角色重心下移，为时间与桌面信息预留空间。"],
+          ["趣味焦点", "保留眼神、笑容和扶墙动作，让小尺寸下的表情依然清晰。"]
+        ]
+       }
+      ],
+      "previewImages": [
+        {
+          "src": "assets/vcg-selected/light-tea-thumb.webp",
+          "label": "圆窗茶影"
+        },
+        {
+          "src": "assets/vcg-selected/material-gold-thumb.webp",
+          "label": "暗涌鎏金"
+        },
+        {
+          "src": "assets/vcg-selected/nature-sea-thumb.webp",
+          "label": "椰影透蓝"
+        },
+        {
+          "src": "assets/vcg-selected/character-otter-thumb.webp",
+          "label": "探墙的小水獭"
+        }
+      ]
+    },
     "items": [
       {
-        "src": "assets/archive/wall-01.webp",
-        "thumb": "assets/archive/wall-01-thumb.webp",
-        "label": "壁纸主题 01",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-selected/light-tea.webp",
+        "thumb": "assets/vcg-selected/light-tea-thumb.webp",
+        "label": "圆窗茶影",
+        "chapter": "光影留白",
+        "caption": "圆窗、竹叶与茶器形成前后层次，以低饱和暖灰保留安静的阅读空间。",
+        "selected": true
       },
       {
-        "src": "assets/archive/wall-02.webp",
-        "thumb": "assets/archive/wall-02-thumb.webp",
-        "label": "壁纸主题 02",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-selected/light-morning.webp",
+        "thumb": "assets/vcg-selected/light-morning-thumb.webp",
+        "label": "晨光慢读",
+        "chapter": "光影留白",
+        "caption": "纱帘与植物投影落在浅色织物上，以柔和暖光串联书本、藤椅和日常器物。",
+        "selected": true
       },
       {
-        "src": "assets/archive/wall-03.webp",
-        "thumb": "assets/archive/wall-03-thumb.webp",
-        "label": "壁纸主题 03",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-selected/light-wetland.webp",
+        "thumb": "assets/vcg-selected/light-wetland-thumb.webp",
+        "label": "远山静水",
+        "chapter": "光影留白",
+        "caption": "低位岛屿与层叠远山压低画面重心，大面积雾色天空形成疏朗的空间。",
+        "selected": true
       },
       {
-        "src": "assets/archive/wall-04.webp",
-        "thumb": "assets/archive/wall-04-thumb.webp",
-        "label": "壁纸主题 04",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-selected/light-iris.webp",
+        "thumb": "assets/vcg-selected/light-iris-thumb.webp",
+        "label": "暗夜鸢尾",
+        "chapter": "光影留白",
+        "caption": "黑色背景中保留紫色花瓣的细微明暗，以集中主体与周围留白形成对照。",
+        "selected": true
       },
       {
-        "src": "assets/archive/wall-05.webp",
-        "thumb": "assets/archive/wall-05-thumb.webp",
-        "label": "壁纸主题 05",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-selected/material-gold.webp",
+        "thumb": "assets/vcg-selected/material-gold-thumb.webp",
+        "label": "暗涌鎏金",
+        "chapter": "材质构成",
+        "caption": "褶皱状黑灰曲面沿纵向流动，金色颗粒强调转折与光线，呈现材质之间的对比。",
+        "selected": true
       },
       {
-        "src": "assets/archive/wall-06.webp",
-        "thumb": "assets/archive/wall-06-thumb.webp",
-        "label": "壁纸主题 06",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-selected/material-lotus.webp",
+        "thumb": "assets/vcg-selected/material-lotus-thumb.webp",
+        "label": "金箔浮生",
+        "chapter": "材质构成",
+        "caption": "金色纹理、白色花朵与环状水波相互呼应，以明暗和反射组织视觉中心。",
+        "selected": true
       },
       {
-        "src": "assets/archive/wall-07.webp",
-        "thumb": "assets/archive/wall-07-thumb.webp",
-        "label": "壁纸主题 07",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-selected/material-fruit.webp",
+        "thumb": "assets/vcg-selected/material-fruit-thumb.webp",
+        "label": "青梨气泡",
+        "chapter": "材质构成",
+        "caption": "青绿色果实、透明冰块与气泡形成明快的材质组合，大小变化带来纵向节奏。",
+        "selected": true
       },
       {
-        "src": "assets/archive/wall-08.webp",
-        "thumb": "assets/archive/wall-08-thumb.webp",
-        "label": "壁纸主题 08",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-selected/material-observatory.webp",
+        "thumb": "assets/vcg-selected/material-observatory-thumb.webp",
+        "label": "掌心观星台",
+        "chapter": "材质构成",
+        "caption": "将山体、步道与观星建筑收束成微缩场景，以深蓝背景和小尺度细节强化空间感。",
+        "selected": true
       },
       {
-        "src": "assets/archive/wall-09.webp",
-        "thumb": "assets/archive/wall-09-thumb.webp",
-        "label": "壁纸主题 09",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-selected/nature-butterfly.webp",
+        "thumb": "assets/vcg-selected/nature-butterfly-thumb.webp",
+        "label": "蝶影轻游",
+        "chapter": "自然想象",
+        "caption": "半透明蝶翼与浅紫花瓣构成轻盈的色块，以米白底色和舒展曲线保持画面呼吸感。",
+        "selected": true
       },
       {
-        "src": "assets/archive/wall-10.webp",
-        "thumb": "assets/archive/wall-10-thumb.webp",
-        "label": "壁纸主题 10",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-selected/nature-iris.webp",
+        "thumb": "assets/vcg-selected/nature-iris-thumb.webp",
+        "label": "鸢尾手记",
+        "chapter": "自然想象",
+        "caption": "以淡紫花瓣、细长叶片和纸面般的浅色背景，呈现植物插画的细节与层次。",
+        "selected": true
       },
       {
-        "src": "assets/archive/wall-11.webp",
-        "thumb": "assets/archive/wall-11-thumb.webp",
-        "label": "壁纸主题 11",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-selected/nature-sea.webp",
+        "thumb": "assets/vcg-selected/nature-sea-thumb.webp",
+        "label": "椰影透蓝",
+        "chapter": "自然想象",
+        "caption": "椰叶与木栈道围合清透海面，以前景框景、远岸和云层建立纵深。",
+        "selected": true
       },
       {
-        "src": "assets/archive/wall-12.webp",
-        "thumb": "assets/archive/wall-12-thumb.webp",
-        "label": "壁纸主题 12",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-selected/nature-whale.webp",
+        "thumb": "assets/vcg-selected/nature-whale-thumb.webp",
+        "label": "鲸跃云海",
+        "chapter": "自然想象",
+        "caption": "蓝色鲸鱼穿行于暖色云层之间，以冷暖对比和斜向动势展开轻盈的幻想场景。",
+        "selected": true
       },
       {
-        "src": "assets/archive/wall-13.webp",
-        "thumb": "assets/archive/wall-13-thumb.webp",
-        "label": "壁纸主题 13",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-selected/character-reading.webp",
+        "thumb": "assets/vcg-selected/character-reading-thumb.webp",
+        "label": "月下读书的小猫",
+        "chapter": "趣味角色",
+        "caption": "猫咪与吊床构成叙事中心，灯光、萤火与远处月色连接近景和夜间环境。",
+        "selected": true
       },
       {
-        "src": "assets/archive/wall-14.webp",
-        "thumb": "assets/archive/wall-14-thumb.webp",
-        "label": "壁纸主题 14",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-selected/character-otter.webp",
+        "thumb": "assets/vcg-selected/character-otter-thumb.webp",
+        "label": "探墙的小水獭",
+        "chapter": "趣味角色",
+        "caption": "以青绿与浅紫色面划分空间，让探头角色的表情与细密毛发成为视觉重点。",
+        "selected": true
       },
       {
-        "src": "assets/archive/wall-15.webp",
-        "thumb": "assets/archive/wall-15-thumb.webp",
-        "label": "壁纸主题 15",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-selected/character-picnic.webp",
+        "thumb": "assets/vcg-selected/character-picnic-thumb.webp",
+        "label": "秋林里的野餐",
+        "chapter": "趣味角色",
+        "caption": "以暖黄树林包围小动物角色，用前后景与散落叶片营造轻松的童话氛围。",
+        "selected": true
       },
       {
-        "src": "assets/archive/wall-16.webp",
-        "thumb": "assets/archive/wall-16-thumb.webp",
-        "label": "壁纸主题 16",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-selected/character-sketch.webp",
+        "thumb": "assets/vcg-selected/character-sketch-thumb.webp",
+        "label": "铅笔小犬",
+        "chapter": "趣味角色",
+        "caption": "以浅色留白托起小体量角色，毛发线条与针织衣物的纹理呈现素描般的细节。",
+        "selected": true
       },
       {
-        "src": "assets/archive/wall-17.webp",
-        "thumb": "assets/archive/wall-17-thumb.webp",
-        "label": "壁纸主题 17",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-motion/sunlit-peak.webp",
+        "thumb": "assets/vcg-motion/sunlit-peak-thumb.webp",
+        "label": "雪山云光",
+        "chapter": "动态壁纸",
+        "caption": "云层沿雪峰移动，暖光逐渐点亮山脊，以稳定构图呈现光色变化。",
+        "video": "assets/vcg-motion/sunlit-peak.mp4",
+        "wallpaperMotion": true
       },
       {
-        "src": "assets/archive/wall-18.webp",
-        "thumb": "assets/archive/wall-18-thumb.webp",
-        "label": "壁纸主题 18",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-motion/sunset-shore.webp",
+        "thumb": "assets/vcg-motion/sunset-shore-thumb.webp",
+        "label": "落日潮汐",
+        "chapter": "动态壁纸",
+        "caption": "海面与湿润沙滩映出落日，飞鸟和细浪带来舒缓的动态层次。",
+        "video": "assets/vcg-motion/sunset-shore.mp4",
+        "wallpaperMotion": true
       },
       {
-        "src": "assets/archive/wall-19.webp",
-        "thumb": "assets/archive/wall-19-thumb.webp",
-        "label": "壁纸主题 19",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-motion/citrus-light.webp",
+        "thumb": "assets/vcg-motion/citrus-light-thumb.webp",
+        "label": "柠檬清光",
+        "chapter": "动态壁纸",
+        "caption": "保持饮品主体清晰，借助轻缓推进与细微光感变化呈现清新的夏日氛围。",
+        "video": "assets/vcg-motion/citrus-light.mp4",
+        "wallpaperMotion": true
       },
       {
-        "src": "assets/archive/wall-20.webp",
-        "thumb": "assets/archive/wall-20-thumb.webp",
-        "label": "壁纸主题 20",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-motion/forest-bird.webp",
+        "thumb": "assets/vcg-motion/forest-bird-thumb.webp",
+        "label": "林间轻羽",
+        "chapter": "动态壁纸",
+        "caption": "枝叶与逆光形成纵深，小鸟转头、低头和整理羽毛带来细节动作。",
+        "video": "assets/vcg-motion/forest-bird.mp4",
+        "wallpaperMotion": true
       },
       {
-        "src": "assets/archive/wall-21.webp",
-        "thumb": "assets/archive/wall-21-thumb.webp",
-        "label": "壁纸主题 21",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-motion/playful-shiba.webp",
+        "thumb": "assets/vcg-motion/playful-shiba-thumb.webp",
+        "label": "探头柴犬",
+        "chapter": "动态壁纸",
+        "caption": "以简洁色面突出角色，围绕眨眼和头部的轻微变化表现活泼神态。",
+        "video": "assets/vcg-motion/playful-shiba.mp4",
+        "wallpaperMotion": true
       },
       {
-        "src": "assets/archive/wall-22.webp",
-        "thumb": "assets/archive/wall-22-thumb.webp",
-        "label": "壁纸主题 22",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-motion/floating-whale.webp",
+        "thumb": "assets/vcg-motion/floating-whale-thumb.webp",
+        "label": "浮空鲸行",
+        "chapter": "动态壁纸",
+        "caption": "鲸鱼在悬浮山体与水面之间缓缓游动，以前景植物和远景建筑建立尺度。",
+        "video": "assets/vcg-motion/floating-whale.mp4",
+        "wallpaperMotion": true
       },
       {
-        "src": "assets/archive/wall-23.webp",
-        "thumb": "assets/archive/wall-23-thumb.webp",
-        "label": "壁纸主题 23",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-motion/golden-portrait.webp",
+        "thumb": "assets/vcg-motion/golden-portrait-thumb.webp",
+        "label": "暖黄色的问候",
+        "chapter": "动态壁纸",
+        "caption": "以暖黄背景和黑色服饰形成对比，通过转头、表情和手部动作展开人物表达。",
+        "video": "assets/vcg-motion/golden-portrait.mp4",
+        "wallpaperMotion": true
       },
       {
-        "src": "assets/archive/wall-24.webp",
-        "thumb": "assets/archive/wall-24-thumb.webp",
-        "label": "壁纸主题 24",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-25.webp",
-        "thumb": "assets/archive/wall-25-thumb.webp",
-        "label": "壁纸主题 25",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-26.webp",
-        "thumb": "assets/archive/wall-26-thumb.webp",
-        "label": "壁纸主题 26",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-27.webp",
-        "thumb": "assets/archive/wall-27-thumb.webp",
-        "label": "壁纸主题 27",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-28.webp",
-        "thumb": "assets/archive/wall-28-thumb.webp",
-        "label": "壁纸主题 28",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-29.webp",
-        "thumb": "assets/archive/wall-29-thumb.webp",
-        "label": "壁纸主题 29",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-30.webp",
-        "thumb": "assets/archive/wall-30-thumb.webp",
-        "label": "壁纸主题 30",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-31.webp",
-        "thumb": "assets/archive/wall-31-thumb.webp",
-        "label": "壁纸主题 31",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-32.webp",
-        "thumb": "assets/archive/wall-32-thumb.webp",
-        "label": "壁纸主题 32",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-33.webp",
-        "thumb": "assets/archive/wall-33-thumb.webp",
-        "label": "壁纸主题 33",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-34.webp",
-        "thumb": "assets/archive/wall-34-thumb.webp",
-        "label": "壁纸主题 34",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-35.webp",
-        "thumb": "assets/archive/wall-35-thumb.webp",
-        "label": "壁纸主题 35",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-36.webp",
-        "thumb": "assets/archive/wall-36-thumb.webp",
-        "label": "壁纸主题 36",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-37.webp",
-        "thumb": "assets/archive/wall-37-thumb.webp",
-        "label": "壁纸主题 37",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-38.webp",
-        "thumb": "assets/archive/wall-38-thumb.webp",
-        "label": "壁纸主题 38",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-39.webp",
-        "thumb": "assets/archive/wall-39-thumb.webp",
-        "label": "壁纸主题 39",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-40.webp",
-        "thumb": "assets/archive/wall-40-thumb.webp",
-        "label": "壁纸主题 40",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-41.webp",
-        "thumb": "assets/archive/wall-41-thumb.webp",
-        "label": "壁纸主题 41",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-42.webp",
-        "thumb": "assets/archive/wall-42-thumb.webp",
-        "label": "壁纸主题 42",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-43.webp",
-        "thumb": "assets/archive/wall-43-thumb.webp",
-        "label": "壁纸主题 43",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
-      },
-      {
-        "src": "assets/archive/wall-44.webp",
-        "thumb": "assets/archive/wall-44-thumb.webp",
-        "label": "壁纸主题 44",
-        "chapter": "主题选览",
-        "caption": "壁纸作品主题选览。"
+        "src": "assets/vcg-motion/pond-dream.webp",
+        "thumb": "assets/vcg-motion/pond-dream-thumb.webp",
+        "label": "池畔小憩",
+        "chapter": "动态壁纸",
+        "caption": "角色在荷塘与灯光之间伸展身体，水面、萤光与夜色共同构成轻松的场景。",
+        "video": "assets/vcg-motion/pond-dream.mp4",
+        "wallpaperMotion": true
       }
     ],
     "accent": "#a8ddce",
     "color": "#a8ddce",
     "surface": "#111c1d",
-    "cover": "assets/archive/wall-01.webp",
-    "preview": "assets/archive/wall-01-thumb.webp",
+    "cover": "assets/vcg-selected/light-tea.webp",
+    "preview": "assets/vcg-selected/light-tea-thumb.webp",
     "displayTitle": [
       "视觉中国",
       "壁纸主题选览"
     ],
-    "eyebrow": "视觉中国 / 主题选览",
-    "number": "38"
+    "eyebrow": "视觉中国 / vivo 项目组 / AI 视觉设计实习",
+    "number": "38",
+    "note": "16 张静态精选 / 8 条动态壁纸"
   }
 ];
 const resolveMedia = value => {

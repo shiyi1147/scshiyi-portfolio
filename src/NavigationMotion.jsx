@@ -13,7 +13,7 @@ const entranceSelectors = {
   top: '.immersiveHeading, .immersiveFilters, .immersiveWorkRow, .immersiveInfo, .immersiveFooter',
   about: '.workAtlasEyebrow, h2, .workAtlasAboutGrid > div > p, .workAtlasCapabilityList span',
   resume: '.workAtlasResume > .workAtlasEyebrow, .workAtlasResumeHeading, .workAtlasExperienceGrid > article',
-  contact: '.workAtlasEyebrow, a, .workAtlasContact > span',
+  contact: '.workAtlasEyebrow, .workAtlasContactAvailability, a, .workAtlasContact > span',
 };
 
 export function usePortfolioNavigation(onNavigate) {
