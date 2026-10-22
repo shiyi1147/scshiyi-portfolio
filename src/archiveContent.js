@@ -2546,7 +2546,7 @@ const projects = [
     "name": "三福提案",
     "group": "brand",
     "category": "BRAND DESIGN",
-    "summary": "通过原作品页面展示三福 · 品牌策划的创意构思与视觉呈现。可逐页浏览，也可打开完整 PDF 阅读。",
+    "summary": "通过原作品页面展示三福 · 品牌策划的创意构思与视觉呈现。支持作品逐页浏览及完整策划案的上下滑动阅读。",
     "details": [],
     "items": [
       {
@@ -2815,7 +2815,7 @@ const projects = [
     "name": "云南白药",
     "group": "brand",
     "category": "BRAND DESIGN",
-    "summary": "通过原作品页面展示云南白药 · 品牌策划的创意构思与视觉呈现。可逐页浏览，也可打开完整 PDF 阅读。",
+    "summary": "通过原作品页面展示云南白药 · 品牌策划的创意构思与视觉呈现。支持作品逐页浏览及完整策划案的上下滑动阅读。",
     "details": [],
     "items": [
       {

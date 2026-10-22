@@ -1,0 +1,49 @@
+.planReader {--reading-progress:0;position:fixed;inset:0;z-index:250;height:100dvh;overflow:auto;overscroll-behavior:contain;background:#f4f3ed;color:#24342b;font-family:var(--portfolio-font),sans-serif;touch-action:pan-x pan-y pinch-zoom;scrollbar-gutter:stable;}
+.planReader * {box-sizing:border-box;}
+.planReader button,.planReader a,.planReader select {font:inherit;color:inherit;}
+.planReader button {cursor:pointer;}
+.planReader button:focus-visible,.planReader a:focus-visible,.planReader select:focus-visible {outline:2px solid #356d56;outline-offset:4px;}
+.planReaderToolbar {position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:68px;padding:10px 32px;background:#fbfcf8;border-bottom:1px solid #24342b1a;}
+.planReaderToolbar>button,.planReaderToolbar>a {display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 0;border:0;background:none;text-decoration:none;font-size:12px;white-space:nowrap;}
+.planReaderPosition {display:flex;align-items:center;gap:12px;}
+.planReaderPosition>span {font-size:10px;color:#718074;}
+.planReaderPosition select {min-height:40px;padding:6px 24px 6px 8px;border:0;border-radius:0;background:transparent;font-size:12px;font-variant-numeric:tabular-nums;cursor:pointer;}
+.planReaderProgress {position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#527b61;transform:scaleX(var(--reading-progress));transform-origin:left;pointer-events:none;}
+.planReaderArticle {width:min(1040px,calc(100% - 64px));margin:auto;}
+.planReaderHeading {padding:42px 0 30px;}
+.planReaderHeading>p {margin:0 0 13px;font-size:11px;color:#718074;letter-spacing:.07em;}
+.planReaderHeading h2 {margin:0 0 17px;font-size:clamp(25px,3vw,36px);font-weight:500;line-height:1.5;}
+.planReaderHeading>span {font-size:12px;color:#718074;line-height:1.8;}
+.planReaderPages {display:grid;gap:22px;}
+.planReaderPage {position:relative;margin:0;scroll-margin-top:90px;}
+.planReaderPageImage {position:relative;display:block;overflow:hidden;width:100%;padding:0;border:0;background:#e8e9e2;color:#a6afa3;}
+.planReaderPageImage:disabled {cursor:default;}
+.planReaderPageImage img {display:block;width:100%;height:100%;object-fit:contain;opacity:0;}
+.planReaderPageImage.is-loaded img {opacity:1;}
+.planReaderPagePlaceholder {position:absolute;inset:0;display:grid;place-items:center;font-size:30px;font-variant-numeric:tabular-nums;font-weight:300;}
+.planReaderZoom {position:absolute;right:14px;bottom:14px;display:flex;align-items:center;gap:7px;padding:8px 10px;background:#183225d9;color:#f1f6ed;font-size:10px;opacity:0;transition:opacity .2s;}
+.planReaderPageImage:hover .planReaderZoom,.planReaderPageImage:focus-visible .planReaderZoom {opacity:1;}
+.planReaderPage figcaption {display:flex;justify-content:space-between;gap:15px;padding:10px 0 0;font-size:10px;color:#7c877b;font-variant-numeric:tabular-nums;}
+.planReaderError {position:absolute;top:30%;left:0;right:0;display:grid;justify-items:center;gap:10px;font-size:12px;color:#405744;}
+.planReaderError p {margin:0;}
+.planReaderError button {min-height:44px;padding:8px 16px;border:1px solid #6b826d;background:#f5f7f0;font-size:11px;}
+.planReaderEnd {padding:55px 0 65px;text-align:center;}
+.planReaderEnd p {margin:0 0 22px;font-size:12px;color:#718074;}
+.planReaderEnd>div {display:flex;justify-content:center;gap:12px;}
+.planReaderEnd button {display:flex;align-items:center;gap:13px;min-height:44px;padding:11px 18px;border:1px solid #40574444;background:transparent;font-size:12px;}
+@media(max-width:760px) {
+ .planReader {scrollbar-gutter:auto;}
+ .planReaderToolbar {min-height:62px;padding:8px 16px;gap:10px;}
+ .planReaderToolbar>button,.planReaderToolbar>a {gap:6px;font-size:11px;}
+ .planReaderPosition>span {display:none;}
+ .planReaderPosition select {font-size:11px;max-width:100px;padding-left:2px;}
+ .planReaderArticle {width:100%;}
+ .planReaderHeading {padding:30px 20px 25px;}
+ .planReaderHeading h2 {font-size:25px;}
+ .planReaderHeading>span {font-size:11px;}
+ .planReaderPages {gap:18px;}
+ .planReaderPage {scroll-margin-top:78px;}
+ .planReaderPage figcaption {padding:9px 16px 0;font-size:9px;}
+ .planReaderEnd {padding:40px 20px 50px;}
+}
+@media(prefers-reduced-motion:reduce) {.planReaderZoom {transition:none;}}

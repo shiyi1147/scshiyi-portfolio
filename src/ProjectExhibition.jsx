@@ -10,6 +10,8 @@ import WatchfaceExhibition from './WatchfaceExhibition';
 import ExhibitionTransition from './ExhibitionTransition';
 import ProjectBrief from './ProjectBrief';
 import ProjectStrategy from './ProjectStrategy';
+import PlanReader from './PlanReader';
+import { getPlanReader } from './planReaderContent';
 
 const pad = n => String(n).padStart(2, '0');
 
@@ -31,6 +33,8 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
   const [infoOpen, setInfoOpen] = useState(false);
   const [zoomOpen, setZoomOpen] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [readerOpen, setReaderOpen] = useState(false);
+  const readerScroll = useRef(0);
   const rootRef = useRef(null);
   const imageRef = useRef(null);
   const previousRef = useRef(null);
@@ -43,6 +47,8 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
   const closing = useRef(false);
   const reduced = useReducedMotion();
   const item = project.items[frame];
+  const plan = getPlanReader(project);
+  const openReader = () => setReaderOpen(true);
   const isIntro = view === 'intro';
   const notes = !isIntro && item.sourceProjectId ? { ...project, title:item.sourceTitle, summary:item.sourceSummary, details:item.sourceDetails, eyebrow:item.sourceEyebrow } : project;
   const chapters = project.items.reduce((list, image, index) => {
@@ -69,7 +75,7 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
     if (isIntro) { if (delta > 0) select(0); }
     else select(frame + delta);
   };
-  navigation.current = { step, infoOpen, zoomOpen, close };
+  navigation.current = { step, infoOpen, zoomOpen, readerOpen, close };
 
   useLayoutEffect(() => {
     if (reduced) return;
@@ -134,7 +140,7 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
     root.querySelector('button')?.focus({ preventScroll: true });
     const handleKey = event => {
       const current = navigation.current;
-      if (current.zoomOpen || document.fullscreenElement) return;
+      if (current.zoomOpen || current.readerOpen || document.fullscreenElement) return;
       if (event.target.closest?.('video') && !['Escape', 'Tab'].includes(event.key)) return;
       if (event.target.closest?.('.exhibitionBrief') && !['Escape', 'Tab'].includes(event.key)) return;
       if (event.key === 'Escape') { event.preventDefault(); current.infoOpen ? setInfoOpen(false) : current.close(); }
@@ -175,7 +181,7 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
   }, [infoOpen]);
 
   const pointerMove = event => {
-    if (zoomOpen || event.pointerType !== 'mouse' || reduced) return;
+    if (zoomOpen || readerOpen || event.pointerType !== 'mouse' || reduced) return;
     const r = rootRef.current.getBoundingClientRect();
     rootRef.current.style.setProperty('--ex', ((event.clientX - r.left) / r.width - .5).toFixed(3));
     rootRef.current.style.setProperty('--ey', ((event.clientY - r.top) / r.height - .5).toFixed(3));
@@ -205,9 +211,9 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
     </header>
     <div className="exhibitionGestureArea" onPointerDown={pointerDown} onPointerUp={pointerUp} onPointerCancel={() => { gesture.current = null; }}>
       {isIntro ? <div className="exhibitionIntroBody">
-        {project.brief ? <ProjectBrief project={project} onBrowse={index=>select(index??0)}/> : project.strategy ? <ProjectStrategy project={project} onBrowse={()=>select(0)}/> : <>
+        {project.brief ? <ProjectBrief project={project} onBrowse={index=>select(index??0)}/> : project.strategy ? <ProjectStrategy project={project} onBrowse={()=>select(0)} onReadPlan={plan ? openReader : undefined}/> : <>
         {project.poster ? <picture className="exhibitionPoster"><source media="(max-aspect-ratio: 4/5)" srcSet={project.poster.portrait}/><img src={project.poster.landscape} alt={project.poster.alt} draggable="false" fetchPriority="high"/></picture> : <div className="exhibitionTitle" aria-hidden="true">{project.displayTitle.map((line,index)=><div key={index}><span>{line}</span></div>)}</div>}
-        <div className="exhibitionIntroCopy"><span>{project.eyebrow}</span><p>{project.summary}</p><div className="exhibitionIntroActions"><button type="button" onClick={() => select(0)}>浏览作品 <ArrowDown size={14}/></button>{project.document && <a href={project.document} target="_blank" rel="noreferrer">{project.documentLabel || '完整策划案'} <ArrowUpRight size={14}/></a>}</div></div>
+        <div className="exhibitionIntroCopy"><span>{project.eyebrow}</span><p>{project.summary}</p><div className="exhibitionIntroActions"><button type="button" onClick={() => select(0)}>浏览作品 <ArrowDown size={14}/></button>{plan ? <button type="button" onClick={openReader} aria-haspopup="dialog">完整策划案 <ArrowDown size={14}/></button> : project.document && <a href={project.document} target="_blank" rel="noreferrer">{project.documentLabel || '完整策划案'} <ArrowUpRight size={14}/></a>}</div></div>
         <span className="exhibitionScrollHint">SCROLL TO DISCOVER <i /></span>
         </>}
       </div> : <div className="exhibitionGalleryBody">
@@ -231,7 +237,8 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
       <button type="button" className="exhibitionNextProject" onClick={onNextProject}>下个项目 <ArrowUpRight size={13}/></button>
     </footer>
     {zoomOpen && <ImageLightbox src={item.detail || item.src} label={item.label} backgroundRef={rootRef} onClose={() => setZoomOpen(false)} />}
-    {infoOpen && <div className="exhibitionInfoScrim" onClick={event=>{if(event.target===event.currentTarget)setInfoOpen(false);}}><aside ref={infoRef} id="exhibition-info" className="exhibitionInfoPanel" aria-label="项目说明"><div className="exhibitionInfoHeader"><span>PROJECT NOTES</span><button type="button" onClick={() => setInfoOpen(false)} aria-label="关闭项目说明"><X size={20}/></button></div><p className="exhibitionEyebrow">{notes.eyebrow}</p><h3>{notes.title}</h3><p className="exhibitionSummary">{notes.summary}</p><dl>{notes.details.map(([label,value])=><div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>{project.document && <a className="exhibitionDocument" href={project.document} target="_blank" rel="noreferrer">{project.documentLabel || '查看完整策划案 PDF'} <ArrowUpRight size={16}/></a>}</aside></div>}
+    {infoOpen && <div className="exhibitionInfoScrim" onClick={event=>{if(event.target===event.currentTarget)setInfoOpen(false);}}><aside ref={infoRef} id="exhibition-info" className="exhibitionInfoPanel" aria-label="项目说明"><div className="exhibitionInfoHeader"><span>PROJECT NOTES</span><button type="button" onClick={() => setInfoOpen(false)} aria-label="关闭项目说明"><X size={20}/></button></div><p className="exhibitionEyebrow">{notes.eyebrow}</p><h3>{notes.title}</h3><p className="exhibitionSummary">{notes.summary}</p><dl>{notes.details.map(([label,value])=><div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>{plan ? <button type="button" className="exhibitionDocument" onClick={openReader} aria-haspopup="dialog">阅读完整策划案 <ArrowDown size={16}/></button> : project.document && <a className="exhibitionDocument" href={project.document} target="_blank" rel="noreferrer">{project.documentLabel || '查看完整策划案 PDF'} <ArrowUpRight size={16}/></a>}</aside></div>}
+    {readerOpen && <PlanReader project={project} plan={plan} backgroundRef={rootRef} initialScroll={readerScroll.current} onClose={scroll => { readerScroll.current = scroll; setReaderOpen(false); }}/>}
   </section>, document.body);
 }
 

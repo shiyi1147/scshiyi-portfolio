@@ -1,0 +1,581 @@
+{
+  "nutrition-brand-plan.pdf": {
+    "sourceSHA256": "606dd3727b5c17bb7cf74ba89548697969526fd5f0a5960b4da63fec538c098d",
+    "pages": [
+      {
+        "src": "assets/plan-reader/nutrition-01.webp",
+        "small": "assets/plan-reader/nutrition-01-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-02.webp",
+        "small": "assets/plan-reader/nutrition-02-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-03.webp",
+        "small": "assets/plan-reader/nutrition-03-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-04.webp",
+        "small": "assets/plan-reader/nutrition-04-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-05.webp",
+        "small": "assets/plan-reader/nutrition-05-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-06.webp",
+        "small": "assets/plan-reader/nutrition-06-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-07.webp",
+        "small": "assets/plan-reader/nutrition-07-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-08.webp",
+        "small": "assets/plan-reader/nutrition-08-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-09.webp",
+        "small": "assets/plan-reader/nutrition-09-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-10.webp",
+        "small": "assets/plan-reader/nutrition-10-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-11.webp",
+        "small": "assets/plan-reader/nutrition-11-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-12.webp",
+        "small": "assets/plan-reader/nutrition-12-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-13.webp",
+        "small": "assets/plan-reader/nutrition-13-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-14.webp",
+        "small": "assets/plan-reader/nutrition-14-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-15.webp",
+        "small": "assets/plan-reader/nutrition-15-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-16.webp",
+        "small": "assets/plan-reader/nutrition-16-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-17.webp",
+        "small": "assets/plan-reader/nutrition-17-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-18.webp",
+        "small": "assets/plan-reader/nutrition-18-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-19.webp",
+        "small": "assets/plan-reader/nutrition-19-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-20.webp",
+        "small": "assets/plan-reader/nutrition-20-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-21.webp",
+        "small": "assets/plan-reader/nutrition-21-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-22.webp",
+        "small": "assets/plan-reader/nutrition-22-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-23.webp",
+        "small": "assets/plan-reader/nutrition-23-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-24.webp",
+        "small": "assets/plan-reader/nutrition-24-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-25.webp",
+        "small": "assets/plan-reader/nutrition-25-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-26.webp",
+        "small": "assets/plan-reader/nutrition-26-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-27.webp",
+        "small": "assets/plan-reader/nutrition-27-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-28.webp",
+        "small": "assets/plan-reader/nutrition-28-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/plan-reader/nutrition-29.webp",
+        "small": "assets/plan-reader/nutrition-29-small.webp",
+        "width": 1800,
+        "height": 1273
+      }
+    ]
+  },
+  "sanfu-brand-plan.pdf": {
+    "sourceSHA256": "a4adb1a8ef2ec02de75c2ee2b94c6ffb1ca7d1821931a6f4f94fc7a47c05c45f",
+    "pages": [
+      {
+        "src": "assets/archive/sanfu-01.webp",
+        "small": "assets/plan-reader/sanfu-01-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-02.webp",
+        "small": "assets/plan-reader/sanfu-02-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-03.webp",
+        "small": "assets/plan-reader/sanfu-03-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-04.webp",
+        "small": "assets/plan-reader/sanfu-04-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-05.webp",
+        "small": "assets/plan-reader/sanfu-05-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-06.webp",
+        "small": "assets/plan-reader/sanfu-06-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-07.webp",
+        "small": "assets/plan-reader/sanfu-07-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-08.webp",
+        "small": "assets/plan-reader/sanfu-08-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-09.webp",
+        "small": "assets/plan-reader/sanfu-09-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-10.webp",
+        "small": "assets/plan-reader/sanfu-10-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-11.webp",
+        "small": "assets/plan-reader/sanfu-11-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-12.webp",
+        "small": "assets/plan-reader/sanfu-12-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-13.webp",
+        "small": "assets/plan-reader/sanfu-13-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-14.webp",
+        "small": "assets/plan-reader/sanfu-14-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-15.webp",
+        "small": "assets/plan-reader/sanfu-15-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-16.webp",
+        "small": "assets/plan-reader/sanfu-16-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-17.webp",
+        "small": "assets/plan-reader/sanfu-17-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-18.webp",
+        "small": "assets/plan-reader/sanfu-18-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-19.webp",
+        "small": "assets/plan-reader/sanfu-19-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-20.webp",
+        "small": "assets/plan-reader/sanfu-20-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-21.webp",
+        "small": "assets/plan-reader/sanfu-21-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-22.webp",
+        "small": "assets/plan-reader/sanfu-22-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-23.webp",
+        "small": "assets/plan-reader/sanfu-23-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-24.webp",
+        "small": "assets/plan-reader/sanfu-24-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-25.webp",
+        "small": "assets/plan-reader/sanfu-25-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-26.webp",
+        "small": "assets/plan-reader/sanfu-26-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-27.webp",
+        "small": "assets/plan-reader/sanfu-27-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-28.webp",
+        "small": "assets/plan-reader/sanfu-28-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-29.webp",
+        "small": "assets/plan-reader/sanfu-29-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-30.webp",
+        "small": "assets/plan-reader/sanfu-30-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-31.webp",
+        "small": "assets/plan-reader/sanfu-31-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-32.webp",
+        "small": "assets/plan-reader/sanfu-32-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-33.webp",
+        "small": "assets/plan-reader/sanfu-33-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-34.webp",
+        "small": "assets/plan-reader/sanfu-34-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/sanfu-35.webp",
+        "small": "assets/plan-reader/sanfu-35-small.webp",
+        "width": 1800,
+        "height": 1273
+      }
+    ]
+  },
+  "yunnan-brand-plan.pdf": {
+    "sourceSHA256": "c499a48d6396c2b5fa4a33a37ffe2cbfd41aa3b494e04458b8e3c8ac4f3270dd",
+    "pages": [
+      {
+        "src": "assets/archive/yunnan-01.webp",
+        "small": "assets/plan-reader/yunnan-01-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-02.webp",
+        "small": "assets/plan-reader/yunnan-02-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-03.webp",
+        "small": "assets/plan-reader/yunnan-03-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-04.webp",
+        "small": "assets/plan-reader/yunnan-04-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-05.webp",
+        "small": "assets/plan-reader/yunnan-05-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-06.webp",
+        "small": "assets/plan-reader/yunnan-06-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-07.webp",
+        "small": "assets/plan-reader/yunnan-07-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-08.webp",
+        "small": "assets/plan-reader/yunnan-08-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-09.webp",
+        "small": "assets/plan-reader/yunnan-09-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-10.webp",
+        "small": "assets/plan-reader/yunnan-10-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-11.webp",
+        "small": "assets/plan-reader/yunnan-11-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-12.webp",
+        "small": "assets/plan-reader/yunnan-12-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-13.webp",
+        "small": "assets/plan-reader/yunnan-13-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-14.webp",
+        "small": "assets/plan-reader/yunnan-14-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-15.webp",
+        "small": "assets/plan-reader/yunnan-15-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-16.webp",
+        "small": "assets/plan-reader/yunnan-16-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-17.webp",
+        "small": "assets/plan-reader/yunnan-17-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-18.webp",
+        "small": "assets/plan-reader/yunnan-18-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-19.webp",
+        "small": "assets/plan-reader/yunnan-19-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-20.webp",
+        "small": "assets/plan-reader/yunnan-20-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-21.webp",
+        "small": "assets/plan-reader/yunnan-21-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-22.webp",
+        "small": "assets/plan-reader/yunnan-22-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-23.webp",
+        "small": "assets/plan-reader/yunnan-23-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-24.webp",
+        "small": "assets/plan-reader/yunnan-24-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-25.webp",
+        "small": "assets/plan-reader/yunnan-25-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-26.webp",
+        "small": "assets/plan-reader/yunnan-26-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-27.webp",
+        "small": "assets/plan-reader/yunnan-27-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-28.webp",
+        "small": "assets/plan-reader/yunnan-28-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-29.webp",
+        "small": "assets/plan-reader/yunnan-29-small.webp",
+        "width": 1800,
+        "height": 1273
+      },
+      {
+        "src": "assets/archive/yunnan-30.webp",
+        "small": "assets/plan-reader/yunnan-30-small.webp",
+        "width": 1800,
+        "height": 1273
+      }
+    ]
+  }
+}
