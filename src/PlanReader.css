@@ -1,45 +1,50 @@
-.planReader {--reading-progress:0;position:fixed;inset:0;z-index:250;height:100dvh;overflow:auto;overscroll-behavior:contain;background:#f4f3ed;color:#24342b;font-family:var(--portfolio-font),sans-serif;touch-action:pan-x pan-y pinch-zoom;scrollbar-gutter:stable;}
+.planReader {--reading-progress:0;position:fixed;inset:0;z-index:250;height:100dvh;overflow:auto;overscroll-behavior:contain;background:radial-gradient(ellipse at 50% 0%,#17302555,transparent 65%) #081210;color:#d5e4d9;color-scheme:dark;font-family:var(--portfolio-font),sans-serif;touch-action:pan-x pan-y pinch-zoom;scrollbar-gutter:stable;scrollbar-width:thin;scrollbar-color:#5c7568 #081210;}
 .planReader * {box-sizing:border-box;}
 .planReader button,.planReader a,.planReader select {font:inherit;color:inherit;}
 .planReader button {cursor:pointer;}
-.planReader button:focus-visible,.planReader a:focus-visible,.planReader select:focus-visible {outline:2px solid #356d56;outline-offset:4px;}
-.planReaderToolbar {position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:68px;padding:10px 32px;background:#fbfcf8;border-bottom:1px solid #24342b1a;}
-.planReaderToolbar>button,.planReaderToolbar>a {display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 0;border:0;background:none;text-decoration:none;font-size:12px;white-space:nowrap;}
+.planReader button:focus-visible,.planReader a:focus-visible,.planReader select:focus-visible {outline:1px solid var(--plan-accent);outline-offset:4px;}
+.planReaderToolbar {position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:68px;padding:10px 32px;background:#091510;border-bottom:1px solid #c7fbe428;box-shadow:0 8px 28px #0003;}
+.planReaderToolbar>button,.planReaderToolbar>a {display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 10px;border:1px solid transparent;background:none;text-decoration:none;font-size:11px;letter-spacing:.04em;white-space:nowrap;}
+.planReaderToolbar>button:hover,.planReaderToolbar>a:hover {border-color:#c7fbe43d;background:#bdd6b80b;color:var(--plan-accent);}
 .planReaderPosition {display:flex;align-items:center;gap:12px;}
-.planReaderPosition>span {font-size:10px;color:#718074;}
+.planReaderPosition>span {font-size:10px;color:#92ad9d;letter-spacing:.05em;}
 .planReaderPosition select {min-height:40px;padding:6px 24px 6px 8px;border:0;border-radius:0;background:transparent;font-size:12px;font-variant-numeric:tabular-nums;cursor:pointer;}
-.planReaderProgress {position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#527b61;transform:scaleX(var(--reading-progress));transform-origin:left;pointer-events:none;}
+.planReaderPosition option {background:#112119;color:#d5e4d9;}
+.planReaderProgress {position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--plan-accent);transform:scaleX(var(--reading-progress));transform-origin:left;pointer-events:none;}
 .planReaderArticle {width:min(1040px,calc(100% - 64px));margin:auto;}
-.planReaderHeading {padding:42px 0 30px;}
-.planReaderHeading>p {margin:0 0 13px;font-size:11px;color:#718074;letter-spacing:.07em;}
-.planReaderHeading h2 {margin:0 0 17px;font-size:clamp(25px,3vw,36px);font-weight:500;line-height:1.5;}
-.planReaderHeading>span {font-size:12px;color:#718074;line-height:1.8;}
-.planReaderPages {display:grid;gap:22px;}
+.planReaderHeading {padding:42px 0 28px;margin-bottom:28px;border-bottom:1px solid #c7fbe428;}
+.planReaderHeading>p {display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px 24px;margin:0 0 18px;font-size:10px;color:#9fb9a7;letter-spacing:.12em;line-height:1.7;}
+.planReaderHeading>p>span:last-child {color:var(--plan-accent);letter-spacing:.05em;}
+.planReaderHeading h2 {margin:0 0 17px;color:#edf0df;font-size:clamp(28px,3.2vw,44px);font-weight:400;line-height:1.4;letter-spacing:.02em;}
+.planReaderHeading>span {font-size:11px;color:#9fb9a7;line-height:1.8;letter-spacing:.03em;}
+.planReaderPages {display:grid;gap:28px;}
 .planReaderPage {position:relative;margin:0;scroll-margin-top:90px;}
-.planReaderPageImage {position:relative;display:block;overflow:hidden;width:100%;padding:0;border:0;background:#e8e9e2;color:#a6afa3;}
+.planReaderPageImage {position:relative;display:block;overflow:hidden;width:100%;padding:0;border:0;background:#11221b;color:#829c8c;box-shadow:0 0 0 1px #c7fbe41a;}
 .planReaderPageImage:disabled {cursor:default;}
 .planReaderPageImage img {display:block;width:100%;height:100%;object-fit:contain;opacity:0;}
 .planReaderPageImage.is-loaded img {opacity:1;}
 .planReaderPagePlaceholder {position:absolute;inset:0;display:grid;place-items:center;font-size:30px;font-variant-numeric:tabular-nums;font-weight:300;}
-.planReaderZoom {position:absolute;right:14px;bottom:14px;display:flex;align-items:center;gap:7px;padding:8px 10px;background:#183225d9;color:#f1f6ed;font-size:10px;opacity:0;transition:opacity .2s;}
+.planReaderZoom {position:absolute;right:14px;bottom:14px;display:flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid #c7fbe43d;background:#081b14ed;color:#dce9d9;font-size:10px;opacity:0;transition:opacity .2s;}
 .planReaderPageImage:hover .planReaderZoom,.planReaderPageImage:focus-visible .planReaderZoom {opacity:1;}
-.planReaderPage figcaption {display:flex;justify-content:space-between;gap:15px;padding:10px 0 0;font-size:10px;color:#7c877b;font-variant-numeric:tabular-nums;}
-.planReaderError {position:absolute;top:30%;left:0;right:0;display:grid;justify-items:center;gap:10px;font-size:12px;color:#405744;}
+.planReaderPage figcaption {display:flex;justify-content:space-between;gap:15px;padding:12px 0 0;font-size:10px;color:#9fb9a7;font-variant-numeric:tabular-nums;letter-spacing:.04em;}
+.planReaderError {position:absolute;top:30%;left:0;right:0;display:grid;justify-items:center;gap:10px;font-size:12px;color:#c3d4c7;}
 .planReaderError p {margin:0;}
-.planReaderError button {min-height:44px;padding:8px 16px;border:1px solid #6b826d;background:#f5f7f0;font-size:11px;}
-.planReaderEnd {padding:55px 0 65px;text-align:center;}
-.planReaderEnd p {margin:0 0 22px;font-size:12px;color:#718074;}
+.planReaderError button {min-height:44px;padding:8px 16px;border:1px solid #c7fbe452;background:#bdd6b80b;font-size:11px;}
+.planReaderEnd {padding:40px 0 65px;margin-top:34px;border-top:1px solid #c7fbe428;text-align:center;}
+.planReaderEnd p {margin:0 0 22px;font-size:12px;color:#9fb9a7;}
 .planReaderEnd>div {display:flex;justify-content:center;gap:12px;}
-.planReaderEnd button {display:flex;align-items:center;gap:13px;min-height:44px;padding:11px 18px;border:1px solid #40574444;background:transparent;font-size:12px;}
+.planReaderEnd button {display:flex;align-items:center;gap:13px;min-height:44px;padding:11px 18px;border:1px solid #c7fbe452;background:#bdd6b80b;font-size:11px;}
+.planReaderEnd button:hover {border-color:#c7fbe48c;background:#bdd6b819;color:var(--plan-accent);}
 @media(max-width:760px) {
  .planReader {scrollbar-gutter:auto;}
  .planReaderToolbar {min-height:62px;padding:8px 16px;gap:10px;}
- .planReaderToolbar>button,.planReaderToolbar>a {gap:6px;font-size:11px;}
+ .planReaderToolbar>button,.planReaderToolbar>a {gap:6px;padding-inline:0;font-size:11px;}
  .planReaderPosition>span {display:none;}
  .planReaderPosition select {font-size:11px;max-width:100px;padding-left:2px;}
  .planReaderArticle {width:100%;}
- .planReaderHeading {padding:30px 20px 25px;}
- .planReaderHeading h2 {font-size:25px;}
+ .planReaderHeading {padding:28px 20px 24px;margin-bottom:22px;}
+ .planReaderHeading>p {gap:9px 16px;margin-bottom:16px;font-size:9px;letter-spacing:.08em;}
+ .planReaderHeading h2 {font-size:28px;}
  .planReaderHeading>span {font-size:11px;}
  .planReaderPages {gap:18px;}
  .planReaderPage {scroll-margin-top:78px;}
