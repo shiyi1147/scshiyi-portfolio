@@ -15,7 +15,7 @@
 .planReaderHeading {padding:42px 0 28px;margin-bottom:28px;border-bottom:1px solid #c7fbe428;}
 .planReaderHeading>p {display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px 24px;margin:0 0 18px;font-size:10px;color:#9fb9a7;letter-spacing:.12em;line-height:1.7;}
 .planReaderHeading>p>span:last-child {color:var(--plan-accent);letter-spacing:.05em;}
-.planReaderHeading h2 {margin:0 0 17px;color:#edf0df;font-size:clamp(28px,3.2vw,44px);font-weight:400;line-height:1.4;letter-spacing:.02em;}
+.planReaderHeading h2 {margin:0 0 17px;color:#edf0df;font-family:"Zaozi Yihei Portfolio",var(--portfolio-font),sans-serif;font-synthesis:none;font-size:clamp(28px,3.2vw,44px);font-weight:400;line-height:1.4;letter-spacing:.02em;}
 .planReaderHeading>span {font-size:11px;color:#9fb9a7;line-height:1.8;letter-spacing:.03em;}
 .planReaderPages {display:grid;gap:28px;}
 .planReaderPage {position:relative;margin:0;scroll-margin-top:90px;}
