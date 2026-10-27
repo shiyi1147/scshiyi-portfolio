@@ -1,5 +1,5 @@
 .projectStrategyHeading>p {margin:0 0 14px;font-size:11px;letter-spacing:.1em;color:#b9c5b3;}
-.projectStrategyHeading h3 {margin:0 0 15px;font-family:"Zaozi Yihei Portfolio",var(--portfolio-font),sans-serif;font-synthesis:none;font-size:clamp(26px,3.2vw,44px);line-height:1.4;font-weight:400;letter-spacing:.02em;color:#edf0df;}
+.projectStrategyHeading h3 {margin:0 0 15px;font-family:var(--portfolio-font),sans-serif;font-synthesis:weight;font-size:clamp(26px,3.2vw,44px);line-height:1.4;font-weight:700;letter-spacing:.06em;color:#edf0df;}
 .projectStrategyHeading>span {display:inline-block;padding:7px 10px;border:1px solid #ffdda747;background:#ffdda70b;font-size:11px;line-height:1.6;color:#ffdda7;}
 .projectStrategyLayout {display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(26px,4vw,60px);align-items:center;margin-top:28px;}
 .projectStrategyLayout figure {margin:0;min-width:0;}
