@@ -1,5 +1,5 @@
 import RefractiveBackdrop from './DeferredBackdrop';
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
 import { ArrowDown, ArrowLeft, ArrowUpRight, ChevronLeft, ChevronRight, Play, X } from 'lucide-react';
@@ -12,6 +12,7 @@ import ProjectBrief from './ProjectBrief';
 import ProjectStrategy from './ProjectStrategy';
 import PlanReader from './PlanReader';
 import { getPlanReader } from './planReaderContent';
+import { withSelectedVisuals } from './selectedVisuals';
 
 const pad = n => String(n).padStart(2, '0');
 
@@ -226,7 +227,7 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
             {imageError && <div className="exhibitionImageError">{item.video ? '视频暂时无法载入' : '图片暂时无法载入'}<a href={item.video || item.src} target="_blank" rel="noreferrer">{item.video ? '打开视频' : '打开大图'} <ArrowUpRight size={14}/></a></div>}
           </div>
         </div>
-        <div className="exhibitionFrameCaption"><span>FRAME {pad(frame + 1)} / {pad(project.items.length)}<i>{item.video ? '播放 / 全屏观看' : '拖动 / 滚动切换'}</i></span><>{item.video ? <a href={item.video} target="_blank" rel="noreferrer">打开视频 <ArrowUpRight size={13}/></a> : <button type="button" onClick={() => setZoomOpen(true)} aria-haspopup="dialog">放大查看 <ArrowUpRight size={13}/></button>}</></div>
+        <div className="exhibitionFrameCaption"><span>{project.browseLabel || 'FRAME'} {pad(frame + 1)} / {pad(project.items.length)}<i>{item.video ? '播放 / 全屏观看' : '拖动 / 滚动切换'}</i></span><div className="exhibitionFrameActions">{project.browseLabel && plan && <button type="button" onClick={openReader} aria-haspopup="dialog">完整策划案 <ArrowDown size={13}/></button>}{item.video ? <a href={item.video} target="_blank" rel="noreferrer">打开视频 <ArrowUpRight size={13}/></a> : <button type="button" onClick={() => setZoomOpen(true)} aria-haspopup="dialog">放大查看 <ArrowUpRight size={13}/></button>}</div></div>
       </div>}
     </div>
     <aside className="exhibitionProgress" aria-label="展厅画面导航"><button type="button" className={isIntro ? 'is-active' : ''} onClick={() => setView('intro')} aria-label="返回项目封面" aria-current={isIntro ? 'step' : undefined}><i/><span>INTRO</span></button>{project.items.map((image,index)=><button key={image.src} type="button" className={!isIntro && frame === index ? 'is-active' : ''} onClick={() => select(index)} aria-label={`转到${image.label}`} aria-current={!isIntro && frame === index ? 'step' : undefined}><i/><span>{pad(index+1)}</span></button>)}</aside>
@@ -243,5 +244,6 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
 }
 
 export default function ProjectExhibition(props) {
-  return <ExhibitionTransition entry={props.entryRect} onClose={props.onClose}>{close => props.project.id === "archive-watchfaces" ? <WatchfaceExhibition {...props} onClose={close}/> : <StandardProjectExhibition {...props} project={props.entryRect?.src ? {...props.project, cover:props.entryRect.src} : props.project} entryRect={null} onClose={close}/>}</ExhibitionTransition>;
+  const project = useMemo(() => withSelectedVisuals(props.project), [props.project]);
+  return <ExhibitionTransition entry={props.entryRect} onClose={props.onClose}>{close => props.project.id === "archive-watchfaces" ? <WatchfaceExhibition {...props} onClose={close}/> : <StandardProjectExhibition {...props} project={props.entryRect?.src ? {...project, cover:props.entryRect.src} : project} entryRect={null} onClose={close}/>}</ExhibitionTransition>;
 }
