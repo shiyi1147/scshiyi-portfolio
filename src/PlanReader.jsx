@@ -86,7 +86,7 @@ export default function PlanReader({ project, plan, backgroundRef, initialScroll
   }, [backgroundRef, initialScroll, plan]);
 
   const jump = value => rootRef.current.querySelector(`[data-page="${value}"]`)?.scrollIntoView({ block: 'start', behavior: 'instant' });
-  return createPortal(<section ref={rootRef} className="planReader" role="dialog" aria-modal="true" aria-labelledby="plan-reader-title" tabIndex={0} style={{ '--plan-accent': project.accent || '#bdd6b8' }}>
+  return createPortal(<section ref={rootRef} className="planReader" role="dialog" aria-modal="true" aria-labelledby="plan-reader-title" aria-describedby="plan-reader-subtitle" tabIndex={0} style={{ '--plan-accent': project.accent || '#bdd6b8' }}>
     <header className="planReaderToolbar">
       <button type="button" onClick={close} aria-label="返回项目展厅"><ArrowLeft size={18}/><span>返回作品</span></button>
       <label className="planReaderPosition"><span>阅读进度</span><select aria-label="跳转策划案页面" value={current} onChange={event => jump(event.target.value)}>{plan.pages.map((page, index) => <option key={page.src} value={index + 1}>{String(index + 1).padStart(2, '0')} / {String(plan.pages.length).padStart(2, '0')}</option>)}</select></label>
@@ -94,7 +94,7 @@ export default function PlanReader({ project, plan, backgroundRef, initialScroll
       <div className="planReaderProgress" aria-hidden="true"/>
     </header>
     <article className="planReaderArticle">
-      <header className="planReaderHeading"><p><span>SHI YI / FULL PROPOSAL</span><span>完整策划案 · {plan.pages.length} 页</span></p><h2 id="plan-reader-title">{project.title}</h2><span>上下滑动阅读，点按页面可放大查看</span></header>
+      <header className="planReaderHeading"><p><span>SHI YI / FULL PROPOSAL</span><span>完整策划案 · {plan.pages.length} 页</span></p><h2 id="plan-reader-title">{plan.title || project.name}</h2><p id="plan-reader-subtitle" className="planReaderSubtitle">品牌策划 · 完整方案</p><span>上下滑动阅读，点按页面可放大查看</span></header>
       <div className="planReaderPages">{plan.pages.map((page, index) => <PlanPage key={page.src} page={page} index={index} total={plan.pages.length} scrollRef={rootRef} onZoom={openZoom}/>)}</div>
       <footer className="planReaderEnd"><p>已读完全部 {plan.pages.length} 页</p><div><button type="button" onClick={close}><ArrowLeft size={15}/>返回作品</button><button type="button" onClick={() => rootRef.current.scrollTo({ top: 0, behavior: 'instant' })}>回到顶部<ArrowUp size={15}/></button></div></footer>
     </article>
