@@ -1,0 +1,31 @@
+.selectedVisualArt {width:100%;height:100%;max-width:1160px;display:grid;align-items:stretch;gap:clamp(12px,2vw,30px);padding:clamp(16px,2.8vw,38px);background:var(--visual-surface);border:1px solid #ffffff38;box-shadow:0 24px 80px #0003;}
+.selectedVisualArt.layout-hero {width:fit-content;max-width:100%;padding:clamp(10px,1.5vw,20px);}
+.selectedVisualArt.layout-poster {width:fit-content;padding:0;background:none;border:0;}
+.selectedVisualArt.layout-scene {padding:clamp(14px,2vw,28px);}
+.selectedVisualArt.layout-poses {grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:minmax(0,1fr);}
+.selectedVisualArt.layout-lineup,.selectedVisualArt.layout-objects {grid-template-columns:repeat(3,minmax(0,1fr));}
+.selectedVisualArt.layout-duo {grid-template-columns:repeat(2,minmax(0,1fr));}
+.selectedVisualPiece {position:relative;min-width:0;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:0!important;touch-action:none;}
+.selectedVisualPiece img {display:block;min-height:0;min-width:0;width:100%;height:100%;object-fit:contain;box-shadow:none!important;}
+.selectedVisualPiece span {flex:0 0 auto;font-size:10px;line-height:1.5;letter-spacing:.06em;color:#33463d;}
+.selectedVisualArt.layout-hero .selectedVisualPiece,.selectedVisualArt.layout-poster .selectedVisualPiece {max-width:100%;width:auto;}
+.selectedVisualArt.layout-hero img,.selectedVisualArt.layout-poster img {width:auto;max-width:100%;height:100%;}
+.selectedVisualPiece:hover img {filter:brightness(1.025);}
+.exhibition .selectedVisualPiece:focus-visible {outline:2px solid #344d3e;outline-offset:6px;}
+.exhibition.has-selected-art .exhibitionFrameMeta > span {display:none;}
+.exhibition.has-selected-art .exhibitionFrameMeta h3 {grid-row:1;}
+.exhibition.has-selected-art .exhibitionReadingNote {grid-row:1;}
+.exhibition.has-selected-art .exhibitionFrame img {box-shadow:none;}
+@media (max-width:760px) {
+  .selectedVisualArt {padding:14px;gap:14px;}
+  .selectedVisualArt.layout-poses,.selectedVisualArt.layout-objects {grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));}
+  .selectedVisualArt.layout-objects .selectedVisualPiece:first-child {grid-column:1 / -1;}
+  .selectedVisualArt.layout-lineup {padding:18px 10px;gap:8px;}
+  .selectedVisualPiece {gap:8px;}
+  .selectedVisualPiece span {font-size:9px;}
+  .selectedVisualArt.layout-lineup .selectedVisualPiece span {font-size:8px;letter-spacing:0;}
+}
+@media (max-height:620px) and (min-width:761px) {
+  .selectedVisualArt {padding:12px;gap:12px;}
+  .selectedVisualPiece {gap:6px;}
+}

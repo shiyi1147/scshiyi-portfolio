@@ -220,6 +220,16 @@ function App() {
     if (!caseId) return null;
     return [...stages, ...archiveProjects, ...sourceArchiveProjects].find(project => project.id === caseId) || null;
   }, [caseId]);
+  const nextCase = useMemo(() => {
+    const projects = [...stages, ...archiveProjects, ...sourceArchiveProjects];
+    const defaultSequence = caseId?.startsWith('archive-')
+      ? [...spatialShowcase, ...archiveProjects.filter(project => !spatialShowcase.some(featured => featured.id === project.id))]
+      : stages;
+    const ids = (caseSequence.includes(caseId) ? caseSequence : defaultSequence.map(project => project.id))
+      .filter(id => projects.some(project => project.id === id));
+    const index = ids.indexOf(caseId);
+    return index >= 0 && ids.length > 1 ? projects.find(project => project.id === ids[(index + 1) % ids.length]) : null;
+  }, [caseId, caseSequence]);
 
   return (
     <main ref={shellRef} onClick={handleNavigationClick} className="workAtlas" data-page={page} aria-busy={navigating} style={{ '--accent': stages[0].accent, '--stage-surface': stages[0].surface }}>
@@ -291,10 +301,9 @@ function App() {
         <span>1483399012@qq.com / 13347214948 / SHI YI / 2026</span>
       </footer>
       {entering && <SiteEntrance onComplete={() => setEntering(false)} />}
-      {selectedCase && <Suspense fallback={<div className="exhibitionLoading" role="status">正在打开作品…<button type="button" onClick={() => setCaseId(null)}>返回首页</button></div>}><ProjectExhibition key={caseId} project={selectedCase} entryRect={caseEntryRect} onClose={() => {setCaseId(null);setCaseEntryRect(null);}} onNextProject={() => {
+      {selectedCase && <Suspense fallback={<div className="exhibitionLoading" role="status">正在打开作品…<button type="button" onClick={() => setCaseId(null)}>返回首页</button></div>}><ProjectExhibition key={caseId} project={selectedCase} nextProject={nextCase} entryRect={caseEntryRect} onClose={() => {setCaseId(null);setCaseEntryRect(null);}} onNextProject={() => {
         setCaseEntryRect(null);
-        const ids = caseSequence.length ? caseSequence : stages.map(stage => stage.id);
-        setCaseId(ids[(ids.indexOf(caseId) + 1) % ids.length]);
+        if (nextCase) setCaseId(nextCase.id);
       }} /></Suspense>}
     </main>
   );

@@ -6,7 +6,8 @@ import './ImageLightbox.css';
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const INITIAL = { scale: 1, x: 0, y: 0 };
 
-export default function ImageLightbox({ src, label, onClose, backgroundRef, navigation }) {
+export default function ImageLightbox({ src, label, onClose, backgroundRef, navigation, surface }) {
+  const artworkPaging = navigation?.kind === 'artwork';
   const rootRef = useRef(null);
   const viewportRef = useRef(null);
   const imageRef = useRef(null);
@@ -162,21 +163,21 @@ export default function ImageLightbox({ src, label, onClose, backgroundRef, navi
     setDragging(pointers.current.size > 0);
   };
 
-  return createPortal(<section ref={rootRef} className={`imageLightbox${navigation ? ' is-paged' : ''}`} role="dialog" aria-modal="true" aria-labelledby="image-lightbox-title" onPointerMove={event => event.stopPropagation()}>
-    <header className="imageLightboxHeader"><div><span>DETAIL VIEW</span><h2 id="image-lightbox-title">{label}</h2></div><button type="button" onClick={onClose} aria-label="关闭大图"><X size={21} /><span>{navigation ? '返回阅读' : '返回展厅'}</span></button></header>
+  return createPortal(<section ref={rootRef} className={`imageLightbox${navigation ? ' is-paged' : ''}${surface ? ' has-artwork-surface' : ''}`} style={surface ? { '--artwork-surface':surface } : undefined} role="dialog" aria-modal="true" aria-labelledby="image-lightbox-title" onPointerMove={event => event.stopPropagation()}>
+    <header className="imageLightboxHeader"><div><span>DETAIL VIEW</span><h2 id="image-lightbox-title">{label}</h2></div><button type="button" onClick={onClose} aria-label="关闭大图"><X size={21} /><span>{artworkPaging ? '返回精选视觉' : navigation ? '返回阅读' : '返回展厅'}</span></button></header>
     <div ref={viewportRef} className={`imageLightboxViewport ${dragging ? 'is-dragging' : ''}`} data-scale={camera.scale.toFixed(3)} data-x={camera.x.toFixed(1)} data-y={camera.y.toFixed(1)} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerEnd} onPointerCancel={onPointerEnd} onLostPointerCapture={onPointerEnd} onDoubleClick={event => { if (loaded && !failed) cameraRef.current.scale > 1.1 ? commit(INITIAL) : zoom(2.5, localPoint(event)); }}>
       <img key={src} ref={imageRef} src={src} alt={label} draggable="false" onLoad={() => { setLoaded(true); measure(); }} onError={() => setFailed(true)} style={{ width: geometry.imageWidth || undefined, height: geometry.imageHeight || undefined, opacity: loaded && !failed ? 1 : 0, transform: `translate(-50%, -50%) translate(${camera.x}px, ${camera.y}px) scale(${camera.scale})` }} />
       {!loaded && !failed && <p className="imageLightboxStatus" role="status">正在载入大图…</p>}
       {failed && <div className="imageLightboxStatus" role="status">大图暂时无法载入<a href={src} target="_blank" rel="noreferrer">在新窗口打开图片</a></div>}
     </div>
-    <footer className="imageLightboxFooter">{navigation && <nav className="imageLightboxPagination" aria-label="策划案翻页"><button type="button" disabled={navigation.index === 0} aria-label="上一页策划案" onClick={() => turnPage(-1)}><ChevronLeft size={17}/><span>上一页</span></button><output aria-live="polite">{String(navigation.index + 1).padStart(2, '0')} / {String(navigation.total).padStart(2, '0')}</output><button type="button" disabled={navigation.index === navigation.total - 1} aria-label="下一页策划案" onClick={() => turnPage(1)}><span>下一页</span><ChevronRight size={17}/></button></nav>}<div className="imageLightboxTools" role="group" aria-label="大图缩放工具">
+    <footer className="imageLightboxFooter">{navigation && <nav className="imageLightboxPagination" aria-label={artworkPaging ? '精选作品切换' : '策划案翻页'}><button type="button" disabled={navigation.index === 0} aria-label={artworkPaging ? '上一件作品' : '上一页策划案'} onClick={() => turnPage(-1)}><ChevronLeft size={17}/><span>{artworkPaging ? '上一件' : '上一页'}</span></button><output aria-live="polite">{String(navigation.index + 1).padStart(2, '0')} / {String(navigation.total).padStart(2, '0')}</output><button type="button" disabled={navigation.index === navigation.total - 1} aria-label={artworkPaging ? '下一件作品' : '下一页策划案'} onClick={() => turnPage(1)}><span>{artworkPaging ? '下一件' : '下一页'}</span><ChevronRight size={17}/></button></nav>}<div className="imageLightboxTools" role="group" aria-label="大图缩放工具">
       <button type="button" aria-label="缩小图片" disabled={!loaded || failed || camera.scale <= 1} onClick={() => zoom(1 / 1.35)}><Minus size={19}/></button>
       <output aria-label="相对适屏比例">{Math.round(camera.scale * 100)}%</output>
       <button type="button" aria-label="放大图片" disabled={!loaded || failed || camera.scale >= 8} onClick={() => zoom(1.35)}><Plus size={19}/></button>
       <i/>
       <button type="button" disabled={!loaded || failed} onClick={fitWidth}><ScanLine size={17}/><span>适宽阅读</span></button>
       <button type="button" disabled={!loaded || failed} onClick={() => { widthMode.current = false; commit(INITIAL); }}><RotateCcw size={17}/><span>复位</span></button>
-    </div><p>{navigation ? 'PageUp / PageDown 翻页 · 滚轮 / 双指缩放 · Esc 返回阅读' : '滚轮 / 双指缩放 · 拖动查看 · 双击缩放 · 0 复位 · Esc 返回'}</p></footer>
+    </div><p>{artworkPaging ? 'PageUp / PageDown 切换作品 · 滚轮 / 双指缩放 · Esc 返回' : navigation ? 'PageUp / PageDown 翻页 · 滚轮 / 双指缩放 · Esc 返回阅读' : '滚轮 / 双指缩放 · 拖动查看 · 双击缩放 · 0 复位 · Esc 返回'}</p></footer>
   </section>, document.body);
 }
 

@@ -11,6 +11,7 @@
 .imageLightboxHeader button {flex-shrink:0;font-size:11px;}
 .imageLightboxViewport {position:absolute;inset:94px 22px 108px;overflow:hidden;touch-action:none;overscroll-behavior:none;cursor:grab;user-select:none;-webkit-user-select:none;}
 .imageLightboxViewport.is-dragging {cursor:grabbing;}
+.imageLightbox.has-artwork-surface .imageLightboxViewport {background:var(--artwork-surface);border:1px solid #ffffff30;border-radius:2px;}
 .imageLightboxViewport>img {position:absolute;left:50%;top:50%;max-width:none;max-height:none;transform-origin:center;pointer-events:none;-webkit-user-drag:none;will-change:transform;}
 .imageLightboxFooter {position:absolute;left:20px;right:20px;bottom:19px;display:flex;align-items:center;flex-direction:column;gap:12px;}
 .imageLightboxTools {display:flex;align-items:center;gap:5px;padding:4px 10px;background:#132125;border:1px solid #c5f9df35;border-radius:12px;box-shadow:0 12px 35px #0004;}

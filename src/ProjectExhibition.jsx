@@ -13,6 +13,7 @@ import ProjectStrategy from './ProjectStrategy';
 import PlanReader from './PlanReader';
 import { getPlanReader } from './planReaderContent';
 import { withSelectedVisuals } from './selectedVisuals';
+import SelectedVisualArt from './SelectedVisualArt';
 
 const pad = n => String(n).padStart(2, '0');
 
@@ -26,13 +27,14 @@ function ExhibitionVideo({ item, paused, onError }) {
   return <video ref={videoRef} src={item.video} poster={item.src} controls playsInline loop={Boolean(item.wallpaperMotion)} muted={Boolean(item.wallpaperMotion)} preload="metadata" tabIndex={0} aria-label={`${item.label}播放器`} onError={onError} />;
 }
 
-function StandardProjectExhibition({ project, onClose, onNextProject, entryRect }) {
+function StandardProjectExhibition({ project, nextProject, onClose, onNextProject, entryRect }) {
   const [view, setView] = useState('intro');
   const [frame, setFrame] = useState(0);
   const [previous, setPrevious] = useState(null);
   const [direction, setDirection] = useState(1);
   const [infoOpen, setInfoOpen] = useState(false);
   const [zoomOpen, setZoomOpen] = useState(false);
+  const [zoomArtwork, setZoomArtwork] = useState(0);
   const [imageError, setImageError] = useState(false);
   const [readerOpen, setReaderOpen] = useState(false);
   const readerScroll = useRef(0);
@@ -48,6 +50,8 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
   const closing = useRef(false);
   const reduced = useReducedMotion();
   const item = project.items[frame];
+  const zoomItem = item.artworks?.[zoomArtwork];
+  const openZoom = (index = 0) => { setZoomArtwork(index); setZoomOpen(true); };
   const plan = getPlanReader(project);
   const openReader = () => setReaderOpen(true);
   const isIntro = view === 'intro';
@@ -201,7 +205,7 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
   };
 
-  return createPortal(<section ref={rootRef} data-project={project.id} className={`exhibition ${project.id?.startsWith('archive-') ? 'is-archive' : ''} ${isIntro ? 'is-intro' : 'is-gallery'} ${project.poster ? 'has-poster' : ''} ${project.brief || project.strategy ? 'has-brief' : ''} ${infoOpen ? 'has-info' : ''} ${chapters.length ? 'has-narrative' : ''} ${!isIntro && item.video ? 'has-video' : ''}`} role="dialog" aria-modal="true" aria-label={project.title} style={{ '--ex-accent': project.accent || '#c5f9e9' }} onPointerMove={pointerMove}>
+  return createPortal(<section ref={rootRef} data-project={project.id} className={`exhibition ${project.id?.startsWith('archive-') ? 'is-archive' : ''} ${isIntro ? 'is-intro' : 'is-gallery'} ${project.poster ? 'has-poster' : ''} ${project.brief || project.strategy ? 'has-brief' : ''} ${infoOpen ? 'has-info' : ''} ${chapters.length ? 'has-narrative' : ''} ${!isIntro && item.video ? 'has-video' : ''} ${project.visualSurface ? 'has-selected-art' : ''} ${nextProject ? 'has-next-preview' : ''}`} role="dialog" aria-modal="true" aria-label={project.title} style={{ '--ex-accent': project.accent || '#c5f9e9' }} onPointerMove={pointerMove}>
     <div className="exhibitionBackdrop" aria-hidden="true"><RefractiveBackdrop src={isIntro ? (project.poster?.backgroundLandscape || project.cover) : (item.thumb || item.src)} mobileSrc={isIntro ? project.poster?.backgroundPortrait : undefined} reduced={reduced} /></div>
     <div className="exhibitionVignette" aria-hidden="true" />
     <div className="exhibitionGrain" aria-hidden="true" />
@@ -221,13 +225,13 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
         {chapters.length > 0 && <nav ref={chapterRailRef} className="exhibitionChapters" aria-label="案例阅读章节">{chapters.map((chapter,index)=><button key={chapter.label} type="button" aria-current={item.chapter === chapter.label ? 'step' : undefined} onClick={() => select(chapter.index)}><span>{pad(index+1)}</span>{chapter.label}</button>)}</nav>}
         <div className="exhibitionFrameMeta" key={frame} aria-live="polite"><span>{notes.eyebrow}</span><h3>{item.label}</h3>{item.caption && <p className="exhibitionReadingNote">{item.caption}</p>}</div>
         <div className="exhibitionImageStage">
-          {!reduced && previous !== null && previous !== frame && <div className="exhibitionFrame exhibitionPrevious" ref={previousRef} aria-hidden="true"><img src={project.items[previous].src} alt="" /></div>}
+          {!reduced && previous !== null && previous !== frame && <div className="exhibitionFrame exhibitionPrevious" ref={previousRef} aria-hidden="true" inert>{project.items[previous].artworks ? <SelectedVisualArt item={project.items[previous]} surface={project.visualSurface}/> : <img src={project.items[previous].src} alt="" />}</div>}
           <div className="exhibitionFrame exhibitionCurrent" key={frame} ref={imageRef}>
-            <>{item.video ? <ExhibitionVideo item={item} paused={infoOpen} onError={() => setImageError(true)} /> : <img src={item.src} alt={`${project.title} · ${item.label}`} draggable="false" onError={() => setImageError(true)} />}</>
+            <>{item.artworks ? <SelectedVisualArt item={item} surface={project.visualSurface} onOpen={openZoom} onStep={step} onError={() => setImageError(true)}/> : item.video ? <ExhibitionVideo item={item} paused={infoOpen} onError={() => setImageError(true)} /> : <img src={item.src} alt={`${project.title} · ${item.label}`} draggable="false" onError={() => setImageError(true)} />}</>
             {imageError && <div className="exhibitionImageError">{item.video ? '视频暂时无法载入' : '图片暂时无法载入'}<a href={item.video || item.src} target="_blank" rel="noreferrer">{item.video ? '打开视频' : '打开大图'} <ArrowUpRight size={14}/></a></div>}
           </div>
         </div>
-        <div className="exhibitionFrameCaption"><span>{project.browseLabel || 'FRAME'} {pad(frame + 1)} / {pad(project.items.length)}<i>{item.video ? '播放 / 全屏观看' : '拖动 / 滚动切换'}</i></span><div className="exhibitionFrameActions">{project.browseLabel && plan && <button type="button" onClick={openReader} aria-haspopup="dialog">完整策划案 <ArrowDown size={13}/></button>}{item.video ? <a href={item.video} target="_blank" rel="noreferrer">打开视频 <ArrowUpRight size={13}/></a> : <button type="button" onClick={() => setZoomOpen(true)} aria-haspopup="dialog">放大查看 <ArrowUpRight size={13}/></button>}</div></div>
+        <div className="exhibitionFrameCaption"><span>{project.browseLabel || 'FRAME'} {pad(frame + 1)} / {pad(project.items.length)}<i>{item.video ? '播放 / 全屏观看' : '拖动 / 滚动切换'}</i></span><div className="exhibitionFrameActions">{project.browseLabel && plan && <button type="button" onClick={openReader} aria-haspopup="dialog">完整策划案 <ArrowDown size={13}/></button>}{item.video ? <a href={item.video} target="_blank" rel="noreferrer">打开视频 <ArrowUpRight size={13}/></a> : <button type="button" onClick={() => openZoom()} aria-haspopup="dialog">放大查看 <ArrowUpRight size={13}/></button>}</div></div>
       </div>}
     </div>
     <aside className="exhibitionProgress" aria-label="展厅画面导航"><button type="button" className={isIntro ? 'is-active' : ''} onClick={() => setView('intro')} aria-label="返回项目封面" aria-current={isIntro ? 'step' : undefined}><i/><span>INTRO</span></button>{project.items.map((image,index)=><button key={image.src} type="button" className={!isIntro && frame === index ? 'is-active' : ''} onClick={() => select(index)} aria-label={`转到${image.label}`} aria-current={!isIntro && frame === index ? 'step' : undefined}><i/><span>{pad(index+1)}</span></button>)}</aside>
@@ -235,9 +239,12 @@ function StandardProjectExhibition({ project, onClose, onNextProject, entryRect 
     <footer className="exhibitionFooter">
       <button type="button" className="exhibitionBack" onClick={isIntro ? close : () => setView('intro')}><ArrowLeft size={13}/>{isIntro ? '全部作品' : '项目封面'}</button>
       <div className="exhibitionControls"><button type="button" onClick={() => step(-1)} disabled={isIntro} aria-label="上一张作品"><ChevronLeft size={18}/></button><span aria-live="polite">{isIntro ? 'OVERVIEW' : `${pad(frame+1)} / ${pad(project.items.length)}`}</span><button type="button" onClick={() => step(1)} disabled={!isIntro && frame === project.items.length - 1} aria-label="下一张作品"><ChevronRight size={18}/></button></div>
-      <button type="button" className="exhibitionNextProject" onClick={onNextProject}>下个项目 <ArrowUpRight size={13}/></button>
+      {nextProject && <button type="button" className="exhibitionNextProject" onClick={onNextProject} aria-label={`下个项目：${nextProject.name || nextProject.title}`} title={nextProject.title}>
+        <img src={nextProject.preview || nextProject.items[0]?.thumb || nextProject.cover} alt="" width="58" height="40" decoding="async"/>
+        <span><small>下个项目</small><strong>{nextProject.name || nextProject.title}</strong></span><ArrowUpRight size={15}/>
+      </button>}
     </footer>
-    {zoomOpen && <ImageLightbox src={item.detail || item.src} label={item.label} backgroundRef={rootRef} onClose={() => setZoomOpen(false)} />}
+    {zoomOpen && <ImageLightbox src={zoomItem?.src || item.detail || item.src} label={zoomItem?.label || item.label} surface={zoomItem ? project.visualSurface : undefined} navigation={item.artworks?.length > 1 ? { index:zoomArtwork, total:item.artworks.length, onChange:setZoomArtwork, kind:'artwork' } : undefined} backgroundRef={rootRef} onClose={() => setZoomOpen(false)} />}
     {infoOpen && <div className="exhibitionInfoScrim" onClick={event=>{if(event.target===event.currentTarget)setInfoOpen(false);}}><aside ref={infoRef} id="exhibition-info" className="exhibitionInfoPanel" aria-label="项目说明"><div className="exhibitionInfoHeader"><span>PROJECT NOTES</span><button type="button" onClick={() => setInfoOpen(false)} aria-label="关闭项目说明"><X size={20}/></button></div><p className="exhibitionEyebrow">{notes.eyebrow}</p><h3>{notes.title}</h3><p className="exhibitionSummary">{notes.summary}</p><dl>{notes.details.map(([label,value])=><div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>{plan ? <button type="button" className="exhibitionDocument" onClick={openReader} aria-haspopup="dialog">阅读完整策划案 <ArrowDown size={16}/></button> : project.document && <a className="exhibitionDocument" href={project.document} target="_blank" rel="noreferrer">{project.documentLabel || '查看完整策划案 PDF'} <ArrowUpRight size={16}/></a>}</aside></div>}
     {readerOpen && <PlanReader project={project} plan={plan} backgroundRef={rootRef} initialScroll={readerScroll.current} onClose={scroll => { readerScroll.current = scroll; setReaderOpen(false); }}/>}
   </section>, document.body);

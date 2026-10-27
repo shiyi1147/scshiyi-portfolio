@@ -1,0 +1,427 @@
+{
+  "sanfu": {
+    "sourceSHA256": "a4adb1a8ef2ec02de75c2ee2b94c6ffb1ca7d1821931a6f4f94fc7a47c05c45f",
+    "assets": {
+      "fufu": {
+        "src": "assets/selected-visuals/sanfu-fufu.webp",
+        "thumb": "assets/selected-visuals/sanfu-fufu-thumb.webp",
+        "width": 923,
+        "height": 781,
+        "sourcePage": 27,
+        "sourceImageIndex": 6,
+        "sourceImageKey": "/Im2",
+        "originalSize": [
+          1126,
+          796
+        ],
+        "alphaCrop": [
+          203,
+          15,
+          1126,
+          796
+        ],
+        "sha256": "23463ab30bb895ad624975146df004b7fd2e957acd54e0056df88702fd6c310f"
+      },
+      "fufu-flight": {
+        "src": "assets/selected-visuals/sanfu-fufu-flight.webp",
+        "thumb": "assets/selected-visuals/sanfu-fufu-flight-thumb.webp",
+        "width": 390,
+        "height": 466,
+        "sourcePage": 27,
+        "sourceImageIndex": 7,
+        "sourceImageKey": "/Im3",
+        "originalSize": [
+          407,
+          479
+        ],
+        "alphaCrop": [
+          12,
+          9,
+          402,
+          475
+        ],
+        "sha256": "a191a16200d60f89d240400632d2efeaaf07bb2b4924b622722edb1aea823fa3"
+      },
+      "fufu-everyday": {
+        "src": "assets/selected-visuals/sanfu-fufu-everyday.webp",
+        "thumb": "assets/selected-visuals/sanfu-fufu-everyday-thumb.webp",
+        "width": 310,
+        "height": 484,
+        "sourcePage": 27,
+        "sourceImageIndex": 8,
+        "sourceImageKey": "/Im4",
+        "originalSize": [
+          310,
+          487
+        ],
+        "alphaCrop": [
+          0,
+          0,
+          310,
+          484
+        ],
+        "sha256": "8c1ec17ed917b8a6d1e9abbe529d30b0a0a479f7ff6b5bd4b9a7fbc820d207a8"
+      },
+      "fufu-travel": {
+        "src": "assets/selected-visuals/sanfu-fufu-travel.webp",
+        "thumb": "assets/selected-visuals/sanfu-fufu-travel-thumb.webp",
+        "width": 418,
+        "height": 368,
+        "sourcePage": 27,
+        "sourceImageIndex": 9,
+        "sourceImageKey": "/Im5",
+        "originalSize": [
+          575,
+          406
+        ],
+        "alphaCrop": [
+          119,
+          10,
+          537,
+          378
+        ],
+        "sha256": "2f49b28edc6b99163ed5af0637c9b0cf1961d93d9a481079d22ae0a759366c96"
+      },
+      "fufu-forest": {
+        "src": "assets/selected-visuals/sanfu-fufu-forest.webp",
+        "thumb": "assets/selected-visuals/sanfu-fufu-forest-thumb.webp",
+        "width": 321,
+        "height": 390,
+        "sourcePage": 27,
+        "sourceImageIndex": 10,
+        "sourceImageKey": "/Im6",
+        "originalSize": [
+          352,
+          498
+        ],
+        "alphaCrop": [
+          18,
+          80,
+          339,
+          470
+        ],
+        "sha256": "35dc16cc2343719575c65ea4afea47728ae34a1b2cec5b994297cdaa5fc5151c"
+      },
+      "comic": {
+        "src": "assets/selected-visuals/sanfu-comic.webp",
+        "thumb": "assets/selected-visuals/sanfu-comic-thumb.webp",
+        "width": 1280,
+        "height": 899,
+        "sourcePage": 13,
+        "sourceImageIndex": 6,
+        "sourceImageKey": "/Im2",
+        "originalSize": [
+          1280,
+          899
+        ],
+        "alphaCrop": null,
+        "sha256": "35c1b8a7a21d12c0699b5757bc2572f55d17d27980f0c9337aef1d1c1b2aca3f"
+      },
+      "poster-travel": {
+        "src": "assets/selected-visuals/sanfu-poster-travel.webp",
+        "thumb": "assets/selected-visuals/sanfu-poster-travel-thumb.webp",
+        "width": 434,
+        "height": 614,
+        "sourcePage": 28,
+        "sourceImageIndex": 9,
+        "sourceImageKey": "/Im2",
+        "originalSize": [
+          434,
+          614
+        ],
+        "alphaCrop": null,
+        "sha256": "20bd2ada1bf9d04d99f14a4ff2185be6562d6283325c6f8c7169c72fdd711843"
+      },
+      "poster-forest": {
+        "src": "assets/selected-visuals/sanfu-poster-forest.webp",
+        "thumb": "assets/selected-visuals/sanfu-poster-forest-thumb.webp",
+        "width": 565,
+        "height": 800,
+        "sourcePage": 28,
+        "sourceImageIndex": 11,
+        "sourceImageKey": "/Im4",
+        "originalSize": [
+          565,
+          800
+        ],
+        "alphaCrop": null,
+        "sha256": "c011a1e685de71afa4b8e020be15150209a44fe76e7a1f51e5c3317d07eb3743"
+      },
+      "pack-flat": {
+        "src": "assets/selected-visuals/sanfu-pack-flat.webp",
+        "thumb": "assets/selected-visuals/sanfu-pack-flat-thumb.webp",
+        "width": 168,
+        "height": 250,
+        "sourcePage": 28,
+        "sourceImageIndex": 12,
+        "sourceImageKey": "/Im5",
+        "originalSize": [
+          183,
+          267
+        ],
+        "alphaCrop": [
+          7,
+          12,
+          175,
+          262
+        ],
+        "sha256": "45441fb327d8a26c84b670a701aa5f25b8a19fb1af5bfbda01b0f418c85b3f07"
+      },
+      "pack-travel": {
+        "src": "assets/selected-visuals/sanfu-pack-travel.webp",
+        "thumb": "assets/selected-visuals/sanfu-pack-travel-thumb.webp",
+        "width": 250,
+        "height": 280,
+        "sourcePage": 28,
+        "sourceImageIndex": 13,
+        "sourceImageKey": "/Im6",
+        "originalSize": [
+          288,
+          314
+        ],
+        "alphaCrop": [
+          19,
+          24,
+          269,
+          304
+        ],
+        "sha256": "5e00cf986744c60befa12faa406b8232434728e064e111936a41464950bad718"
+      },
+      "pack-forest": {
+        "src": "assets/selected-visuals/sanfu-pack-forest.webp",
+        "thumb": "assets/selected-visuals/sanfu-pack-forest-thumb.webp",
+        "width": 219,
+        "height": 244,
+        "sourcePage": 28,
+        "sourceImageIndex": 14,
+        "sourceImageKey": "/Im7",
+        "originalSize": [
+          233,
+          266
+        ],
+        "alphaCrop": [
+          4,
+          12,
+          223,
+          256
+        ],
+        "sha256": "c80388d009472ed703ac9a5cd574e9d2ea1ab80788b54186ca2d00d6f91613ed"
+      }
+    }
+  },
+  "yunnan": {
+    "sourceSHA256": "c499a48d6396c2b5fa4a33a37ffe2cbfd41aa3b494e04458b8e3c8ac4f3270dd",
+    "assets": {
+      "character-blue": {
+        "src": "assets/selected-visuals/yunnan-character-blue.webp",
+        "thumb": "assets/selected-visuals/yunnan-character-blue-thumb.webp",
+        "width": 488,
+        "height": 785,
+        "sourcePage": 13,
+        "sourceImageIndex": 1,
+        "sourceImageKey": "/Im1",
+        "originalSize": [
+          524,
+          872
+        ],
+        "alphaCrop": [
+          36,
+          25,
+          524,
+          810
+        ],
+        "sha256": "dc62bf9e8a5edd06aebcebca0f7a4beb19aa3db6e772d2a612f7695abfd11a4f"
+      },
+      "character-pink": {
+        "src": "assets/selected-visuals/yunnan-character-pink.webp",
+        "thumb": "assets/selected-visuals/yunnan-character-pink-thumb.webp",
+        "width": 374,
+        "height": 731,
+        "sourcePage": 13,
+        "sourceImageIndex": 2,
+        "sourceImageKey": "/Im2",
+        "originalSize": [
+          396,
+          865
+        ],
+        "alphaCrop": [
+          5,
+          82,
+          379,
+          813
+        ],
+        "sha256": "0bd74dbeed3d1e3d10190ddf63cca111b8ed636e9a0a38cca36478e4d8dd4c28"
+      },
+      "character-green": {
+        "src": "assets/selected-visuals/yunnan-character-green.webp",
+        "thumb": "assets/selected-visuals/yunnan-character-green-thumb.webp",
+        "width": 338,
+        "height": 641,
+        "sourcePage": 13,
+        "sourceImageIndex": 3,
+        "sourceImageKey": "/Im3",
+        "originalSize": [
+          360,
+          874
+        ],
+        "alphaCrop": [
+          14,
+          180,
+          352,
+          821
+        ],
+        "sha256": "f17d1a686d342027509699ab525f9293b5766797b0bf810b9c5367d6613584cd"
+      },
+      "key-visual": {
+        "src": "assets/selected-visuals/yunnan-key-visual.webp",
+        "thumb": "assets/selected-visuals/yunnan-key-visual-thumb.webp",
+        "width": 697,
+        "height": 574,
+        "sourcePage": 25,
+        "sourceImageIndex": 5,
+        "sourceImageKey": "/Im5",
+        "originalSize": [
+          697,
+          574
+        ],
+        "alphaCrop": null,
+        "sha256": "fca37439bff6300b059e95f11929b28de26ac5f8b1204a4a21262129e9520096"
+      },
+      "poster-blue": {
+        "src": "assets/selected-visuals/yunnan-poster-blue.webp",
+        "thumb": "assets/selected-visuals/yunnan-poster-blue-thumb.webp",
+        "width": 418,
+        "height": 591,
+        "sourcePage": 25,
+        "sourceImageIndex": 1,
+        "sourceImageKey": "/Im1",
+        "originalSize": [
+          418,
+          591
+        ],
+        "alphaCrop": null,
+        "sha256": "afe4661182d0ad63d13992e30f891359117410eec1b476277a041ba37a38a217"
+      },
+      "theme-scene": {
+        "src": "assets/selected-visuals/yunnan-theme-scene.webp",
+        "thumb": "assets/selected-visuals/yunnan-theme-scene-thumb.webp",
+        "width": 1973,
+        "height": 724,
+        "sourcePage": 25,
+        "sourceImageIndex": 4,
+        "sourceImageKey": "/Im4",
+        "originalSize": [
+          1977,
+          809
+        ],
+        "alphaCrop": [
+          1,
+          79,
+          1974,
+          803
+        ],
+        "sha256": "b2d068ef275d91c164d5da7276a61354470cdb6ac6b5913df3e1479c32d2d2f9"
+      },
+      "gift-box": {
+        "src": "assets/selected-visuals/yunnan-gift-box.webp",
+        "thumb": "assets/selected-visuals/yunnan-gift-box-thumb.webp",
+        "width": 562,
+        "height": 389,
+        "sourcePage": 20,
+        "sourceImageIndex": 4,
+        "sourceImageKey": "/Im4",
+        "originalSize": [
+          615,
+          463
+        ],
+        "alphaCrop": [
+          45,
+          64,
+          607,
+          453
+        ],
+        "sha256": "da1076a590893d273ce0aade55e0ddb131623b82ff8004952db1213f137cd56c"
+      },
+      "cards": {
+        "src": "assets/selected-visuals/yunnan-cards.webp",
+        "thumb": "assets/selected-visuals/yunnan-cards-thumb.webp",
+        "width": 351,
+        "height": 447,
+        "sourcePage": 20,
+        "sourceImageIndex": 5,
+        "sourceImageKey": "/Im5",
+        "originalSize": [
+          371,
+          462
+        ],
+        "alphaCrop": [
+          10,
+          15,
+          361,
+          462
+        ],
+        "sha256": "7557927adcf85a231125608adfd8c87e5101f7f67f21564ddfd9dd497c752b99"
+      },
+      "mouse-pad": {
+        "src": "assets/selected-visuals/yunnan-mouse-pad.webp",
+        "thumb": "assets/selected-visuals/yunnan-mouse-pad-thumb.webp",
+        "width": 727,
+        "height": 538,
+        "sourcePage": 26,
+        "sourceImageIndex": 1,
+        "sourceImageKey": "/Im1",
+        "originalSize": [
+          793,
+          572
+        ],
+        "alphaCrop": [
+          38,
+          33,
+          765,
+          571
+        ],
+        "sha256": "6f58d2f699353a555947aa9d16e52ecd46aa4b5cf05f4731e20f66b8c021b7e8"
+      },
+      "cosmetic-bag": {
+        "src": "assets/selected-visuals/yunnan-cosmetic-bag.webp",
+        "thumb": "assets/selected-visuals/yunnan-cosmetic-bag-thumb.webp",
+        "width": 702,
+        "height": 408,
+        "sourcePage": 26,
+        "sourceImageIndex": 9,
+        "sourceImageKey": "/Im6",
+        "originalSize": [
+          835,
+          489
+        ],
+        "alphaCrop": [
+          67,
+          50,
+          769,
+          458
+        ],
+        "sha256": "821313beb99d5802179a5398e9e23ccdef57c79d1d9cc4b317a1b79eb9c88659"
+      },
+      "mug": {
+        "src": "assets/selected-visuals/yunnan-mug.webp",
+        "thumb": "assets/selected-visuals/yunnan-mug-thumb.webp",
+        "width": 386,
+        "height": 317,
+        "sourcePage": 26,
+        "sourceImageIndex": 12,
+        "sourceImageKey": "/Im9",
+        "originalSize": [
+          386,
+          317
+        ],
+        "alphaCrop": [
+          0,
+          0,
+          386,
+          317
+        ],
+        "sha256": "39f0f6a6963b5d710037d9422cfdfdd55bf5f0b98301c98fe18c398dd4cffaa9"
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 /* Spatial index: oversized titles overlap the artwork within the exhibition. */
-@font-face {font-family:"Zaozi Yihei Portfolio";src:url("/assets/fonts/zaozigongfang-yihei-subset.woff2?v=0a97c64be5d4") format("woff2");font-style:normal;font-weight:400;font-display:swap;}
+@font-face {font-family:"Zaozi Yihei Portfolio";src:url("/assets/fonts/zaozigongfang-yihei-subset.woff2?v=eef1bae2f111") format("woff2");font-style:normal;font-weight:400;font-display:swap;}
 @property --work-tint {syntax:'<color>';inherits:true;initial-value:#bff3df;}
 .workAtlas[data-page="top"] .immersiveWork.is-spatial {--row-height:16dvh;color:#deebe5;touch-action:pan-y pinch-zoom;transition:--work-tint .15s ease;}
 .is-spatial .immersiveGrid {display:none;}
