@@ -19,6 +19,11 @@
 .imageLightboxTools output {min-width:48px;text-align:center;font-size:11px;font-variant-numeric:tabular-nums;}
 .imageLightboxTools i {height:22px;width:1px;background:#c5f9df30;margin:0 5px;}
 .imageLightboxFooter p {margin:0;font-size:10px;letter-spacing:.04em;color:#9aaea9;text-align:center;}
+.imageLightboxPagination {display:flex;align-items:center;justify-content:center;gap:16px;}
+.imageLightboxPagination button {padding:0 14px;border:1px solid #c5f9df35;background:#132125;font-size:11px;}
+.imageLightboxPagination button:hover:not(:disabled) {border-color:#c5f9df80;background:#20352d;}
+.imageLightboxPagination output {min-width:72px;text-align:center;font-size:11px;font-variant-numeric:tabular-nums;}
+.imageLightbox.is-paged .imageLightboxViewport {bottom:164px;}
 .imageLightboxStatus {position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;font-size:13px;}
 .imageLightboxStatus a {padding:12px;text-decoration:underline;}
 .exhibitionFrameCaption button {display:flex;align-items:center;gap:8px;padding:0;font-size:inherit;letter-spacing:inherit;pointer-events:auto;}
@@ -28,6 +33,7 @@
  .imageLightboxHeader h2 {font-size:13px;}
  .imageLightboxHeader button span {display:none;}
  .imageLightboxViewport {inset:87px 8px 116px;}
+ .imageLightbox.is-paged .imageLightboxViewport {bottom:180px;}
  .imageLightboxFooter {left:8px;right:8px;bottom:18px;}
  .imageLightboxTools {padding:3px 5px;gap:1px;}
  .imageLightboxTools button {font-size:11px;padding:0 6px;gap:5px;}
@@ -42,5 +48,6 @@
  .imageLightboxViewport {top:62px;bottom:72px;}
  .imageLightboxFooter {bottom:10px;}
  .imageLightboxFooter p {display:none;}
+ .imageLightbox.is-paged .imageLightboxViewport {bottom:132px;}
 }
 @media(prefers-reduced-motion:reduce) {.imageLightbox {animation:none;}}

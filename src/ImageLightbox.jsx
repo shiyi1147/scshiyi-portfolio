@@ -1,12 +1,12 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Minus, Plus, RotateCcw, ScanLine, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Minus, Plus, RotateCcw, ScanLine, X } from 'lucide-react';
 import './ImageLightbox.css';
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const INITIAL = { scale: 1, x: 0, y: 0 };
 
-export default function ImageLightbox({ src, label, onClose, backgroundRef }) {
+export default function ImageLightbox({ src, label, onClose, backgroundRef, navigation }) {
   const rootRef = useRef(null);
   const viewportRef = useRef(null);
   const imageRef = useRef(null);
@@ -14,12 +14,28 @@ export default function ImageLightbox({ src, label, onClose, backgroundRef }) {
   const cameraRef = useRef(INITIAL);
   const pointers = useRef(new Map());
   const closeRef = useRef(onClose);
+  const navigationRef = useRef(navigation);
+  const pageTurn = useRef(false);
+  const widthMode = useRef(false);
   closeRef.current = onClose;
+  navigationRef.current = navigation;
   const [geometry, setGeometry] = useState(geometryRef.current);
   const [camera, setCamera] = useState(INITIAL);
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
   const [dragging, setDragging] = useState(false);
+
+  const turnPage = useCallback(delta => {
+    const nav = navigationRef.current;
+    if (!nav || nav.index + delta < 0 || nav.index + delta >= nav.total) return;
+    pageTurn.current = true;
+    nav.onChange(nav.index + delta);
+  }, []);
+
+  useLayoutEffect(() => {
+    setLoaded(false); setFailed(false); setDragging(false);
+    pointers.current.clear();
+  }, [src]);
 
   const commit = useCallback(next => {
     const g = geometryRef.current;
@@ -39,10 +55,15 @@ export default function ImageLightbox({ src, label, onClose, backgroundRef }) {
     const value = { width, height, imageWidth: image.naturalWidth * fit, imageHeight: image.naturalHeight * fit };
     geometryRef.current = value;
     setGeometry(value);
-    commit(INITIAL);
+    if (pageTurn.current) {
+      const scale = widthMode.current ? clamp((width - 32) / value.imageWidth, 1, 8) : cameraRef.current.scale;
+      commit({ scale, x: 0, y: Math.max(0, (value.imageHeight * scale - height) / 2) });
+      pageTurn.current = false;
+    } else { widthMode.current = false; commit(INITIAL); }
   }, [commit]);
 
   const zoom = useCallback((factor, point = { x: 0, y: 0 }, drift = { x: 0, y: 0 }) => {
+    widthMode.current = false;
     const c = cameraRef.current;
     const scale = clamp(c.scale * factor, 1, 8);
     const ratio = scale / c.scale;
@@ -57,6 +78,7 @@ export default function ImageLightbox({ src, label, onClose, backgroundRef }) {
     const g = geometryRef.current;
     if (!g.imageWidth) return;
     const scale = clamp((g.width - 32) / g.imageWidth, 1, 8);
+    widthMode.current = true;
     commit({ scale, x: 0, y: Math.max(0, (g.imageHeight * scale - g.height) / 2) });
   };
 
@@ -87,9 +109,12 @@ export default function ImageLightbox({ src, label, onClose, backgroundRef }) {
         else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
       }
       if (event.ctrlKey || event.metaKey || event.altKey) return;
+      if (navigationRef.current && ['PageUp', 'PageDown'].includes(event.key)) {
+        event.preventDefault(); turnPage(event.key === 'PageUp' ? -1 : 1); return;
+      }
       if (['+', '=', '-', '0', 'Home', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
         event.preventDefault();
-        if (['0', 'Home'].includes(event.key)) commit(INITIAL);
+        if (['0', 'Home'].includes(event.key)) { widthMode.current = false; commit(INITIAL); }
         else if (['+', '=', '-'].includes(event.key)) zoom(event.key === '-' ? 1 / 1.35 : 1.35);
         else {
           const c = cameraRef.current, step = event.shiftKey ? 140 : 65;
@@ -105,7 +130,7 @@ export default function ImageLightbox({ src, label, onClose, backgroundRef }) {
       if (background) background.inert = previousInert;
       if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true });
     };
-  }, [backgroundRef, commit, measure, zoom]);
+  }, [backgroundRef, commit, measure, zoom, turnPage]);
 
   const onPointerDown = event => {
     if (event.button !== 0 || !loaded || failed || event.target.closest('a,button')) return;
@@ -137,21 +162,21 @@ export default function ImageLightbox({ src, label, onClose, backgroundRef }) {
     setDragging(pointers.current.size > 0);
   };
 
-  return createPortal(<section ref={rootRef} className="imageLightbox" role="dialog" aria-modal="true" aria-labelledby="image-lightbox-title" onPointerMove={event => event.stopPropagation()}>
-    <header className="imageLightboxHeader"><div><span>DETAIL VIEW</span><h2 id="image-lightbox-title">{label}</h2></div><button type="button" onClick={onClose} aria-label="关闭大图"><X size={21} /><span>返回展厅</span></button></header>
+  return createPortal(<section ref={rootRef} className={`imageLightbox${navigation ? ' is-paged' : ''}`} role="dialog" aria-modal="true" aria-labelledby="image-lightbox-title" onPointerMove={event => event.stopPropagation()}>
+    <header className="imageLightboxHeader"><div><span>DETAIL VIEW</span><h2 id="image-lightbox-title">{label}</h2></div><button type="button" onClick={onClose} aria-label="关闭大图"><X size={21} /><span>{navigation ? '返回阅读' : '返回展厅'}</span></button></header>
     <div ref={viewportRef} className={`imageLightboxViewport ${dragging ? 'is-dragging' : ''}`} data-scale={camera.scale.toFixed(3)} data-x={camera.x.toFixed(1)} data-y={camera.y.toFixed(1)} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerEnd} onPointerCancel={onPointerEnd} onLostPointerCapture={onPointerEnd} onDoubleClick={event => { if (loaded && !failed) cameraRef.current.scale > 1.1 ? commit(INITIAL) : zoom(2.5, localPoint(event)); }}>
-      <img ref={imageRef} src={src} alt={label} draggable="false" onLoad={() => { setLoaded(true); measure(); }} onError={() => setFailed(true)} style={{ width: geometry.imageWidth || undefined, height: geometry.imageHeight || undefined, opacity: loaded && !failed ? 1 : 0, transform: `translate(-50%, -50%) translate(${camera.x}px, ${camera.y}px) scale(${camera.scale})` }} />
+      <img key={src} ref={imageRef} src={src} alt={label} draggable="false" onLoad={() => { setLoaded(true); measure(); }} onError={() => setFailed(true)} style={{ width: geometry.imageWidth || undefined, height: geometry.imageHeight || undefined, opacity: loaded && !failed ? 1 : 0, transform: `translate(-50%, -50%) translate(${camera.x}px, ${camera.y}px) scale(${camera.scale})` }} />
       {!loaded && !failed && <p className="imageLightboxStatus" role="status">正在载入大图…</p>}
       {failed && <div className="imageLightboxStatus" role="status">大图暂时无法载入<a href={src} target="_blank" rel="noreferrer">在新窗口打开图片</a></div>}
     </div>
-    <footer className="imageLightboxFooter"><div className="imageLightboxTools" role="group" aria-label="大图缩放工具">
+    <footer className="imageLightboxFooter">{navigation && <nav className="imageLightboxPagination" aria-label="策划案翻页"><button type="button" disabled={navigation.index === 0} aria-label="上一页策划案" onClick={() => turnPage(-1)}><ChevronLeft size={17}/><span>上一页</span></button><output aria-live="polite">{String(navigation.index + 1).padStart(2, '0')} / {String(navigation.total).padStart(2, '0')}</output><button type="button" disabled={navigation.index === navigation.total - 1} aria-label="下一页策划案" onClick={() => turnPage(1)}><span>下一页</span><ChevronRight size={17}/></button></nav>}<div className="imageLightboxTools" role="group" aria-label="大图缩放工具">
       <button type="button" aria-label="缩小图片" disabled={!loaded || failed || camera.scale <= 1} onClick={() => zoom(1 / 1.35)}><Minus size={19}/></button>
       <output aria-label="相对适屏比例">{Math.round(camera.scale * 100)}%</output>
       <button type="button" aria-label="放大图片" disabled={!loaded || failed || camera.scale >= 8} onClick={() => zoom(1.35)}><Plus size={19}/></button>
       <i/>
       <button type="button" disabled={!loaded || failed} onClick={fitWidth}><ScanLine size={17}/><span>适宽阅读</span></button>
-      <button type="button" disabled={!loaded || failed} onClick={() => commit(INITIAL)}><RotateCcw size={17}/><span>复位</span></button>
-    </div><p>滚轮 / 双指缩放 · 拖动查看 · 双击缩放 · 0 复位 · Esc 返回</p></footer>
+      <button type="button" disabled={!loaded || failed} onClick={() => { widthMode.current = false; commit(INITIAL); }}><RotateCcw size={17}/><span>复位</span></button>
+    </div><p>{navigation ? 'PageUp / PageDown 翻页 · 滚轮 / 双指缩放 · Esc 返回阅读' : '滚轮 / 双指缩放 · 拖动查看 · 双击缩放 · 0 复位 · Esc 返回'}</p></footer>
   </section>, document.body);
 }
 

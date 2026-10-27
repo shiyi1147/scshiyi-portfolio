@@ -7,6 +7,17 @@
 .planReaderToolbar>button,.planReaderToolbar>a {display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 10px;border:1px solid transparent;background:none;text-decoration:none;font-size:11px;letter-spacing:.04em;white-space:nowrap;}
 .planReaderToolbar>button:hover,.planReaderToolbar>a:hover {border-color:#c7fbe43d;background:#bdd6b80b;color:var(--plan-accent);}
 .planReaderPosition {display:flex;align-items:center;gap:12px;}
+.planReaderTools {display:flex;align-items:center;gap:16px;min-width:0;}
+.planReaderContents>summary {display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;min-width:44px;font-size:11px;cursor:pointer;list-style:none;}
+.planReaderContents>summary::-webkit-details-marker {display:none;}
+.planReaderContents>summary:focus-visible {outline:1px solid var(--plan-accent);outline-offset:3px;}
+.planReaderContents[open]>summary {color:var(--plan-accent);}
+.planReaderContentsPanel {position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);width:min(440px,calc(100vw - 32px));max-height:min(65dvh,560px);overflow:auto;overscroll-behavior:contain;padding:10px 16px 14px;border:1px solid #c7fbe43d;background:#0e1e17;box-shadow:0 18px 55px #0009;scrollbar-width:thin;scrollbar-color:#5c7568 transparent;}
+.planReaderContentsPanel>header {display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:5px;border-bottom:1px solid #c7fbe428;font-size:11px;color:#9fb9a7;}
+.planReaderContentsPanel>header button {display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;background:none;}
+.planReaderContentsPanel>button {display:flex;align-items:center;justify-content:space-between;gap:15px;width:100%;min-height:44px;padding:12px 8px;border:0;border-bottom:1px solid #c7fbe414;background:none;text-align:left;font-size:12px;}
+.planReaderContentsPanel>button small {flex:none;font-size:10px;color:#9fb9a7;font-variant-numeric:tabular-nums;}
+.planReaderContentsPanel>button:hover,.planReaderContentsPanel>button[aria-current] {background:#bdd6b810;color:var(--plan-accent);}
 .planReaderPosition>span {font-size:10px;color:#92ad9d;letter-spacing:.05em;}
 .planReaderPosition select {min-height:40px;padding:6px 24px 6px 8px;border:0;border-radius:0;background:transparent;font-size:12px;font-variant-numeric:tabular-nums;cursor:pointer;}
 .planReaderPosition option {background:#112119;color:#d5e4d9;}
@@ -41,7 +52,8 @@
  .planReaderToolbar {min-height:62px;padding:8px 16px;gap:10px;}
  .planReaderToolbar>button,.planReaderToolbar>a {gap:6px;padding-inline:0;font-size:11px;}
  .planReaderPosition>span {display:none;}
- .planReaderPosition select {font-size:11px;max-width:100px;padding-left:2px;}
+ .planReaderTools {gap:6px;}
+ .planReaderPosition select {font-size:11px;max-width:80px;padding-left:2px;padding-right:15px;}
  .planReaderArticle {width:100%;}
  .planReaderHeading {padding:28px 20px 24px;margin-bottom:22px;}
  .planReaderHeading>p:first-child {gap:9px 16px;margin-bottom:16px;font-size:9px;letter-spacing:.08em;}
@@ -53,4 +65,5 @@
  .planReaderPage figcaption {padding:9px 16px 0;font-size:9px;}
  .planReaderEnd {padding:40px 20px 50px;}
 }
+@media(max-width:360px) {.planReaderToolbar {padding-inline:12px;gap:6px;} .planReaderTools {gap:3px;}}
 @media(prefers-reduced-motion:reduce) {.planReaderZoom {transition:none;}}
