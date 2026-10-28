@@ -250,13 +250,13 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
       {visible.map(work=><button type="button" key={work.id} className={`immersiveWorkRow ${selected.id===work.id?'is-active':''}`} onPointerEnter={e=>{if(e.pointerType!=='touch'&&!wheelState.current.running&&!scrollActivity.current.active)requestSelection(work.id);}} onFocus={()=>requestSelection(work.id,0)} onClick={()=>open(work.id)} aria-label={`查看${work.title}`} aria-description={featuredIds.has(work.id)?'精选作品':undefined}>
         <span className="immersiveWorkNumber">{String(visible.indexOf(work) + 1).padStart(2, '0')}</span>
         <span className="immersiveWorkName" style={{'--name-size': `${Math.min(6.4, 36 / Array.from(work.name || work.title).length)}vw`}}>{work.name || work.title}</span>
-        <span className="immersiveWorkEnglish">{featuredIds.has(work.id)&&<small className="immersiveFeaturedBadge">精选</small>}{work.en || work.category}</span>
-        <ArrowUpRight className="immersiveRowArrow" aria-hidden="true" />
+        <span className="immersiveWorkEnglish">{featuredIds.has(work.id)&&<small className="immersiveFeaturedBadge">精选</small>}<span className="immersiveWorkCategory">{work.en || work.category}</span></span>
+        <span className="immersiveRowOpen" aria-hidden="true">{selected.id===work.id&&<span>查看项目</span>}<ArrowUpRight className="immersiveRowArrow"/></span>
       </button>)}
     </div>
     <div className="immersiveInfo" key={preview.id} aria-live="polite"><span>{previewPosition} / {String(visible.length).padStart(2,'0')} — {preview.category}</span><p>{preview.note || preview.eyebrow}</p><button type="button" onClick={()=>open(preview.id)}>探索项目 <ArrowUpRight size={15}/></button></div>
     <div className="immersivePosition" aria-label="切换预览作品"><button type="button" aria-label="上一个项目预览" onClick={()=>selectRelative(-1)}><ChevronLeft size={15}/></button><span>{position}<i> / {String(visible.length).padStart(2,'0')}</i></span><button type="button" aria-label="下一个项目预览" onClick={()=>selectRelative(1)}><ChevronRight size={15}/></button></div>
-    <div className="immersiveBrowseHint"><ArrowDown size={13} aria-hidden="true"/><span className="immersiveDesktopHint">滚动浏览作品</span><span className="immersiveTouchHint">上下滑动切换作品</span></div>
+    <div className="immersiveBrowseHint"><ArrowDown size={13} aria-hidden="true"/><span className="immersiveDesktopHint">滚动浏览 · 点击名称查看</span><span className="immersiveTouchHint">上下滑动 · 点击名称查看</span></div>
     <div className="immersiveFooter"><button className="spatialMotionToggle" type="button" aria-pressed={motionPaused || reduced} disabled={reduced} onClick={()=>setMotionPaused(value=>!value)}>{motionPaused || reduced ? '动态预览已暂停' : '暂停动态预览'}</button><span>VISUAL. INTERACTION. POSSIBILITY.</span><a className="immersiveAboutLink" href="#about">了解我 <ArrowUpRight size={13}/></a><a href="mailto:1483399012@qq.com">LET’S TALK <ArrowUpRight size={12}/></a></div>
     <div ref={cursorRef} className="immersiveCursor" aria-hidden="true"><span>VIEW</span></div>
     <span className="immersiveEdgeLabel" aria-hidden="true">SHI YI — DESIGN & EXPLORATION — 2026</span>
