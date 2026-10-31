@@ -25,6 +25,8 @@ export function useReducedMotion() {
 export default function ImmersiveWork({ stages, featured, onOpen, hidden = false, suspended = false }) {
   const [filter, setFilter] = useState('all');
   const [overview, setOverview] = useState(() => new URLSearchParams(window.location.search).get('view') === 'overview');
+  const [archiveMounted, setArchiveMounted] = useState(overview && !hidden && !suspended);
+  const [stageMounted, setStageMounted] = useState(!hidden && !suspended && !overview);
   const [active, setActive] = useState(null);
   const [previewId, setPreviewId] = useState(null);
   const [entered, setEntered] = useState(false);
@@ -39,6 +41,7 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
   const pendingSelection = useRef({timer:0,version:0});
   const scrollActivity = useRef({timer:0,active:false,manual:false});
   const wheelState = useRef({target:0,running:false});
+  const listIntroduced = useRef(false);
   const [motionPaused, setMotionPaused] = useState(false);
   const reduced = useReducedMotion();
   const featuredIds = useMemo(() => new Set(featured.map(work => work.id)), [featured]);
@@ -52,10 +55,11 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
   const preview = visible.find(work => work.id === previewId) || visible[0];
   const position = String(visible.findIndex(work => work.id === selected.id) + 1).padStart(2, '0');
   const previewPosition = String(visible.findIndex(work => work.id === preview.id) + 1).padStart(2, '0');
-  const prepareImage = work => {
+  const prepareImage = (work, priority = 'low') => {
     const src = stageMedia(work).src;
     if (!imageCache.current.has(src)) {
       const image = new Image();
+      image.fetchPriority = priority;
       image.src = src;
       imageCache.current.set(src, image.decode().catch(() => imageCache.current.delete(src)));
     }
@@ -73,16 +77,30 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
     const prepare=async()=>{
       if(delay && wheelState.current.running){pendingSelection.current.timer=setTimeout(prepare,80);return;}
       let deadline;
-      await Promise.race([prepareImage(candidate),new Promise(resolve=>{deadline=setTimeout(resolve,900);})]);
+      await Promise.race([prepareImage(candidate, 'high'),new Promise(resolve=>{deadline=setTimeout(resolve,900);})]);
       clearTimeout(deadline);
       if(pendingSelection.current.version===version)setPreviewId(candidate.id);
     };
     pendingSelection.current.timer=setTimeout(prepare,delay);
   };
   useEffect(() => {
+    if (hidden || suspended || overview || navigator.connection?.saveData) return;
     const index = visible.findIndex(work => work.id === preview.id);
-    [visible[index], visible[index + 1]].filter(Boolean).forEach(prepareImage);
-  }, [preview.id, visible]);
+    const next = visible[index + 1];
+    if (!next) return;
+    let cancelled = false, idle, timer;
+    const currentImage = screenRef.current?.querySelector('.spatialMedia.is-current img');
+    const ready = currentImage?.getAttribute('src') === stageMedia(preview).src ? currentImage.decode().catch(() => {}) : prepareImage(preview, 'high');
+    ready.then(() => {
+      if (cancelled) return;
+      const warm = () => { if (!cancelled) prepareImage(next); };
+      if (window.requestIdleCallback) idle = requestIdleCallback(warm, { timeout:4000 });
+      else timer = setTimeout(warm, 1500);
+    });
+    return () => { cancelled = true; if (idle) cancelIdleCallback(idle); clearTimeout(timer); };
+  }, [preview.id, visible, hidden, suspended, overview]);
+  useEffect(() => { if (overview && !hidden && !suspended) setArchiveMounted(true); }, [overview, hidden, suspended]);
+  useEffect(() => { if (!hidden && !suspended && !overview) setStageMounted(true); }, [hidden, suspended, overview]);
   const settleScroll = () => {
     clearTimeout(scrollActivity.current.timer);scrollActivity.current.active=true;
     scrollActivity.current.timer=setTimeout(()=>{scrollActivity.current.active=false;scrollActivity.current.manual=false;},200);
@@ -130,6 +148,7 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
     const list = listRef.current;
     gsap.killTweensOf(list);wheelState.current.running=false;
     list.scrollTop = 0;
+    if (!listIntroduced.current) { listIntroduced.current = true; return; }
     if (reduced) return;
     // Bound the stagger even when the category contains dozens of projects.
     const animation=gsap.fromTo(list.children,{y:24,opacity:0},{y:0,opacity:1,duration:.65,stagger:{amount:.25},ease:'power3.out',clearProps:'transform,opacity'});
@@ -228,7 +247,7 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
       <button type="button" aria-pressed={overview} onClick={()=>changeView(true)}><LayoutGrid size={14} aria-hidden="true"/><span>作品总览</span></button>
     </div>
     <div className="immersiveExhibition" hidden={overview}>
-    <SpatialStage project={preview} paused={reduced || motionPaused || suspended || hidden || overview} screenRef={screenRef} onOpen={()=>open(preview.id)} />
+    {(stageMounted || (!hidden && !suspended && !overview)) && <SpatialStage project={preview} paused={reduced || motionPaused || suspended || hidden || overview} screenRef={screenRef} onOpen={()=>open(preview.id)} />}
     <div className="immersiveGrid" aria-hidden="true" />
     <div className="immersiveHeading"><h1>石宜 <span aria-hidden="true">/</span> AI 视觉与交互设计</h1><InternshipAvailability /></div>
     <aside className="immersiveFilters" aria-label="作品分类">
@@ -261,7 +280,7 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
     <div ref={cursorRef} className="immersiveCursor" aria-hidden="true"><span>VIEW</span></div>
     <span className="immersiveEdgeLabel" aria-hidden="true">SHI YI — DESIGN & EXPLORATION — 2026</span>
     </div>
-    <WorkArchive projects={ordered} visible={visible} featuredIds={featuredIds} category={filter} counts={counts} onCategoryChange={chooseFilter} hidden={!overview} onOpen={openFromOverview}/>
+    {(archiveMounted || (overview && !hidden && !suspended)) && <WorkArchive projects={ordered} visible={visible} featuredIds={featuredIds} category={filter} counts={counts} onCategoryChange={chooseFilter} hidden={!overview} onOpen={openFromOverview}/>}
   </section>;
 }
 

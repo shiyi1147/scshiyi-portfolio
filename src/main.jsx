@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 
 import './styles.css';
+import './fontFaces.css';
 import ImmersiveWork from './ImmersiveWork';
 import ContactActions from './ContactActions';
 import InternshipAvailability from './InternshipAvailability';
@@ -24,7 +25,6 @@ import { archiveProjects as sourceArchiveProjects } from './archiveContent';
 import { withBoboPoster } from './boboPoster';
 import { withWatchfaceCollection } from './watchfaceCollection';
 import { NavigationTransition, usePortfolioNavigation } from './NavigationMotion';
-import SiteEntrance from './SiteEntrance';
 
 const portfolioProjects = withBoboPoster(sourcePortfolioProjects);
 const archiveProjects = withWatchfaceCollection(withBoboPoster(sourceArchiveProjects), import.meta.env.BASE_URL);
@@ -205,7 +205,6 @@ const shanhaiGallery = Array.from({ length: 17 }, (_, index) => {
 });
 
 function App() {
-  const [entering, setEntering] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches && new URLSearchParams(window.location.search).get('view') !== 'overview');
   const [menuOpen, setMenuOpen] = useState(false);
 
   const [caseSequence, setCaseSequence] = useState([]);
@@ -300,7 +299,6 @@ function App() {
         <ContactActions />
         <span>1483399012@qq.com / 13347214948 / SHI YI / 2026</span>
       </footer>
-      {entering && <SiteEntrance onComplete={() => setEntering(false)} />}
       {selectedCase && <Suspense fallback={<div className="exhibitionLoading" role="status">正在打开作品…<button type="button" onClick={() => setCaseId(null)}>返回首页</button></div>}><ProjectExhibition key={caseId} project={selectedCase} nextProject={nextCase} entryRect={caseEntryRect} onClose={() => {setCaseId(null);setCaseEntryRect(null);}} onNextProject={() => {
         setCaseEntryRect(null);
         if (nextCase) setCaseId(nextCase.id);

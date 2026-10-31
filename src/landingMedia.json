@@ -1,0 +1,22 @@
+{
+  "scene": {
+    "desktop": {
+      "src": "assets/landing-previews/d4950dc4c2276cb3.webp",
+      "bytes": 89190
+    },
+    "mobile": {
+      "src": "assets/landing-previews/64b236c1b74779b3.webp",
+      "bytes": 46300
+    }
+  },
+  "shanhai": {
+    "desktop": {
+      "src": "assets/landing-previews/1ed24e285ddc7237.webp",
+      "bytes": 49962
+    },
+    "mobile": {
+      "src": "assets/landing-previews/33cbe152795db372.webp",
+      "bytes": 25882
+    }
+  }
+}

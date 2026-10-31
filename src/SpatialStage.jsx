@@ -3,9 +3,11 @@ import { gsap } from 'gsap';
 import './SpatialStage.css';
 import WatchfaceCarousel from './WatchfaceCarousel';
 import WallpaperCarousel from './WallpaperCarousel';
+import landingMedia from './landingMedia.json';
 
 const asset = name => `${import.meta.env.BASE_URL}assets/${name}`;
 export function stageMedia(project) {
+  if (project.id === 'archive-shanhai') return { bobo:false, src:asset(landingMedia.shanhai[innerWidth <= 760 ? 'mobile' : 'desktop'].src.replace(/^assets\//,'')) };
   if (project.id === 'archive-vcg') return { bobo:false, src:project.items[0]?.thumb || project.cover };
   const bobo = project.id === 'archive-bobo' || project.id === 'watchface';
   const film = project.items.find(item => item.video);
@@ -45,7 +47,7 @@ function ScreenMedia({ project, playing }) {
   if(project.id === 'archive-vcg') return <WallpaperCarousel project={project} playing={playing}/>;
   if(['archive-watchfaces','archive-solar','archive-solar-life','archive-solar-nature','archive-summer-3d'].includes(project.id)) return <WatchfaceCarousel project={project} playing={playing}/>;
   if(media.bobo)return <div className="spatialBobo"><img className="spatialBoboAtmosphere" src={asset('posters/bobo/atmosphere-landscape.webp')} alt=""/><img className="spatialBoboMain" src={asset('posters/bobo/watchface-original.png')} alt="心情啵啵方形表盘"/><img className="spatialBoboRound" src={asset('posters/bobo/watchface-round-original.png')} alt="心情啵啵圆形表盘"/></div>;
-  return <>{media.video&&!failed?<video ref={videoRef} src={media.video} poster={media.src} muted loop playsInline preload="metadata" aria-label={`${project.name}静音预览`} onError={()=>setFailed(true)}/>:<img src={media.src} alt={`${project.name}作品预览`} draggable="false"/>}</>;
+  return <>{media.video&&!failed?<video ref={videoRef} src={media.video} poster={media.src} muted loop playsInline preload="metadata" aria-label={`${project.name}静音预览`} onError={()=>setFailed(true)}/>:<img src={media.src} alt={`${project.name}作品预览`} decoding="async" fetchPriority="high" draggable="false"/>}</>;
 }
 
 export default function SpatialStage({ project, paused, onOpen, screenRef }) {
@@ -53,6 +55,7 @@ export default function SpatialStage({ project, paused, onOpen, screenRef }) {
   const host=useRef(null);
   const mediaMounted=useRef(false);
   const [layout,setLayout]=useState(()=>plateLayout(innerWidth,innerHeight));
+  const scene=asset(landingMedia.scene[layout.portrait ? 'mobile' : 'desktop'].src.replace(/^assets\//,''));
   const filterId=`cyber-despill-${useId().replace(/[^a-zA-Z0-9_-]/g,'')}`;
   useLayoutEffect(()=>{
     const observer=new ResizeObserver(([entry])=>{const {width,height}=entry.contentRect;if(width&&height)setLayout(plateLayout(width,height));});
@@ -96,10 +99,10 @@ export default function SpatialStage({ project, paused, onOpen, screenRef }) {
         </feComponentTransfer>
       </filter>
     </defs></svg>
-    <img className="cyberAmbientBackdrop" src={asset('scene/cyber-courtyard.webp')} alt="" aria-hidden="true" style={{filter:`url(#${filterId}) blur(16px) brightness(.36)`}}/>
+    <img className="cyberAmbientBackdrop" src={scene} decoding="async" alt="" aria-hidden="true" style={{filter:`url(#${filterId}) blur(16px) brightness(.36)`}}/>
     <div className="cyberRig">
       <div className="cyberWorld" data-scale={layout.scale} style={{width:PLATE.width,height:PLATE.height,transform:`translate(${layout.x}px,${layout.y}px) scale(${layout.scale})`}}>
-        <img className="cyberPlate" src={asset('scene/cyber-courtyard.webp')} alt="" aria-hidden="true" style={{filter:`url(#${filterId})`}}/>
+        <img className="cyberPlate" src={scene} decoding="async" alt="" aria-hidden="true" style={{filter:`url(#${filterId})`}}/>
         <div className="cyberFloorTint" aria-hidden="true"/>
         <div className="cyberSurroundMask" aria-hidden="true"/>
         <div className="spatialScreenAnchor"><button type="button" className="spatialScreen" ref={screenRef} style={{transform:SCREEN_TRANSFORM}} onClick={onOpen} aria-label={`进入${project.title}展厅`}>
