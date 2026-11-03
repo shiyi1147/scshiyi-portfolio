@@ -7,6 +7,39 @@
       name="description"
       content="石宜的个人设计作品集，涵盖智能表盘、系列插画、品牌视觉、AI 影像与三维场景，关注信息传达、视觉表达与实际应用。"
     />
+    <script id="landing-boot">
+// Inlined into index.html by prepare-landing-assets.cjs, before the application.
+(() => {
+  const media = {"scene":{"desktop":{"src":"assets/landing-previews/d4950dc4c2276cb3.webp","bytes":89190},"mobile":{"src":"assets/landing-previews/64b236c1b74779b3.webp","bytes":46300}},"shanhai":{"desktop":{"src":"assets/landing-previews/1ed24e285ddc7237.webp","bytes":49962},"mobile":{"src":"assets/landing-previews/33cbe152795db372.webp","bytes":25882}}};
+  const hash = location.hash.slice(1).split('?');
+  const home = (!hash[0] || hash[0] === 'top') && !new URLSearchParams(hash[1] || '').has('work') && new URLSearchParams(location.search).get('view') !== 'overview';
+  let seen = false;
+  const sessionKey = 'portfolio-entrance-v3';
+  try { seen = Boolean(sessionStorage.getItem(sessionKey)); } catch { /* Storage is optional. */ }
+  const replay = ['127.0.0.1','localhost'].includes(location.hostname) && new URLSearchParams(location.search).get('intro') === 'preview';
+  const play = home && (!seen || replay) && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.__portfolioEntrance = { play, sessionKey };
+  if (play) {
+    document.documentElement.classList.add('portfolio-entering');
+    window.__portfolioEntrance.watchdog = setTimeout(() => document.documentElement.classList.remove('portfolio-entering'), 8000);
+  }
+  if (!home) return;
+  const artwork = media.shanhai[innerWidth <= 760 ? 'mobile' : 'desktop'];
+  const scenery = media.scene[innerWidth / innerHeight < .95 ? 'mobile' : 'desktop'];
+  window.__portfolioLandingImages = new Map();
+  [artwork, scenery].forEach(item => {
+    const src = new URL(item.src, document.baseURI).href;
+    // Share the downloaded bytes with every rendered copy, including when the
+    // browser's HTTP cache is disabled. Document-owned blob URLs die on unload.
+    const ready = fetch(src, { priority: 'high' }).then(response => {
+      if (!response.ok) throw new Error('Preview unavailable');
+      return response.blob();
+    }).then(blob => URL.createObjectURL(blob)).catch(() => null);
+    window.__portfolioLandingImages.set(src, ready);
+  });
+})();
+
+</script>
     <link rel="preload" href="/assets/fonts/zaozigongfang-yihei-home.woff2?v=13cdac1005f4" as="font" type="font/woff2" crossorigin />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=sc" />
     <meta name="theme-color" content="#101916" />

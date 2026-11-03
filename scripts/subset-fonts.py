@@ -10,7 +10,7 @@ archive_source=Path('src/archiveContent.js').read_text(encoding='utf-8')
 projects=json.loads(archive_source[archive_source.index('['):archive_source.rindex('];')+1])
 first=next(p for p in projects if p['id']=='archive-shanhai')
 basic=''.join(chr(i) for i in range(32,127))+'，。！？：；（）《》·—…＋−→←　'
-home_ui=basic+Path('src/ImmersiveWork.jsx').read_text(encoding='utf-8')+Path('src/InternshipAvailability.jsx').read_text(encoding='utf-8')+(first.get('note') or first.get('eyebrow',''))
+home_ui=basic+Path('src/ImmersiveWork.jsx').read_text(encoding='utf-8')+Path('src/InternshipAvailability.jsx').read_text(encoding='utf-8')+Path('src/SiteEntrance.jsx').read_text(encoding='utf-8')+(first.get('note') or first.get('eyebrow',''))
 home_titles=basic+''.join(p.get('name',p['title']) for p in projects if p.get('group')!='interface')
 home_titles+=''.join(re.findall(r"name:'([^']+)'",Path('src/watchfaceCollection.js').read_text(encoding='utf-8')))
 home_texts={'misans-normal.ttf':home_ui,'zaozigongfang-yihei.otf':home_titles}

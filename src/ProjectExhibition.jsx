@@ -16,6 +16,7 @@ import { withSelectedVisuals } from './selectedVisuals';
 import SelectedVisualArt from './SelectedVisualArt';
 import ProjectLinkButton from './ProjectLinkButton';
 import retryMediaUrl from './retryMediaUrl';
+import ScreenEntrySurface from './ScreenEntrySurface';
 
 const pad = n => String(n).padStart(2, '0');
 
@@ -29,7 +30,7 @@ function ExhibitionVideo({ item, paused, onError, attempt }) {
   return <video ref={videoRef} src={retryMediaUrl(item.video, attempt)} poster={item.src} controls playsInline loop={Boolean(item.wallpaperMotion)} muted={Boolean(item.wallpaperMotion)} preload="metadata" tabIndex={0} aria-label={`${item.label}播放器`} onError={onError} />;
 }
 
-function StandardProjectExhibition({ project, nextProject, onClose, onNextProject, entryRect }) {
+function StandardProjectExhibition({ project, nextProject, onClose, onNextProject, entryRect, seamlessEntry, flight }) {
   const [view, setView] = useState('intro');
   const [frame, setFrame] = useState(0);
   const [previous, setPrevious] = useState(null);
@@ -40,10 +41,12 @@ function StandardProjectExhibition({ project, nextProject, onClose, onNextProjec
   const [imageError, setImageError] = useState(false);
   const [mediaAttempt, setMediaAttempt] = useState(0);
   const [readerOpen, setReaderOpen] = useState(false);
+  const [entryMotionPaused,setEntryMotionPaused]=useState(()=>flight?.entry.motionAllowed===false);
   const readerScroll = useRef(0);
   const rootRef = useRef(null);
   const imageRef = useRef(null);
   const previousRef = useRef(null);
+  const warmedImages = useRef(new Set());
   const infoRef = useRef(null);
   const infoButtonRef = useRef(null);
   const thumbRefs = useRef([]);
@@ -58,6 +61,7 @@ function StandardProjectExhibition({ project, nextProject, onClose, onNextProjec
   const plan = getPlanReader(project);
   const openReader = () => setReaderOpen(true);
   const isIntro = view === 'intro';
+  const entryMotion=flight?.entry.videos?.length&&!reduced ? <button type="button" aria-pressed={entryMotionPaused} onClick={()=>setEntryMotionPaused(value=>!value)}>{entryMotionPaused?'播放动态背景':'暂停动态背景'}</button> : null;
   const notes = !isIntro && item.sourceProjectId ? { ...project, title:item.sourceTitle, summary:item.sourceSummary, details:item.sourceDetails, eyebrow:item.sourceEyebrow } : project;
   const chapters = project.items.reduce((list, image, index) => {
     if (image.chapter && !list.some(chapter => chapter.label === image.chapter)) list.push({ label: image.chapter, index });
@@ -67,9 +71,9 @@ function StandardProjectExhibition({ project, nextProject, onClose, onNextProjec
   const close = useCallback(() => {
     if (closing.current) return;
     closing.current = true;
-    if (reduced) { onClose(); return; }
+    if (reduced || seamlessEntry) { onClose(); return; }
     gsap.to(rootRef.current, { opacity: 0, duration: .38, ease: 'power2.in', onComplete: onClose });
-  }, [onClose, reduced]);
+  }, [onClose, reduced, seamlessEntry]);
 
   const select = (index) => {
     if (index < 0) { setView('intro'); return; }
@@ -86,25 +90,25 @@ function StandardProjectExhibition({ project, nextProject, onClose, onNextProjec
   navigation.current = { step, infoOpen, zoomOpen, readerOpen, close };
 
   useLayoutEffect(() => {
-    if (reduced) return;
+    if (reduced || seamlessEntry) return;
     const ctx = gsap.context(() => {
       const origin=entryRect ? `inset(${Math.max(0,entryRect.top)}px ${Math.max(0,innerWidth-entryRect.left-entryRect.width)}px ${Math.max(0,innerHeight-entryRect.top-entryRect.height)}px ${Math.max(0,entryRect.left)}px)` : 'inset(5% 4% 5% 4%)';
       gsap.fromTo(rootRef.current, { opacity: entryRect ? 1 : 0, clipPath: origin }, { opacity: 1, clipPath: 'inset(0% 0% 0% 0%)', duration: .85, ease: 'power3.inOut', clearProps: 'clipPath' });
     }, rootRef);
     return () => ctx.revert();
-  }, [reduced, entryRect]);
+  }, [reduced, entryRect, seamlessEntry]);
 
   // The title introduces the project, then leaves the artwork unobstructed.
   // The controls remain available throughout; reduced motion skips the title.
   useLayoutEffect(() => {
-    if (!isIntro || reduced || project.poster || project.brief || project.strategy) return;
+    if (!isIntro || reduced || project.poster || project.brief || project.strategy || (flight && !flight.revealed)) return;
     const ctx = gsap.context(() => {
       const timeline = gsap.timeline();
       timeline.fromTo('.exhibitionTitle span', { yPercent: 95, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .85, stagger: .1, delay: .15, ease: 'power3.out' });
       timeline.to('.exhibitionTitle', { opacity: 0, duration: .75, ease: 'power2.inOut' }, 2.25);
     }, rootRef);
     return () => ctx.revert();
-  }, [isIntro, reduced, project.poster, project.brief, project.strategy]);
+  }, [isIntro, reduced, project.poster, project.brief, project.strategy, flight?.revealed]);
 
   useLayoutEffect(() => {
     if (isIntro || reduced || !imageRef.current) return;
@@ -130,12 +134,37 @@ function StandardProjectExhibition({ project, nextProject, onClose, onNextProjec
     if (chapter) rail.scrollTo({ left:chapter.offsetLeft - (rail.clientWidth - chapter.offsetWidth) / 2, behavior:reduced ? 'auto' : 'smooth' });
   }, [frame, isIntro, reduced]);
 
-  // Only load nearby full-size works; distant frames use their existing thumbnails.
+  // The intro and current artwork own the connection; neighbors use spare time.
   useEffect(() => {
-    [frame - 1, frame + 1].filter(index => index >= 0 && index < project.items.length).forEach(index => {
-      const image = new Image(); image.src = project.items[index].src;
+    if(isIntro||navigator.connection?.saveData)return;
+    const current=rootRef.current?.querySelector('.exhibitionCurrent');
+    const images=[...(current?.querySelectorAll('img')||[])],video=current?.querySelector('video');
+    if(!images.length&&!video)return;
+    let cancelled=false,idle,timer,release=()=>{};
+    const loaded=video ? new Promise(resolve=>{
+      if(video.readyState>=2){resolve(true);return;}
+      const ready=()=>resolve(true),failed=()=>resolve(false);
+      video.addEventListener('loadeddata',ready,{once:true});video.addEventListener('error',failed,{once:true});
+      release=()=>{video.removeEventListener('loadeddata',ready);video.removeEventListener('error',failed);resolve(false);};
+    }) : Promise.all(images.map(image=>image.decode().then(()=>true,()=>false))).then(results=>results.every(Boolean));
+    const warm=()=>{
+      if(cancelled||document.hidden)return;
+      [frame-1,frame+1].filter(index=>index>=0&&index<project.items.length).forEach(index=>{
+        const next=project.items[index];
+        // Curated artwork owns separate extracted images, not the original plan page.
+        if(next.artworks)return;
+        const src=new URL(next.src,document.baseURI).href;if(warmedImages.current.has(src))return;
+        warmedImages.current.add(src);const image=new Image();image.fetchPriority='low';image.decoding='async';
+        image.onerror=()=>warmedImages.current.delete(src);image.src=src;
+      });
+    };
+    Promise.all([loaded,document.fonts.ready]).then(([ready])=>{
+      if(cancelled||!ready)return;
+      warmedImages.current.add(new URL(project.items[frame].src,document.baseURI).href);
+      if(window.requestIdleCallback)idle=requestIdleCallback(warm,{timeout:2000});else timer=setTimeout(warm,350);
     });
-  }, [frame, project.items]);
+    return()=>{cancelled=true;release();if(idle)cancelIdleCallback(idle);clearTimeout(timer);};
+  }, [isIntro,frame,project.items,mediaAttempt]);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -209,8 +238,8 @@ function StandardProjectExhibition({ project, nextProject, onClose, onNextProjec
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
   };
 
-  return createPortal(<section ref={rootRef} data-project={project.id} className={`exhibition ${project.id?.startsWith('archive-') ? 'is-archive' : ''} ${isIntro ? 'is-intro' : 'is-gallery'} ${project.poster ? 'has-poster' : ''} ${project.brief || project.strategy ? 'has-brief' : ''} ${infoOpen ? 'has-info' : ''} ${chapters.length ? 'has-narrative' : ''} ${!isIntro && item.video ? 'has-video' : ''} ${project.visualSurface ? 'has-selected-art' : ''} ${nextProject ? 'has-next-preview' : ''}`} role="dialog" aria-modal="true" aria-label={project.title} style={{ '--ex-accent': project.accent || '#c5f9e9' }} onPointerMove={pointerMove}>
-    <div className="exhibitionBackdrop" aria-hidden="true"><RefractiveBackdrop src={isIntro ? (project.poster?.backgroundLandscape || project.cover) : (item.thumb || item.src)} mobileSrc={isIntro ? project.poster?.backgroundPortrait : undefined} reduced={reduced} /></div>
+  return createPortal(<section ref={rootRef} data-project={project.id} className={`exhibition ${project.id?.startsWith('archive-') ? 'is-archive' : ''} ${isIntro ? 'is-intro' : 'is-gallery'} ${project.poster ? 'has-poster' : ''} ${project.brief || project.strategy ? 'has-brief' : ''} ${infoOpen ? 'has-info' : ''} ${chapters.length ? 'has-narrative' : ''} ${!isIntro && item.video ? 'has-video' : ''} ${project.visualSurface ? 'has-selected-art' : ''} ${nextProject ? 'has-next-preview' : ''} ${flight ? 'has-screen-entry' : ''} ${flight && !flight.revealed ? 'is-entering' : ''}`} role="dialog" aria-modal="true" aria-label={project.title} style={{ '--ex-accent': project.accent || '#c5f9e9' }} onPointerMove={pointerMove}>
+    <div className="exhibitionBackdrop" aria-hidden="true">{isIntro && flight ? <ScreenEntrySurface entry={flight.entry} active={!entryMotionPaused&&!reduced&&!infoOpen&&!zoomOpen&&!readerOpen} dim={(project.brief||project.strategy) ? .75 : .28} onBlocked={()=>setEntryMotionPaused(true)}/> : <RefractiveBackdrop src={isIntro ? (project.poster?.backgroundLandscape || project.cover) : (item.thumb || item.src)} mobileSrc={isIntro ? project.poster?.backgroundPortrait : undefined} reduced={reduced} />}</div>
     <div className="exhibitionVignette" aria-hidden="true" />
     <div className="exhibitionGrain" aria-hidden="true" />
     <header className="exhibitionHeader">
@@ -220,9 +249,9 @@ function StandardProjectExhibition({ project, nextProject, onClose, onNextProjec
     </header>
     <div className="exhibitionGestureArea" onPointerDown={pointerDown} onPointerUp={pointerUp} onPointerCancel={() => { gesture.current = null; }}>
       {isIntro ? <div className="exhibitionIntroBody">
-        {project.brief ? <ProjectBrief project={project} onBrowse={index=>select(index??0)}/> : project.strategy ? <ProjectStrategy project={project} onBrowse={()=>select(0)} onReadPlan={plan ? openReader : undefined}/> : <>
+        {project.brief ? <ProjectBrief project={project} onBrowse={index=>select(index??0)} entryMotion={entryMotion}/> : project.strategy ? <ProjectStrategy project={project} onBrowse={()=>select(0)} onReadPlan={plan ? openReader : undefined}/> : <>
         {project.poster ? <picture className="exhibitionPoster"><source media="(max-aspect-ratio: 4/5)" srcSet={project.poster.portrait}/><img src={project.poster.landscape} alt={project.poster.alt} draggable="false" fetchPriority="high"/></picture> : <div className="exhibitionTitle" aria-hidden="true">{project.displayTitle.map((line,index)=><div key={index}><span>{line}</span></div>)}</div>}
-        <div className="exhibitionIntroCopy"><span>{project.eyebrow}</span><p>{project.summary}</p><div className="exhibitionIntroActions"><button type="button" onClick={() => select(0)}>浏览作品 <ArrowDown size={14}/></button>{plan ? <button type="button" onClick={openReader} aria-haspopup="dialog">完整策划案 <ArrowDown size={14}/></button> : project.document && <a href={project.document} target="_blank" rel="noreferrer">{project.documentLabel || '完整策划案'} <ArrowUpRight size={14}/></a>}</div></div>
+        <div className="exhibitionIntroCopy"><span>{project.eyebrow}</span><p>{project.summary}</p><div className="exhibitionIntroActions"><button type="button" onClick={() => select(0)}>浏览作品 <ArrowDown size={14}/></button>{plan ? <button type="button" onClick={openReader} aria-haspopup="dialog">完整策划案 <ArrowDown size={14}/></button> : project.document && <a href={project.document} target="_blank" rel="noreferrer">{project.documentLabel || '完整策划案'} <ArrowUpRight size={14}/></a>}{entryMotion}</div></div>
         <span className="exhibitionScrollHint">SCROLL TO DISCOVER <i /></span>
         </>}
       </div> : <div className="exhibitionGalleryBody">
@@ -256,5 +285,13 @@ function StandardProjectExhibition({ project, nextProject, onClose, onNextProjec
 
 export default function ProjectExhibition(props) {
   const project = useMemo(() => withSelectedVisuals(props.project), [props.project]);
-  return <ExhibitionTransition entry={props.entryRect} onClose={props.onClose}>{close => props.project.id === "archive-watchfaces" ? <WatchfaceExhibition {...props} onClose={close}/> : <StandardProjectExhibition {...props} project={props.entryRect?.src ? {...project, cover:props.entryRect.src} : project} entryRect={null} onClose={close}/>}</ExhibitionTransition>;
+  return <ExhibitionTransition entry={props.entryRect} onClose={props.onClose}>{(close,innerFlight) => {
+    const flight=props.screenFlight || innerFlight;
+    return <ExhibitionReady onReady={flight?.onContentReady}>{props.project.id === "archive-watchfaces" ? <WatchfaceExhibition {...props} onClose={close}/> : <StandardProjectExhibition {...props} project={props.entryRect?.src ? {...project, cover:props.entryRect.src} : project} entryRect={null} seamlessEntry={Boolean(flight)} flight={flight} onClose={close}/>}</ExhibitionReady>;
+  }}</ExhibitionTransition>;
+}
+
+function ExhibitionReady({onReady,children}) {
+  useLayoutEffect(()=>{onReady?.();},[onReady]);
+  return children;
 }

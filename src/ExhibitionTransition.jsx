@@ -1,7 +1,12 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
-export default function ExhibitionTransition({entry,onClose,children}) {
+import ScreenFlight from './ScreenFlight';
+export default function ExhibitionTransition(props) {
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ return props.entry?.kind==='screen'&&!reduced ? <ScreenFlight {...props}/> : <ImageEntryTransition {...props}/>;
+}
+function ImageEntryTransition({entry,onClose,children}) {
  const layer=useRef(null),busy=useRef(false),animation=useRef(null);
  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
  const full=()=>({left:0,top:0,width:innerWidth,height:innerHeight});

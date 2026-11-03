@@ -4,14 +4,17 @@ import './SpatialStage.css';
 import WatchfaceCarousel from './WatchfaceCarousel';
 import WallpaperCarousel from './WallpaperCarousel';
 import landingMedia from './landingMedia.json';
+import LandingImage from './LandingImage';
+import filmPreview from './filmPreviewMedia.json';
 
 const asset = name => `${import.meta.env.BASE_URL}assets/${name}`;
-export function stageMedia(project) {
+export function stageMedia(project,variant=innerWidth<=760?'mobile':'desktop') {
   if (project.id === 'archive-shanhai') return { bobo:false, src:asset(landingMedia.shanhai[innerWidth <= 760 ? 'mobile' : 'desktop'].src.replace(/^assets\//,'')) };
   if (project.id === 'archive-vcg') return { bobo:false, src:project.items[0]?.thumb || project.cover };
   const bobo = project.id === 'archive-bobo' || project.id === 'watchface';
   const film = project.items.find(item => item.video);
-  return { bobo, src: bobo ? asset('posters/bobo/home-landscape.webp') : (film?.src || project.cover), video: film?.video };
+  const preview=project.id==='archive-film'&&film?.video?.endsWith(filmPreview.source) ? filmPreview[variant] : null;
+  return { bobo, src: bobo ? asset('posters/bobo/home-landscape.webp') : (film?.src || project.cover), video: preview?asset(preview.src.replace(/^assets\//,'')):film?.video };
 }
 
 // One image-coordinate system keeps the photographed bezel and live content aligned.
@@ -36,7 +39,8 @@ function plateLayout(width,height) {
 }
 
 function ScreenMedia({ project, playing }) {
-  const media=stageMedia(project), videoRef=useRef(null);
+  const [variant]=useState(()=>innerWidth<=760?'mobile':'desktop');
+  const media=stageMedia(project,variant), videoRef=useRef(null);
   const [failed,setFailed]=useState(false);
   useEffect(()=>{
     const video=videoRef.current;if(!video)return;
@@ -44,17 +48,19 @@ function ScreenMedia({ project, playing }) {
     sync();document.addEventListener('visibilitychange',sync);
     return()=>{document.removeEventListener('visibilitychange',sync);video.pause();};
   },[playing,media.video]);
+  useEffect(()=>{const video=videoRef.current;return()=>{if(video){video.pause();video.removeAttribute('src');video.load();}};},[media.video]);
   if(project.id === 'archive-vcg') return <WallpaperCarousel project={project} playing={playing}/>;
   if(['archive-watchfaces','archive-solar','archive-solar-life','archive-solar-nature','archive-summer-3d'].includes(project.id)) return <WatchfaceCarousel project={project} playing={playing}/>;
   if(media.bobo)return <div className="spatialBobo"><img className="spatialBoboAtmosphere" src={asset('posters/bobo/atmosphere-landscape.webp')} alt=""/><img className="spatialBoboMain" src={asset('posters/bobo/watchface-original.png')} alt="心情啵啵方形表盘"/><img className="spatialBoboRound" src={asset('posters/bobo/watchface-round-original.png')} alt="心情啵啵圆形表盘"/></div>;
-  return <>{media.video&&!failed?<video ref={videoRef} src={media.video} poster={media.src} muted loop playsInline preload="metadata" aria-label={`${project.name}静音预览`} onError={()=>setFailed(true)}/>:<img src={media.src} alt={`${project.name}作品预览`} decoding="async" fetchPriority="high" draggable="false"/>}</>;
+  return <>{media.video&&!failed?<video ref={videoRef} src={media.video} poster={media.src} muted loop playsInline preload="metadata" aria-label={`${project.name}静音预览`} onError={()=>setFailed(true)}/>:<LandingImage src={media.src} alt={`${project.name}作品预览`} decoding="async" fetchPriority="high" draggable="false"/>}</>;
 }
 
-export default function SpatialStage({ project, paused, onOpen, screenRef }) {
+export default function SpatialStage({ project, paused, cameraPaused=paused, onOpen, screenRef, instant=false, intent }) {
   const [layers,setLayers]=useState([project]);
   const host=useRef(null);
   const mediaMounted=useRef(false);
   const [layout,setLayout]=useState(()=>plateLayout(innerWidth,innerHeight));
+  const depth=!layout.portrait;
   const scene=asset(landingMedia.scene[layout.portrait ? 'mobile' : 'desktop'].src.replace(/^assets\//,''));
   const filterId=`cyber-despill-${useId().replace(/[^a-zA-Z0-9_-]/g,'')}`;
   useLayoutEffect(()=>{
@@ -74,13 +80,15 @@ export default function SpatialStage({ project, paused, onOpen, screenRef }) {
         gsap.set(node,{opacity:mediaMounted.current?0:1,filter:mediaMounted.current?'blur(2px)':'blur(0px)',scale:mediaMounted.current?1.012:1});
         node.dataset.transitionReady='true';
       }
-      gsap.to(node,{opacity:current?1:0,filter:current?'blur(0px)':'blur(2px)',scale:current?1:1.006,duration:paused?0:current?.5:.4,ease:'power2.inOut',overwrite:true});
+      gsap.to(node,{opacity:current?1:0,filter:current?'blur(0px)':'blur(2px)',scale:current?1:1.006,duration:paused||instant?0:current?.5:.4,ease:'power2.inOut',overwrite:true});
     });
     mediaMounted.current=true;
     return()=>gsap.killTweensOf(nodes);
-  },[layers,project.id,paused]);
-  return <div ref={host} className={`spatialStage cyberStage ${paused?'is-paused':''} ${layout.portrait?'is-portrait':''}`} style={{'--scene-tint':project.accent}}>
+  },[layers,project.id,paused,instant]);
+  return <div ref={host} className={`spatialStage cyberStage ${paused?'is-paused':''} ${cameraPaused?'is-camera-paused':''} ${depth?'has-depth':'is-portrait'}`} style={{'--scene-tint':project.accent}}>
     <svg className="cyberFilterDefinitions" aria-hidden="true" width="0" height="0"><defs>
+      <clipPath id={`${filterId}-room`} clipPathUnits="objectBoundingBox"><path clipRule="evenodd" d="M0 0H1V1H0Z M.32 .286V.665H.715V.286Z"/></clipPath>
+      <clipPath id={`${filterId}-frame`} clipPathUnits="objectBoundingBox"><path d="M.31 .276H.723V.643L.742 .682H.292L.31 .643Z"/></clipPath>
       <filter id={filterId} colorInterpolationFilters="sRGB" x="0" y="0" width="100%" height="100%">
         <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 1.7 -0.7 0 -0.04" result="greenMask"/>
         <feComponentTransfer in="greenMask" result="greenSelect"><feFuncA type="linear" slope="4"/></feComponentTransfer>
@@ -99,13 +107,16 @@ export default function SpatialStage({ project, paused, onOpen, screenRef }) {
         </feComponentTransfer>
       </filter>
     </defs></svg>
-    <img className="cyberAmbientBackdrop" src={scene} decoding="async" alt="" aria-hidden="true" style={{filter:`url(#${filterId}) blur(16px) brightness(.36)`}}/>
+    <LandingImage className="cyberAmbientBackdrop" src={scene} decoding="async" alt="" aria-hidden="true" style={{filter:`url(#${filterId}) blur(16px) brightness(.36)`}}/>
     <div className="cyberRig">
       <div className="cyberWorld" data-scale={layout.scale} style={{width:PLATE.width,height:PLATE.height,transform:`translate(${layout.x}px,${layout.y}px) scale(${layout.scale})`}}>
-        <img className="cyberPlate" src={scene} decoding="async" alt="" aria-hidden="true" style={{filter:`url(#${filterId})`}}/>
+        <div className="cyberDepthLayer cyberDistant"><LandingImage className="cyberPlate cyberRoomPlate" src={scene} decoding="async" alt="" aria-hidden="true" style={{filter:`url(#${filterId})`,clipPath:depth?`url(#${filterId}-room)`:undefined}}/></div>
         <div className="cyberFloorTint" aria-hidden="true"/>
         <div className="cyberSurroundMask" aria-hidden="true"/>
-        <div className="spatialScreenAnchor"><button type="button" className="spatialScreen" ref={screenRef} style={{transform:SCREEN_TRANSFORM}} onClick={onOpen} aria-label={`进入${project.title}展厅`}>
+        <div className="cyberDepthLayer cyberScreenAssembly">
+        {depth&&<LandingImage className="cyberPlate cyberFramePlate" src={scene} decoding="async" alt="" aria-hidden="true" style={{filter:`url(#${filterId})`,clipPath:`url(#${filterId}-frame)`}}/>}
+        {depth&&<div className="cyberSurroundMask" aria-hidden="true" style={{clipPath:`url(#${filterId}-frame)`}}/>}
+        <div className="spatialScreenAnchor"><button type="button" className="spatialScreen" ref={screenRef} style={{transform:SCREEN_TRANSFORM}} onPointerEnter={intent?.enter} onPointerLeave={intent?.leave} onPointerDown={intent?.down} onFocus={intent?.focus} onClick={onOpen} aria-label={`进入${project.title}展厅`}>
           <div className="spatialLiveMedia">{layers.map(layer=><div key={layer.id} data-project={layer.id} className={`spatialMedia ${layer.id===project.id?'is-current':'is-previous'}`}><ScreenMedia project={layer} playing={!paused&&layer.id===project.id}/></div>)}</div>
           <div className="spatialBootSignal" aria-hidden="true">
             <svg className="spatialBootNoise" width="640" height="320" viewBox="0 0 640 320" preserveAspectRatio="none"><rect width="640" height="320" filter={`url(#${filterId}-static)`}/></svg>
@@ -113,6 +124,8 @@ export default function SpatialStage({ project, paused, onOpen, screenRef }) {
           </div>
           <span className="spatialScreenEdge" aria-hidden="true"/>
         </button></div>
+        </div>
+        {depth&&<div className="cyberDepthLayer cyberNear"><LandingImage className="cyberPlate cyberNearPlate" src={scene} decoding="async" alt="" aria-hidden="true" style={{filter:`url(#${filterId}) brightness(.35)`}}/></div>}
       </div>
     </div>
     <div className="spatialVignette" aria-hidden="true"/>

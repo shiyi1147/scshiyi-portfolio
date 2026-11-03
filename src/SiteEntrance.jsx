@@ -1,157 +1,151 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
 import './SiteEntrance.css';
 
 export default function SiteEntrance({ onComplete }) {
-  const rootRef = useRef(null);
+  const [screen, setScreen] = useState(null);
+  const frameRef = useRef(null);
+  const lightRef = useRef(null);
   const finishRef = useRef(null);
   const completeRef = useRef(onComplete);
   completeRef.current = onComplete;
 
   useLayoutEffect(() => {
-    const root = rootRef.current;
-    const shell = document.querySelector('main.workAtlas');
-    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const previousInert = shell.inert;
-    const previousFocus = document.activeElement;
-    const timers = new Set();
-    const snapshots = new Map();
-    let alive = true, finished = false, revealTimeline, frameObserver, frameRequest;
-    const opening = gsap.timeline();
-    const save = node => {
-      if (snapshots.has(node)) return;
-      snapshots.set(node, ['transform', 'opacity', 'will-change', 'display', 'clip-path'].map(key => [key, node.style.getPropertyValue(key), node.style.getPropertyPriority(key)]));
-    };
-    const restore = () => {
-      snapshots.forEach((properties, node) => properties.forEach(([key, value, priority]) => value ? node.style.setProperty(key, value, priority) : node.style.removeProperty(key)));
-      snapshots.clear();
-      frameObserver?.disconnect();
-      cancelAnimationFrame(frameRequest);
-      shell.inert = previousInert;
+    const host = document.querySelector('#top:not([hidden]) .spatialScreen');
+    if (!host || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       document.documentElement.classList.remove('portfolio-entering');
+      completeRef.current();
+      return;
+    }
+    try { sessionStorage.setItem(window.__portfolioEntrance?.sessionKey || 'portfolio-entrance-v3', 'seen'); } catch { /* Storage is optional. */ }
+    document.documentElement.classList.add('portfolio-entering');
+    setScreen(host);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!screen) return;
+    clearTimeout(window.__portfolioEntrance?.watchdog);
+    const frame = frameRef.current;
+    const number = frame.querySelector('.siteEntranceNumber');
+    const noise = frame.querySelector('.siteEntranceNoise');
+    const curtain = frame.querySelector('.siteEntranceCurtain');
+    const context = noise.getContext('2d');
+    let paintNoise=()=>{};
+    if(context){
+      const pixels = context.createImageData(noise.width, noise.height);
+      const base=new Uint8Array(noise.width*noise.height),grain=new Float32Array(base.length),targets=new Int8Array(base.length);
+      for(let index=0;index<base.length;index++){base[index]=45+Math.floor(Math.random()*120);pixels.data[index*4+3]=255;}
+      let lastPaint=-Infinity,step=0;
+      paintNoise=(phase,force=false)=>{
+        const now=performance.now();if(!force&&now-lastPaint<40)return;lastPaint=now;
+        // Change a quarter of the grain targets per update, never move the texture.
+        const scan=(phase/(Math.PI*2)*1.36-.18)*noise.height,radius=noise.height*.065;
+        for(let y=0;y<noise.height;y++){
+          const distance=Math.max(0,1-Math.abs(y-scan)/radius);
+          const band=11*distance*distance*(3-2*distance);
+          for(let x=0;x<noise.width;x++){
+            const index=y*noise.width+x;
+            if(!force&&(index+step)%4===0)targets[index]=Math.floor(Math.random()*49)-24;
+            grain[index]+=(targets[index]-grain[index])*.55;
+            const value=base[index]+Math.round(grain[index]+band),offset=index*4;
+            pixels.data[offset]=value;pixels.data[offset+1]=value;pixels.data[offset+2]=value;
+          }
+        }
+        step++;
+        context.putImageData(pixels,0,0);
+      };
+      paintNoise(0,true);
+    }
+    const page = document.getElementById('top');
+    const near = [...page.querySelectorAll('.cyberFramePlate,.cyberNearPlate,.cyberFloorTint')];
+    const far = [...page.querySelectorAll('.cyberRoomPlate')];
+    const ambient = [...page.querySelectorAll('.cyberAmbientBackdrop')];
+    const media = screen.querySelector('.spatialLiveMedia');
+    const list = page.querySelector('.immersiveList');
+    const heading = page.querySelector('.immersiveHeading');
+    const info = page.querySelector('.immersiveInfo');
+    const header = document.querySelector('.workAtlasHeader');
+    const controls = [...page.querySelectorAll('.immersiveFilters,.immersiveMobileFilters,.immersivePosition,.immersiveFooter,.immersiveViewSwitch,.immersiveBrowseHint,.immersiveEdgeLabel')];
+    const activeName = page.querySelector('.immersiveWorkRow.is-active .immersiveWorkName');
+    const variables = ['--entrance-info-opacity','--entrance-camera'].map(key=>[key,page.style.getPropertyValue(key),page.style.getPropertyPriority(key)]);
+    const typeSnapshot = activeName && ['color','-webkit-text-stroke-color'].map(key=>[key,activeName.style.getPropertyValue(key),activeName.style.getPropertyPriority(key)]);
+    const touched = [...near,...far,...ambient,media,list,heading,info,header,...controls].filter(Boolean);
+    const snapshots = touched.map(node => [node, node.style.getPropertyValue('opacity'), node.style.getPropertyPriority('opacity')]);
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let finished = false;
+    const restore = () => {
+      document.documentElement.classList.remove('portfolio-entering');
+      snapshots.forEach(([node, value, priority]) => value ? node.style.setProperty('opacity', value, priority) : node.style.removeProperty('opacity'));
+      typeSnapshot?.forEach(([key,value,priority])=>value ? activeName.style.setProperty(key,value,priority) : activeName.style.removeProperty(key));
+      variables.forEach(([key,value,priority])=>value ? page.style.setProperty(key,value,priority) : page.style.removeProperty(key));
     };
-    const clearTimers = () => { timers.forEach(clearTimeout); timers.clear(); };
     const finish = () => {
-      if (!alive || finished) return;
+      if (finished) return;
       finished = true;
-      opening.kill(); revealTimeline?.kill(); clearTimers(); restore();
-      if (root.contains(document.activeElement)) {
-        const focus = previousFocus !== document.body && previousFocus?.isConnected ? previousFocus : shell.querySelector('.workAtlasBrand');
-        focus?.focus({ preventScroll: true });
-      }
+      timeline.kill(); restore();
+      if (document.activeElement?.classList.contains('siteEntranceSkip')) document.querySelector('.workAtlasBrand')?.focus({ preventScroll: true });
       completeRef.current();
     };
-    finishRef.current = finish;
-    if (motion.matches) { finish(); return; }
-    shell.inert = true;
-    document.documentElement.classList.add('portfolio-entering');
-    root.querySelector('button').focus({ preventScroll: true });
-
-    const frame = root.querySelector('.siteEntranceFrame');
-    const number = root.querySelector('.siteEntranceNumber');
-    const screen = shell.querySelector('#top .spatialScreen');
-    const syncFrame = () => {
-      if (!alive || finished || !screen || shell.dataset.page !== 'top') return;
-      const bounds = screen.getBoundingClientRect();
-      if (bounds.width && bounds.height) Object.assign(frame.style, {
-        left: `${bounds.left}px`, top: `${bounds.top}px`, width: `${bounds.width}px`, height: `${bounds.height}px`, transform: 'none',
-      });
-    };
-    syncFrame();
-    if (screen) {
-      frameObserver = new ResizeObserver(() => {
-        cancelAnimationFrame(frameRequest);
-        frameRequest = requestAnimationFrame(syncFrame);
-      });
-      frameObserver.observe(screen.closest('.spatialStage'));
+    const counter = { value: 0 };
+    const timeline = gsap.timeline({ onComplete: finish });
+    // This is a short visual sequence, never a download percentage or a gate.
+    timeline.to(counter, { value: 100, duration: .5, ease: 'power1.inOut', onUpdate: () => {
+      number.textContent = String(Math.round(counter.value));
+      frame.style.setProperty('--entrance-progress', String(counter.value / 100));
+    } }, 0);
+    timeline.to(number, { opacity: 0, duration: .18, ease: 'power2.in' }, .48);
+    timeline.to(noise, { opacity: .74, duration: .16, ease:'power1.out' }, .54);
+    const noiseTone={phase:0};
+    timeline.to(noiseTone,{phase:Math.PI*2,duration:1.02,ease:'none',onUpdate:()=>paintNoise(noiseTone.phase)},.54);
+    // Clear the black curtain before revealing the image: avoid two stacked fades.
+    timeline.to(curtain,{opacity:0,duration:.52,ease:'power2.inOut'},.76);
+    timeline.to(noise,{opacity:0,duration:.58,ease:'power2.inOut'},1.02);
+    timeline.to(frame,{opacity:0,duration:.3,ease:'power2.out'},1.52);
+    if(lightRef.current){
+      timeline.to(lightRef.current,{opacity:.8,duration:.4,ease:'power2.out'},.65);
+      timeline.to(lightRef.current,{opacity:0,duration:.76,ease:'power2.inOut'},1.05);
     }
-    const count = { value: 0 };
-    const sequenceDone = new Promise(resolve => opening.eventCallback('onComplete', resolve));
-    opening.fromTo(frame, { opacity: 0 }, { opacity: 1, duration: .4, ease: 'power2.out' }, 0);
-    opening.to(count, { value: 100, duration: 1.5, ease: 'power1.inOut', onUpdate: () => {
-      number.textContent = String(Math.round(count.value));
-      frame.style.setProperty('--entrance-progress', String(count.value / 100));
-    } }, .2);
-    opening.to({}, { duration: .18 });
-
-    const delay = ms => new Promise(resolve => {
-      const id = setTimeout(() => { timers.delete(id); resolve(); }, ms);
-      timers.add(id);
-    });
-    const covers = [...shell.querySelectorAll('#top .cyberPlate, #top .spatialMedia img')];
-    // Wait briefly for the real first image and typeface; never hold visitors indefinitely.
-    const assets = Promise.allSettled([
-      ...covers.map(image => image.decode?.() || Promise.resolve()),
-      document.fonts?.load('400 12px "MiSans Portfolio"') || Promise.resolve(),
-    ]);
-    Promise.all([sequenceDone, Promise.race([assets, delay(2400)])]).then(() => {
-      if (!alive || finished) return;
-      opening.kill();
-      root.dataset.phase = 'revealing';
-      const page = shell.dataset.page || 'top';
-      const pageNode = document.getElementById(page);
-      const selector = page === 'top'
-        ? '.immersiveHeading, .immersiveFilters, .immersiveWorkRow, .immersiveInfo > *, .immersivePosition, .immersiveFooter, .immersiveEdgeLabel'
-        : 'h2, .workAtlasEyebrow, .workAtlasAboutGrid > div > p, .workAtlasCapabilityList span, .workAtlasResumeHeading, .workAtlasExperienceGrid > article, a';
-      const content = [shell.querySelector('.workAtlasHeader'), ...pageNode.querySelectorAll(selector)].filter(Boolean);
-      const background = pageNode.querySelector('.immersiveBackdrop');
-      const signal = pageNode.querySelector('.spatialBootSignal');
-      content.forEach(save); if (background) save(background);
-      revealTimeline = gsap.timeline({ onComplete: finish });
-      revealTimeline.to(number, { opacity: 0, duration: .28, ease: 'power2.in' }, 0);
-      revealTimeline.to(frame, { opacity: 0, duration: .65, ease: 'power2.inOut' }, .32);
-      revealTimeline.to(root.querySelector('.siteEntranceBlackout'), { opacity: 0, duration: .8, ease: 'power2.inOut' }, .18);
-      if (signal) {
-        // The numeric outline is aligned to the live screen; noise replaces it in place.
-        const noise = signal.querySelector('.spatialBootNoise');
-        const media = pageNode.querySelector('.spatialLiveMedia');
-        const scenery = [...pageNode.querySelectorAll('.cyberPlate, .cyberAmbientBackdrop, .cyberFloorTint')];
-        [signal, noise, media, ...scenery].forEach(save);
-        revealTimeline.set(signal, { display: 'block', opacity: 1, clipPath: 'inset(0%)' }, 0);
-        revealTimeline.fromTo(noise, { opacity: 0 }, { opacity: .72, duration: .45, ease: 'power2.out' }, .18);
-        revealTimeline.fromTo(noise, { xPercent: -1, yPercent: 1 }, { xPercent: 1, yPercent: -1, duration: .09, repeat: 8, yoyo: true, ease: 'steps(1)' }, .25);
-        revealTimeline.fromTo(scenery, { opacity: .02 }, { opacity: 1, duration: 1.6, ease: 'power2.inOut' }, .35);
-        revealTimeline.fromTo(media, { opacity: 0 }, { opacity: 1, duration: 1.1, ease: 'power2.inOut' }, .8);
-        revealTimeline.to(signal, { opacity: 0, duration: 1.1, ease: 'power2.inOut' }, .8);
-        revealTimeline.set(signal, { display: 'none' }, 1.9);
-        revealTimeline.fromTo(content, { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: .8, stagger: { amount: .25 }, ease: 'power3.out' }, 1.25);
-      } else {
-        if (background) revealTimeline.fromTo(background, { scale: 1.08 }, { scale: 1, duration: 1.1, ease: 'power3.out' }, .2);
-        revealTimeline.fromTo(content, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .75, stagger: { amount: .25 }, ease: 'power3.out' }, .4);
-      }
-      revealTimeline.to(root.querySelector('.siteEntranceSkip'), { opacity: 0, duration: .2 }, signal ? 2.05 : 1);
-    });
-    // Escape, history navigation, motion preference changes, and a watchdog all release the gate.
-    const keydown = event => {
-      if (event.key === 'Escape') { event.preventDefault(); finish(); }
-      if (event.key === 'Tab') { event.preventDefault(); root.querySelector('button').focus(); }
-    };
+    timeline.fromTo(near,{opacity:.025},{opacity:(_,node)=>node.classList.contains('cyberFloorTint') ? .64 : 1,duration:.74,ease:'power2.inOut'},.67);
+    timeline.fromTo(far,{opacity:.025},{opacity:1,duration:.82,ease:'power2.inOut'},.84);
+    timeline.fromTo(ambient,{opacity:.025},{opacity:1,duration:.76,ease:'power2.inOut'},1);
+    timeline.fromTo(page,{'--entrance-camera':1.012},{'--entrance-camera':1,duration:1,ease:'power2.out'},.62);
+    timeline.fromTo(media,{opacity:0},{opacity:1,duration:.58,ease:'power2.inOut'},.98);
+    timeline.fromTo(controls,{opacity:.1},{opacity:1,duration:.58,ease:'power2.out'},1.2);
+    if(header)timeline.fromTo(header,{opacity:.12},{opacity:1,duration:.6,ease:'power2.out'},1.2);
+    if(list)timeline.fromTo(list,{opacity:.025},{opacity:1,duration:.54,ease:'power2.inOut'},1.33);
+    if(heading)timeline.fromTo(heading,{opacity:.025},{opacity:1,duration:.48,ease:'power2.out'},1.4);
+    if(info)timeline.fromTo(info,{opacity:.025},{opacity:1,duration:.48,ease:'power2.out'},1.4);
+    timeline.fromTo(page,{'--entrance-info-opacity':.025},{'--entrance-info-opacity':1,duration:.48,ease:'power2.out'},1.4);
+    if(activeName)timeline.fromTo(activeName,{color:'transparent',webkitTextStrokeColor:getComputedStyle(page).getPropertyValue('--work-tint')},{color:getComputedStyle(page).getPropertyValue('--work-tint'),webkitTextStrokeColor:'transparent',duration:.36,ease:'power2.out'},1.61);
+    finishRef.current = finish;
+    const key = event => { if (!['Shift', 'Control', 'Alt', 'Meta'].includes(event.key)) finish(); };
     const preference = () => { if (motion.matches) finish(); };
-    const watchdog = setTimeout(finish, 6500); timers.add(watchdog);
-    window.addEventListener('keydown', keydown);
+    document.addEventListener('pointerdown', finish, true);
+    window.addEventListener('wheel', finish, { passive: true, capture: true });
+    window.addEventListener('touchstart', finish, { passive: true, capture: true });
+    window.addEventListener('keydown', key, true);
     window.addEventListener('hashchange', finish);
     window.addEventListener('popstate', finish);
     motion.addEventListener('change', preference);
+    const watchdog = setTimeout(finish, 2300);
     return () => {
-      alive = false; opening.kill(); revealTimeline?.kill(); clearTimers(); restore();
-      window.removeEventListener('keydown', keydown);
+      finished = true; timeline.kill(); clearTimeout(watchdog); restore();
+      document.removeEventListener('pointerdown', finish, true);
+      window.removeEventListener('wheel', finish, true);
+      window.removeEventListener('touchstart', finish, true);
+      window.removeEventListener('keydown', key, true);
       window.removeEventListener('hashchange', finish);
       window.removeEventListener('popstate', finish);
       motion.removeEventListener('change', preference);
       finishRef.current = null;
     };
-  }, []);
+  }, [screen]);
 
-  return createPortal(<div ref={rootRef} className="siteEntrance" role="dialog" aria-modal="true" aria-label="进入石宜的作品集" data-phase="opening">
-    <div className="siteEntranceBlackout" aria-hidden="true" />
-    <div className="siteEntranceFrame" aria-hidden="true">
-      <span className="siteEntranceProgress siteEntranceProgressTop"/>
-      <span className="siteEntranceProgress siteEntranceProgressRight"/>
-      <span className="siteEntranceProgress siteEntranceProgressBottom"/>
-      <span className="siteEntranceProgress siteEntranceProgressLeft"/>
-      <span className="siteEntranceNumber">0</span>
-    </div>
-    <button type="button" className="siteEntranceSkip" onClick={() => finishRef.current?.()}>跳过动画 <span aria-hidden="true">↗</span></button>
-  </div>, document.body);
+  if (!screen) return null;
+  return <>
+    {createPortal(<div ref={frameRef} className="siteEntranceFrame" aria-hidden="true"><span className="siteEntranceCurtain"/><canvas className="siteEntranceNoise" width="320" height="160"/><span className="siteEntranceScanlines"/><span className="siteEntranceProgress siteEntranceProgressTop"/><span className="siteEntranceProgress siteEntranceProgressRight"/><span className="siteEntranceProgress siteEntranceProgressBottom"/><span className="siteEntranceProgress siteEntranceProgressLeft"/><span className="siteEntranceNumber">0</span></div>, screen)}
+    {screen.closest('.cyberWorld')&&createPortal(<div ref={lightRef} className="siteEntranceLight" aria-hidden="true"/>,screen.closest('.cyberWorld'))}
+    {createPortal(<div className="siteEntranceControls"><button type="button" className="siteEntranceSkip" onClick={() => finishRef.current?.()}>立即进入 <span aria-hidden="true">↗</span></button></div>, document.body)}
+  </>;
 }

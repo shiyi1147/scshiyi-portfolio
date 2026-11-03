@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { gsap } from 'gsap';
 
 import { ArrowDown, ArrowUpRight, ChevronDown, ChevronLeft, ChevronRight, LayoutGrid, Monitor } from 'lucide-react';
@@ -7,6 +8,10 @@ import SpatialStage, { stageMedia } from './SpatialStage';
 import './SpatialIndex.css';
 import WorkArchive from './WorkArchive';
 import InternshipAvailability from './InternshipAvailability';
+import captureScreenEntry from './screenEntry';
+import useProjectIntent from './useProjectIntent';
+import useScenePointer from './useScenePointer';
+import { warmProjectExhibition } from './projectExhibitionLoader';
 
 const filters = [['all','ALL WORK','全部'], ['interface','INTERFACE','表盘'], ['motion','MOTION','影像'], ['illustration','ILLUSTRATION','插画'], ['brand','BRANDING','品牌'], ['web','WEB DESIGN','网页'], ['spatial','3D DESIGN','建模'], ['wallpaper','WALLPAPER','壁纸']];
 
@@ -39,11 +44,16 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
   const suppressClickUntil = useRef(0);
   const scrollFrame = useRef(0);
   const pendingSelection = useRef({timer:0,version:0});
+  const selectionInput = useRef('pointer');
   const scrollActivity = useRef({timer:0,active:false,manual:false});
   const wheelState = useRef({target:0,running:false});
   const listIntroduced = useRef(false);
   const [motionPaused, setMotionPaused] = useState(false);
+  const [openingId,setOpeningId]=useState(null);
+  const pendingOpen=useRef({version:0,id:null});
+  const intent=useProjectIntent(!hidden&&!suspended&&!overview);
   const reduced = useReducedMotion();
+  const pointer=useScenePointer(rootRef,{enabled:!reduced&&!motionPaused&&!suspended&&!hidden&&!overview,frozen:suspended&&!reduced&&!motionPaused&&!hidden&&!overview});
   const featuredIds = useMemo(() => new Set(featured.map(work => work.id)), [featured]);
   const ordered = useMemo(() => {
     const ranks = new Map(featured.map((work, index) => [work.id, index]));
@@ -60,15 +70,19 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
     if (!imageCache.current.has(src)) {
       const image = new Image();
       image.fetchPriority = priority;
-      image.src = src;
-      imageCache.current.set(src, image.decode().catch(() => imageCache.current.delete(src)));
+      const cached = window.__portfolioLandingImages?.get(new URL(src, location.href).href);
+      const ready = cached ? cached.then(value => { image.src = value || src; return image.decode(); }) : (image.src = src, image.decode());
+      imageCache.current.set(src, ready.then(()=>image).catch(() => {imageCache.current.delete(src);return null;}));
     }
     return imageCache.current.get(src);
   };
   const cancelSelection = () => {
     clearTimeout(pendingSelection.current.timer);pendingSelection.current.version++;
   };
-  const requestSelection = (id, delay=100) => {
+  const requestSelection = (id, delay=100, input='pointer') => {
+    if(pendingOpen.current.id)return;
+    if(input==='scroll'&&selectionInput.current==='focus')return;
+    selectionInput.current=input;
     const candidate=visible.find(work=>work.id===id);
     if(!candidate || (candidate.id===selected.id && candidate.id===preview.id))return;
     cancelSelection();
@@ -90,7 +104,8 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
     if (!next) return;
     let cancelled = false, idle, timer;
     const currentImage = screenRef.current?.querySelector('.spatialMedia.is-current img');
-    const ready = currentImage?.getAttribute('src') === stageMedia(preview).src ? currentImage.decode().catch(() => {}) : prepareImage(preview, 'high');
+    const cached = window.__portfolioLandingImages?.get(new URL(stageMedia(preview).src, location.href).href);
+    const ready = (currentImage?.dataset.landingSrc || currentImage?.getAttribute('src')) === stageMedia(preview).src ? Promise.resolve(cached).then(() => currentImage.decode()).catch(() => {}) : prepareImage(preview, 'high');
     ready.then(() => {
       if (cancelled) return;
       const warm = () => { if (!cancelled) prepareImage(next); };
@@ -105,13 +120,50 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
     clearTimeout(scrollActivity.current.timer);scrollActivity.current.active=true;
     scrollActivity.current.timer=setTimeout(()=>{scrollActivity.current.active=false;scrollActivity.current.manual=false;},200);
   };
-  const open = id => {
+  const cancelOpen = () => {
+    pendingOpen.current.version++;
+    if(pendingOpen.current.id)setActive(screenRef.current?.querySelector('.spatialMedia.is-current')?.dataset.project || null);
+    pendingOpen.current.id=null;setOpeningId(null);
+  };
+  useEffect(()=>{if(hidden||suspended||overview)cancelOpen();},[hidden,suspended,overview]);
+  useEffect(()=>{
+    const key=event=>{if(event.key==='Escape'&&pendingOpen.current.id){event.preventDefault();cancelOpen();}};
+    const navigation=()=>cancelOpen();
+    window.addEventListener('keydown',key);window.addEventListener('hashchange',navigation);window.addEventListener('popstate',navigation);
+    return()=>{pendingOpen.current.version++;pendingOpen.current.id=null;window.removeEventListener('keydown',key);window.removeEventListener('hashchange',navigation);window.removeEventListener('popstate',navigation);};
+  },[]);
+  const open = async id => {
+    const candidate=visible.find(work=>work.id===id);if(!candidate)return;
+    warmProjectExhibition();
     cancelSelection();
     gsap.killTweensOf(listRef.current);wheelState.current.running=false;
+    const version=++pendingOpen.current.version;pendingOpen.current.id=id;
+    if(reduced){pendingOpen.current.id=null;onOpen(id,visible.map(work=>work.id),null);return;}
+    setOpeningId(id);setActive(id);
+    let deadline;
+    const fallbackImage=await Promise.race([prepareImage(candidate,'high'),new Promise(resolve=>{deadline=setTimeout(()=>resolve(null),450);})]);
+    clearTimeout(deadline);
+    if(pendingOpen.current.version!==version)return;
+    flushSync(()=>{setPreviewId(id);setActive(id);});
+    await new Promise(resolve=>{
+      const start=performance.now();
+      const ready=()=>{
+        if(pendingOpen.current.version!==version)return resolve();
+        const layer=screenRef.current?.querySelector('.spatialMedia.is-current'),images=layer?.querySelectorAll('img');
+        const video=layer?.querySelector('video');
+        if(layer?.dataset.project===id&&((images?.length&&[...images].every(image=>image.complete&&image.naturalWidth))||(video?.readyState>=2)))return resolve();
+        if(performance.now()-start>240)return resolve();
+        requestAnimationFrame(ready);
+      };requestAnimationFrame(ready);
+    });
+    if(pendingOpen.current.version!==version)return;
     const rect=screenRef.current?.getBoundingClientRect();
-    onOpen(id, visible.map(work => work.id), rect ? {left:rect.left,top:rect.top,width:rect.width,height:rect.height} : null);
+    const entry = captureScreenEntry(screenRef.current,{fallbackImage,motionAllowed:!motionPaused});
+    pendingOpen.current.id=null;setOpeningId(null);
+    onOpen(id, visible.map(work => work.id), entry || (rect ? {left:rect.left,top:rect.top,width:rect.width,height:rect.height} : null));
   };
   const changeView = next => {
+    cancelOpen();
     cancelSelection();
     gsap.killTweensOf(listRef.current);
     wheelState.current.running = false;
@@ -122,6 +174,7 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
     window.history.replaceState(window.history.state, '', url);
   };
   const openFromOverview = id => {
+    cancelOpen();warmProjectExhibition();
     cancelSelection();
     onOpen(id, visible.map(work => work.id), null);
   };
@@ -138,7 +191,7 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
       const list=listRef.current, center=list.scrollTop+list.clientHeight/2;
       let closest=0,distance=Infinity;
       Array.from(list.children).forEach((row,index)=>{const delta=Math.abs(row.offsetTop+row.offsetHeight/2-center);if(delta<distance){distance=delta;closest=index;}});
-      if(visible[closest])requestSelection(visible[closest].id,180);
+      if(visible[closest])requestSelection(visible[closest].id,180,'scroll');
     });
   };
   useEffect(()=>()=>{cancelAnimationFrame(scrollFrame.current);clearTimeout(pendingSelection.current.timer);pendingSelection.current.version++;clearTimeout(scrollActivity.current.timer);gsap.killTweensOf(listRef.current);},[]);
@@ -161,6 +214,7 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
       if(event.ctrlKey || Math.abs(event.deltaX)>Math.abs(event.deltaY) || event.target.closest('.immersiveFilters, .immersiveMobileFilters'))return;
       const list=listRef.current;
       if (!list || !event.deltaY) return;
+      selectionInput.current='scroll';
       event.preventDefault();
       if (reduced) {
         list.scrollTop += event.deltaY * (event.deltaMode===1?18:event.deltaMode===2?list.clientHeight:1);
@@ -175,7 +229,7 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
     root.addEventListener('wheel', wheel, {passive:false});
     return () => {root.removeEventListener('wheel', wheel);gsap.killTweensOf(listRef.current);wheelState.current.running=false;};
   }, [hidden, suspended, reduced, overview]);
-  const chooseFilter = key => {cancelSelection();cancelAnimationFrame(scrollFrame.current);clearTimeout(scrollActivity.current.timer);scrollActivity.current.active=false;scrollActivity.current.manual=false;setFilter(key);setActive(null);setPreviewId(null);};
+  const chooseFilter = key => {cancelOpen();cancelSelection();cancelAnimationFrame(scrollFrame.current);clearTimeout(scrollActivity.current.timer);scrollActivity.current.active=false;scrollActivity.current.manual=false;setFilter(key);setActive(null);setPreviewId(null);};
   const selectRelative = delta => {
     gsap.killTweensOf(listRef.current);wheelState.current.running=false;
     const index=visible.findIndex(work=>work.id===selected.id);
@@ -187,6 +241,7 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
   };
   const listKeys = event => {
     if (event.altKey || event.ctrlKey || event.metaKey || event.key === 'Tab') return;
+    if(['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(event.key))selectionInput.current='scroll';
     const list = listRef.current;
     gsap.killTweensOf(list);wheelState.current.running=false;
     let delta = 0;
@@ -199,6 +254,7 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
     } else if (delta) {event.preventDefault();list.scrollBy({top:delta,behavior:reduced?'auto':'smooth'});}
   };
   const touchStart = event => {
+    if(event.target.closest('.immersiveList'))selectionInput.current='scroll';
     if (event.touches.length !== 1) { gesture.current = null; return; }
     if (suspended || hidden || overview || event.target.closest('.immersiveList, .immersiveFilters, .immersiveMobileFilters, .immersiveFooter, .immersivePosition, .immersiveViewSwitch')) return;
     const touch = event.touches[0];
@@ -215,39 +271,20 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
       selectRelative(dy<0?1:-1);
     }
   };
-  const resetPointer = () => {
-    const node=rootRef.current;if(!node)return;
-    node.style.setProperty('--mx',0);node.style.setProperty('--my',0);
-  };
-  useEffect(()=>{
-    const reset=()=>{
-      const node=rootRef.current;if(!node)return;
-      node.style.setProperty('--mx',0);node.style.setProperty('--my',0);
-    };
-    const visibility=()=>{if(document.hidden)reset();};
-    window.addEventListener('blur',reset);document.addEventListener('visibilitychange',visibility);
-    return()=>{window.removeEventListener('blur',reset);document.removeEventListener('visibilitychange',visibility);};
-  },[]);
-  useEffect(()=>{
-    if(reduced || motionPaused || suspended || hidden || overview){
-      rootRef.current?.style.setProperty('--mx',0);rootRef.current?.style.setProperty('--my',0);
-    }
-  },[reduced,motionPaused,suspended,hidden,overview]);
   const pointerMove = event => {
     if (reduced || motionPaused || suspended || hidden || overview || event.pointerType==='touch') return;
     const rect=rootRef.current.getBoundingClientRect();
-    rootRef.current.style.setProperty('--mx',Math.max(-.5,Math.min(.5,(event.clientX-rect.left)/rect.width-.5)).toFixed(3));
-    rootRef.current.style.setProperty('--my',Math.max(-.5,Math.min(.5,(event.clientY-rect.top)/rect.height-.5)).toFixed(3));
+    pointer.move(event);
     if (cursorRef.current) gsap.to(cursorRef.current,{x:event.clientX-rect.left,y:event.clientY-rect.top,duration:.45,ease:'power3.out',overwrite:true});
   };
-  return <section id="top" data-view={overview?'overview':'exhibition'} data-motion={reduced || motionPaused || suspended || hidden || overview ? 'paused' : 'active'} data-filter={filter} hidden={hidden} ref={rootRef} className={`immersiveWork is-spatial ${entered ? 'is-entered' : ''}`} style={{'--work-tint':selected.color,'--work-count':visible.length}} onPointerMove={pointerMove} onPointerLeave={resetPointer} onTouchStart={touchStart} onTouchEnd={touchEnd} onTouchCancel={()=>{gesture.current=null;}} onClickCapture={event=>{if(Date.now()<suppressClickUntil.current){event.preventDefault();event.stopPropagation();}}} aria-label="石宜作品">
+  return <section id="top" data-view={overview?'overview':'exhibition'} data-motion={reduced || motionPaused || suspended || hidden || overview ? 'paused' : 'active'} data-filter={filter} hidden={hidden} ref={rootRef} className={`immersiveWork is-spatial ${entered ? 'is-entered' : ''}`} style={{'--work-tint':selected.color,'--work-count':visible.length}} onPointerMove={pointerMove} onPointerLeave={pointer.reset} onTouchStart={touchStart} onTouchEnd={touchEnd} onTouchCancel={()=>{gesture.current=null;}} onClickCapture={event=>{if(Date.now()<suppressClickUntil.current){event.preventDefault();event.stopPropagation();}}} aria-label="石宜作品">
     {overview&&<div className="immersiveOverviewTopline">WORK INDEX <span>/ {String(stages.length).padStart(2,'0')} 个项目与系列</span></div>}
     <div className="immersiveViewSwitch" role="group" aria-label="作品浏览方式">
       <button type="button" aria-pressed={!overview} onClick={()=>changeView(false)}><Monitor size={14} aria-hidden="true"/><span>沉浸展厅</span></button>
       <button type="button" aria-pressed={overview} onClick={()=>changeView(true)}><LayoutGrid size={14} aria-hidden="true"/><span>作品总览</span></button>
     </div>
     <div className="immersiveExhibition" hidden={overview}>
-    {(stageMounted || (!hidden && !suspended && !overview)) && <SpatialStage project={preview} paused={reduced || motionPaused || suspended || hidden || overview} screenRef={screenRef} onOpen={()=>open(preview.id)} />}
+    {(stageMounted || (!hidden && !suspended && !overview)) && <SpatialStage project={preview} paused={reduced || motionPaused || suspended || hidden || overview} cameraPaused={reduced || motionPaused || hidden || overview} instant={Boolean(openingId)} intent={intent} screenRef={screenRef} onOpen={()=>open(preview.id)} />}
     <div className="immersiveGrid" aria-hidden="true" />
     <div className="immersiveHeading"><h1>石宜 <span aria-hidden="true">/</span> AI 视觉与交互设计</h1><InternshipAvailability /></div>
     <aside className="immersiveFilters" aria-label="作品分类">
@@ -266,11 +303,11 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
       </label>
     </div>
     <div className="immersiveList" ref={listRef} role="region" aria-label="作品名称列表，可独立滚动" tabIndex={0} onKeyDown={listKeys} onScroll={syncScroll}>
-      {visible.map(work=><button type="button" key={work.id} className={`immersiveWorkRow ${selected.id===work.id?'is-active':''}`} onPointerEnter={e=>{if(e.pointerType!=='touch'&&!wheelState.current.running&&!scrollActivity.current.active)requestSelection(work.id);}} onFocus={()=>requestSelection(work.id,0)} onClick={()=>open(work.id)} aria-label={`查看${work.title}`} aria-description={featuredIds.has(work.id)?'精选作品':undefined}>
+      {visible.map(work=><button type="button" key={work.id} className={`immersiveWorkRow ${selected.id===work.id?'is-active':''}`} onPointerEnter={e=>{if(e.pointerType!=='touch'&&!wheelState.current.running&&!scrollActivity.current.active){intent.enter(e);requestSelection(work.id);}}} onPointerLeave={intent.leave} onPointerDown={intent.down} onFocus={()=>{intent.focus();requestSelection(work.id,0,'focus');}} onClick={()=>open(work.id)} aria-busy={openingId===work.id} aria-label={`查看${work.title}`} aria-description={featuredIds.has(work.id)?'精选作品':undefined}>
         <span className="immersiveWorkNumber">{String(visible.indexOf(work) + 1).padStart(2, '0')}</span>
         <span className="immersiveWorkName" style={{'--name-size': `${Math.min(6.4, 36 / Array.from(work.name || work.title).length)}vw`}}>{work.name || work.title}</span>
         <span className="immersiveWorkEnglish">{featuredIds.has(work.id)&&<small className="immersiveFeaturedBadge">精选</small>}<span className="immersiveWorkCategory">{work.en || work.category}</span></span>
-        <span className="immersiveRowOpen" aria-hidden="true">{selected.id===work.id&&<span>查看项目</span>}<ArrowUpRight className="immersiveRowArrow"/></span>
+        <span className="immersiveRowOpen" aria-hidden="true">{selected.id===work.id&&<span>{openingId===work.id?'正在打开':'查看项目'}</span>}<ArrowUpRight className="immersiveRowArrow"/></span>
       </button>)}
     </div>
     <div className="immersiveInfo" key={preview.id} aria-live="polite"><span>{previewPosition} / {String(visible.length).padStart(2,'0')} — {preview.category}</span><p>{preview.note || preview.eyebrow}</p><button type="button" onClick={()=>open(preview.id)}>探索项目 <ArrowUpRight size={15}/></button></div>

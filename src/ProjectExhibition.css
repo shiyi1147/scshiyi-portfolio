@@ -32,7 +32,7 @@
 .exhibitionIntroCopy {position:absolute;left:38px;bottom:43px;max-width:365px;}
 .exhibitionIntroCopy > span {font-size:8px;letter-spacing:.18em;opacity:.75;}
 .exhibitionIntroCopy p {margin:16px 0 22px;font-size:12px;line-height:1.95;letter-spacing:.035em;color:#e1f4eed9;text-wrap:pretty;}
-.exhibitionIntroActions {display:flex;gap:12px;align-items:center;}
+.exhibitionIntroActions {display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
 .exhibitionIntroActions button,.exhibitionIntroActions a {display:flex;align-items:center;justify-content:center;gap:25px;border:1px solid #c7fbe455;padding:11px 15px;font-size:10px;letter-spacing:.07em;transition:background .3s,border-color .3s;}
 .exhibitionIntroActions button:hover,.exhibitionIntroActions a:hover {background:#bfffe318;border-color:#c7fbe4;}
 .exhibitionScrollHint {position:absolute;left:50%;bottom:40px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:18px;font-size:8px;letter-spacing:.23em;opacity:.8;}

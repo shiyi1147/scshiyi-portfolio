@@ -3,7 +3,7 @@ import { ArrowUpRight, Play } from 'lucide-react';
 import './ProjectBrief.css';
 import WallpaperComparison from './WallpaperComparison';
 
-export default function ProjectBrief({ project, onBrowse }) {
+export default function ProjectBrief({ project, onBrowse, entryMotion }) {
   const brief = project.brief;
   const comparisonRef = useRef(null);
   const [comparisonIndex, setComparisonIndex] = useState(0);
@@ -19,7 +19,7 @@ export default function ProjectBrief({ project, onBrowse }) {
         <h4 className="projectBriefWorkflowTitle">我的工作与制作流程</h4>
         <ol className="projectBriefWorkflow">{brief.workflow.map(([title,description],index)=><li key={title}><span>{String(index+1).padStart(2,'0')}</span><div><h4>{title}</h4><p>{description}</p></div></li>)}</ol>
       </div>
-      <aside className="projectBriefSelection">{brief.previewImages?.length ? <div className="projectBriefSelectionPreview">{brief.previewImages.map(item=><img key={item.src} src={item.src} alt={item.label}/>)}</div> : <img src={project.cover} alt="视觉中国实习项目静态壁纸选览"/>}<p>{brief.selectionNote}</p><div className="projectBriefActions"><button type="button" onClick={()=>onBrowse(0)}>浏览壁纸作品 <ArrowUpRight size={16} aria-hidden="true"/></button>{motionIndex>=0&&<button className="projectBriefMotion" type="button" onClick={()=>onBrowse(motionIndex)}><Play size={14} aria-hidden="true"/>观看动态壁纸<span>{motionCount} 条</span></button>}{comparison&&<button type="button" onClick={()=>comparisonRef.current?.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'})}>查看优化示意 <ArrowUpRight size={16} aria-hidden="true"/></button>}</div></aside>
+      <aside className="projectBriefSelection">{brief.previewImages?.length ? <div className="projectBriefSelectionPreview">{brief.previewImages.map(item=><img key={item.src} src={item.src} alt={item.label}/>)}</div> : <img src={project.cover} alt="视觉中国实习项目静态壁纸选览"/>}<p>{brief.selectionNote}</p><div className="projectBriefActions"><button type="button" onClick={()=>onBrowse(0)}>浏览壁纸作品 <ArrowUpRight size={16} aria-hidden="true"/></button>{motionIndex>=0&&<button className="projectBriefMotion" type="button" onClick={()=>onBrowse(motionIndex)}><Play size={14} aria-hidden="true"/>观看动态壁纸<span>{motionCount} 条</span></button>}{comparison&&<button type="button" onClick={()=>comparisonRef.current?.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'})}>查看优化示意 <ArrowUpRight size={16} aria-hidden="true"/></button>}{entryMotion}</div></aside>
     </div>
     {comparison&&<section className="projectBriefComparison" ref={comparisonRef} aria-labelledby="project-comparison-title">
       <header><div><p>VISUAL REFINEMENT / {String(comparisons.length).padStart(2,'0')} STUDIES</p><h3 id="project-comparison-title">从生成到成品</h3></div></header>

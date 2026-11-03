@@ -9,6 +9,7 @@
     "preview": "vite preview --host 0.0.0.0",
     "prepare:assets": "node scripts/prepare-assets.cjs",
     "prepare:plans": "node scripts/prepare-plan-reader.cjs",
+    "prepare:film-preview": "node scripts/prepare-film-preview.cjs",
     "prebuild": "npm run prepare:assets",
     "postbuild": "node scripts/finalize-build.cjs"
   },

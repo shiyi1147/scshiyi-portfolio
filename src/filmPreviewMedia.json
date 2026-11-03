@@ -1,0 +1,40 @@
+{
+  "source": "assets/portfolio/film-cloud.mp4",
+  "sourceSha256": "c73f41719edcd8e725d189338088a2fce007268a5852ee29dc8e731f78dfa887",
+  "config": {
+    "duration": 12,
+    "start": 0.5,
+    "blend": 0.5,
+    "fps": 24,
+    "crf": 25,
+    "pixelAspect": 1,
+    "variants": [
+      {
+        "name": "desktop",
+        "width": 960,
+        "maxrate": "750k"
+      },
+      {
+        "name": "mobile",
+        "width": 640,
+        "maxrate": "450k"
+      }
+    ]
+  },
+  "desktop": {
+    "src": "assets/motion-previews/film-cloud-desktop-51840bd07111.mp4",
+    "sha256": "51840bd07111bf5d342fab7b6ddc5c56c4eac7435811210d0e02dd488376d08e",
+    "bytes": 770739,
+    "width": 960,
+    "height": 436,
+    "duration": 12
+  },
+  "mobile": {
+    "src": "assets/motion-previews/film-cloud-mobile-963f243dc9fa.mp4",
+    "sha256": "963f243dc9fa13fc325d0e17d55b2dd10ad8458db08911c5554917fea6f7d26b",
+    "bytes": 461091,
+    "width": 640,
+    "height": 292,
+    "duration": 12
+  }
+}

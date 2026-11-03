@@ -17,6 +17,11 @@ module.exports=async function prepareLandingAssets(){
   shanhai:{desktop:await make(first.cover,960,78),mobile:await make(first.cover,640,76)},
  };
  fs.writeFileSync('src/landingMedia.json',JSON.stringify(manifest,null,2)+'\n');
+ const boot=fs.readFileSync('scripts/landing-boot.js','utf8').replace('__LANDING_MEDIA__',JSON.stringify(manifest));
+ const html=fs.readFileSync('index.html','utf8');
+ const tag='<script id="landing-boot">\n'+boot+'\n</script>';
+ const updated=html.includes('<script id="landing-boot">')?html.replace(/<script id="landing-boot">[\s\S]*?<\/script>/,()=>tag):html.replace('    <link rel="preload"', '    '+tag+'\n    <link rel="preload"');
+ if(updated!==html)fs.writeFileSync('index.html',updated);
  fs.writeFileSync('output/landing-assets-report.json',JSON.stringify({originalSceneBytes:fs.statSync('public/'+scene).size,originalArtBytes:fs.statSync('public/'+first.cover).size,...manifest},null,2));
  console.log('Landing previews: '+JSON.stringify(manifest));
 };

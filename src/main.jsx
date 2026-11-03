@@ -18,8 +18,11 @@ import './fontFaces.css';
 import ImmersiveWork from './ImmersiveWork';
 import ContactActions from './ContactActions';
 import InternshipAvailability from './InternshipAvailability';
+import SiteEntrance from './SiteEntrance';
+import ScreenFlight from './ScreenFlight';
 import { resumeDownloadUrl, resumeDownloadName } from './resumeAsset';
-const ProjectExhibition = lazy(() => import('./ProjectExhibition')); 
+import { loadProjectExhibition } from './projectExhibitionLoader';
+const ProjectExhibition = lazy(loadProjectExhibition);
 import { portfolioProjects as sourcePortfolioProjects } from './portfolioContent';
 import { archiveProjects as sourceArchiveProjects } from './archiveContent';
 import { withBoboPoster } from './boboPoster';
@@ -206,6 +209,7 @@ const shanhaiGallery = Array.from({ length: 17 }, (_, index) => {
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [entrance, setEntrance] = useState(() => Boolean(window.__portfolioEntrance?.play));
 
   const [caseSequence, setCaseSequence] = useState([]);
   const [caseEntryRect, setCaseEntryRect] = useState(null);
@@ -229,6 +233,8 @@ function App() {
     const index = ids.indexOf(caseId);
     return index >= 0 && ids.length > 1 ? projects.find(project => project.id === ids[(index + 1) % ids.length]) : null;
   }, [caseId, caseSequence]);
+  const closeCase=()=>{setCaseId(null);setCaseEntryRect(null);};
+  const exhibition=(close,flight)=><Suspense fallback={flight ? <div className="screenFlightLoading" aria-busy="true"/> : <div className="exhibitionLoading" role="status">正在打开作品…<button type="button" onClick={closeCase}>返回首页</button></div>}><ProjectExhibition key={caseId} project={selectedCase} nextProject={nextCase} entryRect={flight ? null : caseEntryRect} screenFlight={flight} onClose={close} onNextProject={()=>{setCaseEntryRect(null);if(nextCase)setCaseId(nextCase.id);}}/></Suspense>;
 
   return (
     <main ref={shellRef} onClick={handleNavigationClick} className="workAtlas" data-page={page} aria-busy={navigating} style={{ '--accent': stages[0].accent, '--stage-surface': stages[0].surface }}>
@@ -299,10 +305,8 @@ function App() {
         <ContactActions />
         <span>1483399012@qq.com / 13347214948 / SHI YI / 2026</span>
       </footer>
-      {selectedCase && <Suspense fallback={<div className="exhibitionLoading" role="status">正在打开作品…<button type="button" onClick={() => setCaseId(null)}>返回首页</button></div>}><ProjectExhibition key={caseId} project={selectedCase} nextProject={nextCase} entryRect={caseEntryRect} onClose={() => {setCaseId(null);setCaseEntryRect(null);}} onNextProject={() => {
-        setCaseEntryRect(null);
-        if (nextCase) setCaseId(nextCase.id);
-      }} /></Suspense>}
+      {selectedCase && (caseEntryRect?.kind==='screen' ? <ScreenFlight key={caseId} entry={caseEntryRect} onClose={closeCase}>{exhibition}</ScreenFlight> : exhibition(closeCase))}
+      {entrance && <SiteEntrance onComplete={() => setEntrance(false)}/>}
     </main>
   );
 }
