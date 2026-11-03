@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { ArrowLeft, ArrowUp, Download, List, Maximize2, X } from 'lucide-react';
 import ImageLightbox from './ImageLightbox';
 import './PlanReader.css';
+import retryMediaUrl from './retryMediaUrl';
 
 const PlanPage = memo(function PlanPage({ page, index, total, scrollRef, onZoom }) {
   const figureRef = useRef(null);
@@ -22,11 +23,11 @@ const PlanPage = memo(function PlanPage({ page, index, total, scrollRef, onZoom 
   const label = `策划案第 ${index + 1} 页`;
   return <figure ref={figureRef} className="planReaderPage" data-page={index + 1} aria-label={label} tabIndex={-1}>
     <button type="button" className={`planReaderPageImage ${loaded ? 'is-loaded' : ''}`} style={{ aspectRatio: `${page.width} / ${page.height}` }} onClick={() => onZoom(page, index)} disabled={!loaded || failed} aria-label={`放大查看${label}`} aria-haspopup="dialog">
-      {near && <img key={attempt} src={page.small} srcSet={`${page.small} 900w, ${page.src} ${page.width}w`} sizes="(max-width: 760px) 100vw, (max-width: 1120px) calc(100vw - 64px), 1040px" width={page.width} height={page.height} decoding="async" alt={label} onLoad={() => { setLoaded(true); setFailed(false); }} onError={() => setFailed(true)} />}
+      {near && <img key={attempt} src={retryMediaUrl(page.small, attempt)} srcSet={`${retryMediaUrl(page.small, attempt)} 900w, ${retryMediaUrl(page.src, attempt)} ${page.width}w`} sizes="(max-width: 760px) 100vw, (max-width: 1120px) calc(100vw - 64px), 1040px" width={page.width} height={page.height} decoding="async" alt={label} onLoad={() => { setLoaded(true); setFailed(false); }} onError={() => setFailed(true)} />}
       {!loaded && !failed && <span className="planReaderPagePlaceholder" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>}
       {loaded && <span className="planReaderZoom" aria-hidden="true"><Maximize2 size={15}/> 放大</span>}
     </button>
-    {failed && <div className="planReaderError" role="status"><p>这一页暂时无法载入</p><button type="button" onClick={() => { setFailed(false); setLoaded(false); setAttempt(value => value + 1); }}>重新加载</button></div>}
+    {failed && <div className="planReaderError" role="status"><p>这一页暂时无法载入</p><button type="button" onClick={() => { setFailed(false); setLoaded(false); setAttempt(Date.now()); }}>重新加载</button></div>}
     <figcaption><span>{String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}</span><span>点按页面放大</span></figcaption>
   </figure>;
 });

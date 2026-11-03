@@ -3,6 +3,8 @@ import { createPortal } from 'react-dom';
 import { ArrowLeft, ArrowUpRight, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import ImageLightbox from './ImageLightbox';
 import './WatchfaceExhibition.css';
+import ProjectLinkButton from './ProjectLinkButton';
+import retryMediaUrl from './retryMediaUrl';
 
 const variantInfo = {
   '赤曜仪表':'3 款配色', '悠然一刻':'3 款配色', '云端漫游':'4 个场景',
@@ -30,12 +32,13 @@ export default function WatchfaceExhibition({ project, onClose }) {
   const [notesOpen, setNotesOpen] = useState(false);
   const [zoomOpen, setZoomOpen] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [mediaAttempt, setMediaAttempt] = useState(0);
   const rootRef = useRef(null), notesRef = useRef(null), backRef = useRef(null), notesButton = useRef(null);
   const cardRefs = useRef(new Map()), directoryRef = useRef(null), gesture = useRef(null), nav = useRef(null);
   const selected = designs.find(design => design.id === selectedId);
   const item = selected?.items[frame];
   const visible = designs.filter(design => filter === '全部' || design.category === filter);
-  const selectFrame = index => { setFrame(Math.max(0, Math.min(selected.items.length - 1, index))); setImageError(false); };
+  const selectFrame = index => { setFrame(Math.max(0, Math.min(selected.items.length - 1, index))); setImageError(false); setMediaAttempt(0); };
   const back = () => {
     const id = selectedId; setSelectedId(null); setFrame(0); setNotesOpen(false);
     requestAnimationFrame(() => cardRefs.current.get(id)?.focus({ preventScroll:true }));
@@ -51,6 +54,7 @@ export default function WatchfaceExhibition({ project, onClose }) {
     const key = event => {
       const state = nav.current;
       if (state.zoomOpen) return;
+      if (event.target.closest?.('input') && !['Escape','Tab'].includes(event.key)) return;
       if (event.key === 'Escape') {
         event.preventDefault(); state.notesOpen ? state.closeNotes() : state.selected ? state.back() : state.onClose();
       }
@@ -59,7 +63,7 @@ export default function WatchfaceExhibition({ project, onClose }) {
       }
       if (event.key === 'Tab') {
         const scope = state.notesOpen ? notesRef.current : rootRef.current;
-        const nodes = [...scope.querySelectorAll('button:not(:disabled),a[href],[tabindex="0"]')].filter(n => n.getClientRects().length);
+        const nodes = [...scope.querySelectorAll('button:not(:disabled),a[href],input,[tabindex="0"]')].filter(n => n.getClientRects().length);
         const first = nodes[0], last = nodes.at(-1);
         if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
         else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
@@ -107,11 +111,11 @@ export default function WatchfaceExhibition({ project, onClose }) {
     if(event.currentTarget.hasPointerCapture(event.pointerId))event.currentTarget.releasePointerCapture(event.pointerId);
   };
   return createPortal(<section className="wcShell" ref={rootRef} role="dialog" aria-modal="true" aria-label="腕间万象展厅">
-    <header className="wcHeader"><span className="wcBrand">SHI YI <i>/</i> WATCHFACE COLLECTION</span><button type="button" className="wcClose" onClick={onClose} aria-label="关闭展厅"><span>返回首页</span><X size={20}/></button></header>
+    <header className="wcHeader"><span className="wcBrand">SHI YI <i>/</i> WATCHFACE COLLECTION</span><div className="wcHeaderActions"><ProjectLinkButton key={selectedId || project.id} projectId={selectedId || project.id}/><button type="button" className="wcClose" onClick={onClose} aria-label="关闭展厅"><span>返回首页</span><X size={20}/></button></div></header>
     <div className="wcDirectory" ref={directoryRef} hidden={Boolean(selected)}>
       <div className="wcDirectoryHeading"><div><p className="wcEyebrow">{designs.length} DESIGNS · SMALL SCREENS, MANY STORIES</p><h1>腕间万象</h1><p>从角色表情到数字仪表，探索腕上小屏幕的不同表达。</p></div><span className="wcDirectoryCount">{designs.length} <small>款表盘</small></span></div>
       <nav className="wcFilters" aria-label="表盘风格分类">{categories.map(category=><button type="button" key={category} aria-pressed={filter===category} onClick={()=>{setFilter(category);directoryRef.current.scrollTop=0;}}>{category}<span>{category==='全部'?designs.length:designs.filter(d=>d.category===category).length}</span></button>)}</nav>
-      <div className="wcGrid">{visible.map(design=><button type="button" className={`wcCard ${design.category==='重点案例'?'is-featured':''}`} key={design.id} ref={node=>{if(node)cardRefs.current.set(design.id,node);else cardRefs.current.delete(design.id);}} onClick={()=>{setSelectedId(design.id);setFrame(0);setImageError(false);}} aria-label={`查看${design.title}`}>
+      <div className="wcGrid">{visible.map(design=><button type="button" className={`wcCard ${design.category==='重点案例'?'is-featured':''}`} key={design.id} ref={node=>{if(node)cardRefs.current.set(design.id,node);else cardRefs.current.delete(design.id);}} onClick={()=>{setSelectedId(design.id);setFrame(0);setImageError(false);setMediaAttempt(0);}} aria-label={`查看${design.title}`}>
         <div className="wcCardArt"><img src={design.items[0].thumb||design.items[0].src} alt="" loading="lazy" decoding="async" draggable="false"/>{design.category==='重点案例'&&<span className="wcFeaturedTag">重点案例</span>}</div>
         <div className="wcCardCaption"><div><h2>{design.title}</h2><span className="wcVersionInfo">{variantInfo[design.title] || `${design.items.length} 张预览`}</span><p>{design.category==='重点案例'?'ChatGPT + Figma · 已上线':design.category}</p></div><ArrowUpRight size={19}/></div>
       </button>)}</div><p className="wcDirectoryEnd">选择一款表盘，查看完整设计与细节。</p>
@@ -120,8 +124,8 @@ export default function WatchfaceExhibition({ project, onClose }) {
       <div className="wcDetailTop"><button type="button" ref={backRef} onClick={back}><ArrowLeft size={16}/>返回目录</button><span>{selected.category}</span></div>
       <div className="wcDetailBody">
         <div className="wcArtwork" onPointerDown={startSwipe} onPointerUp={endSwipe} onPointerCancel={()=>{gesture.current=null;}}>
-          <img key={item.src} src={item.src} alt={item.label} draggable="false" onError={()=>setImageError(true)}/>
-          {imageError&&<a className="wcImageError" href={item.src} target="_blank" rel="noreferrer">图片暂未载入，打开原图</a>}
+          <img key={`${item.src}:${mediaAttempt}`} src={retryMediaUrl(item.src, mediaAttempt)} alt={item.label} draggable="false" onError={()=>setImageError(true)}/>
+          {imageError&&<div className="wcImageError" role="status"><span>图片暂时无法载入</span><button type="button" onClick={()=>{setImageError(false);setMediaAttempt(Date.now());}}>重新加载</button><a href={item.src} target="_blank" rel="noreferrer">打开原图</a></div>}
           <button type="button" className="wcZoom" onClick={()=>setZoomOpen(true)} aria-label="放大查看作品">放大查看<ArrowUpRight size={14}/></button>
         </div>
         <aside className="wcDescription"><p className="wcEyebrow">{selected.eyebrow}</p><h2>{selected.title}</h2><p className="wcSummary">{selected.summary}</p><div className="wcFrameNote"><h3>{item.label}</h3>{item.caption&&<p>{item.caption}</p>}</div><button type="button" className="wcNotesButton" ref={notesButton} onClick={()=>setNotesOpen(true)} aria-haspopup="dialog">设计说明 <span>+</span></button></aside>

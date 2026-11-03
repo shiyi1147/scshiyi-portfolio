@@ -1,0 +1,8 @@
+.projectLink {position:relative;flex:none;}
+.projectLink .projectLinkButton {display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;min-width:116px;padding:8px 10px;border:1px solid #c7fbe438;background:#c7fbe406;color:inherit;font-family:inherit;font-size:10px;letter-spacing:.03em;cursor:pointer;white-space:nowrap;}
+.projectLink .projectLinkButton:hover {background:#c7fbe415;border-color:#c7fbe480;}
+.projectLinkStatus {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;}
+.projectLinkFallback {position:absolute;top:calc(100% + 9px);right:0;width:min(320px,calc(100vw - 40px));padding:16px;background:#101d1b;border:1px solid #c7fbe445;box-shadow:0 12px 35px #0007;color:#def4ec;font-size:11px;line-height:1.8;z-index:12;}
+.projectLinkFallback input {display:block;width:100%;margin-top:10px;padding:10px 8px;border:1px solid #c7fbe445;background:#07120f;color:#def4ec;font:inherit;user-select:text;}
+.projectLink .projectLinkFallback button {min-height:44px;margin-top:6px;padding:6px 0;font-size:11px;}
+@media(max-width:760px) {.projectLink .projectLinkButton {min-width:108px;gap:6px;font-size:9px;}.projectLinkFallback {left:0;right:auto;}}
