@@ -2542,6 +2542,788 @@ const projects = [
     "number": "32"
   },
   {
+    "id": "archive-watch-26",
+    "title": "山海四时",
+    "name": "山海四时",
+    "group": "interface",
+    "category": "WATCHFACE DESIGN",
+    "summary": "以山海风景的一日光影为主题，呈现黎明、白昼、黄昏和夜晚四种配色。",
+    "details": [
+      [
+        "表盘介绍",
+        "以山海之间一天的光影流转为主题，从日出、晴昼、黄昏到星夜，让不同时间拥有各自的色彩与情绪。表盘将时间、天气与健康数据融入山海景致中，在每一次抬腕之间，感受昼夜更迭与潮汐呼吸。"
+      ]
+    ],
+    "items": [
+      {
+        "src": "assets/watchfaces/shanhai-four-seasons/square-native.webp",
+        "thumb": "assets/watchfaces/shanhai-four-seasons/square-native-thumb.webp",
+        "detail": "assets/watchfaces/shanhai-four-seasons/originals/square-native.png",
+        "label": "山海四时 · 方形 · 黎明",
+        "chapter": "方形表盘",
+        "caption": "黎明版将暖色天际与蓝色山海叠在时间和数据卡下方。"
+      },
+      {
+        "src": "assets/watchfaces/shanhai-four-seasons/square-day.webp",
+        "thumb": "assets/watchfaces/shanhai-four-seasons/square-day-thumb.webp",
+        "detail": "assets/watchfaces/shanhai-four-seasons/originals/square-day.png",
+        "label": "山海四时 · 方形 · 白昼",
+        "chapter": "方形表盘",
+        "caption": "白昼版用蓝天白云衬托浅色时间与数据卡。"
+      },
+      {
+        "src": "assets/watchfaces/shanhai-four-seasons/square-dusk.webp",
+        "thumb": "assets/watchfaces/shanhai-four-seasons/square-dusk-thumb.webp",
+        "detail": "assets/watchfaces/shanhai-four-seasons/originals/square-dusk.png",
+        "label": "山海四时 · 方形 · 黄昏",
+        "chapter": "方形表盘",
+        "caption": "黄昏版用金橙色落日照亮水面，时间与数据卡保持原位置。"
+      },
+      {
+        "src": "assets/watchfaces/shanhai-four-seasons/square-night.webp",
+        "thumb": "assets/watchfaces/shanhai-four-seasons/square-night-thumb.webp",
+        "detail": "assets/watchfaces/shanhai-four-seasons/originals/square-night.png",
+        "label": "山海四时 · 方形 · 夜晚",
+        "chapter": "方形表盘",
+        "caption": "夜晚版采用深蓝天空和星光，底部图标沿用浅色描边。"
+      },
+      {
+        "src": "assets/watchfaces/shanhai-four-seasons/round-dawn.webp",
+        "thumb": "assets/watchfaces/shanhai-four-seasons/round-dawn-thumb.webp",
+        "detail": "assets/watchfaces/shanhai-four-seasons/originals/round-dawn.png",
+        "label": "山海四时 · 圆形 · 黎明",
+        "chapter": "圆形表盘",
+        "caption": "圆形黎明版把时间和健康数据集中在表盘中央。"
+      },
+      {
+        "src": "assets/watchfaces/shanhai-four-seasons/capsule-dusk.webp",
+        "thumb": "assets/watchfaces/shanhai-four-seasons/capsule-dusk-thumb.webp",
+        "detail": "assets/watchfaces/shanhai-four-seasons/originals/capsule-dusk.png",
+        "label": "山海四时 · 跑道形 · 黄昏",
+        "chapter": "跑道形表盘",
+        "caption": "跑道形黄昏版按窄屏比例纵向排列时间与数据。"
+      }
+    ],
+    "accent": "#bff3df",
+    "color": "#bff3df",
+    "surface": "#111c1d",
+    "cover": "assets/watchfaces/shanhai-four-seasons/square-native.webp",
+    "preview": "assets/watchfaces/shanhai-four-seasons/square-native-thumb.webp",
+    "displayTitle": [
+      "山海四时"
+    ],
+    "eyebrow": "智能表盘 / 自然风景 · 三种外形",
+    "number": "39"
+  },
+  {
+    "id": "archive-watch-27",
+    "title": "虎啸荷风",
+    "name": "虎啸荷风",
+    "group": "interface",
+    "category": "WATCHFACE DESIGN",
+    "summary": "以猛虎和层叠荷叶为主视觉，将橙金与青绿融入时间、天气和健康信息布局。",
+    "details": [
+      [
+        "表盘介绍",
+        "猛虎隐于层叠荷叶之间，橙金与青绿交织出浓郁又沉静的东方意境。简洁融入时间、天气、步数与心率等日常信息，在一呼一吸的荷风里，感受力量与从容并存。"
+      ]
+    ],
+    "items": [
+      {
+        "src": "assets/watchfaces/tiger-lotus/square.webp",
+        "thumb": "assets/watchfaces/tiger-lotus/square-thumb.webp",
+        "detail": "assets/watchfaces/tiger-lotus/originals/square.png",
+        "label": "虎啸荷风 · 方形",
+        "chapter": "方形表盘",
+        "caption": "猛虎从层叠荷叶中探出，时间与数据沿画面右侧和底部排布。"
+      },
+      {
+        "src": "assets/watchfaces/tiger-lotus/round.webp",
+        "thumb": "assets/watchfaces/tiger-lotus/round-thumb.webp",
+        "detail": "assets/watchfaces/tiger-lotus/originals/round.png",
+        "label": "虎啸荷风 · 圆形",
+        "chapter": "圆形表盘",
+        "caption": "圆形版保留虎身与荷叶的构图，把健康数据放在下方。"
+      },
+      {
+        "src": "assets/watchfaces/tiger-lotus/capsule.webp",
+        "thumb": "assets/watchfaces/tiger-lotus/capsule-thumb.webp",
+        "detail": "assets/watchfaces/tiger-lotus/originals/capsule.png",
+        "label": "虎啸荷风 · 跑道形",
+        "chapter": "跑道形表盘",
+        "caption": "跑道形版以纵向构图保留虎头、荷花和醒目的数字时间。"
+      }
+    ],
+    "accent": "#bff3df",
+    "color": "#bff3df",
+    "surface": "#111c1d",
+    "cover": "assets/watchfaces/tiger-lotus/square.webp",
+    "preview": "assets/watchfaces/tiger-lotus/square-thumb.webp",
+    "displayTitle": [
+      "虎啸荷风"
+    ],
+    "eyebrow": "智能表盘 / 自然风景 · 三种外形",
+    "number": "40"
+  },
+  {
+    "id": "archive-watch-28",
+    "title": "幻夜时刻",
+    "name": "幻夜时刻",
+    "group": "interface",
+    "category": "WATCHFACE DESIGN",
+    "summary": "在深色底上使用紫粉渐变，分区呈现时间、天气和运动健康数据。",
+    "details": [
+      [
+        "表盘介绍",
+        "深色界面融入紫粉渐变，将时间、天气与运动健康数据有序排布，在克制的暗色氛围中保留鲜明的视觉层次。适配方形、圆形与跑道形屏幕，让不同形态下的信息体验保持统一。"
+      ]
+    ],
+    "items": [
+      {
+        "src": "assets/watchfaces/phantom-night/square.webp",
+        "thumb": "assets/watchfaces/phantom-night/square-thumb.webp",
+        "detail": "assets/watchfaces/phantom-night/originals/square.png",
+        "label": "幻夜时刻 · 方形",
+        "chapter": "方形表盘",
+        "caption": "紫粉时间数字置于深色界面中央，运动数据分区环绕。"
+      },
+      {
+        "src": "assets/watchfaces/phantom-night/round.webp",
+        "thumb": "assets/watchfaces/phantom-night/round-thumb.webp",
+        "detail": "assets/watchfaces/phantom-night/originals/round.png",
+        "label": "幻夜时刻 · 圆形",
+        "chapter": "圆形表盘",
+        "caption": "圆形版以紫色环状刻度收拢时间和运动数据。"
+      },
+      {
+        "src": "assets/watchfaces/phantom-night/capsule.webp",
+        "thumb": "assets/watchfaces/phantom-night/capsule-thumb.webp",
+        "detail": "assets/watchfaces/phantom-night/originals/capsule.png",
+        "label": "幻夜时刻 · 跑道形",
+        "chapter": "跑道形表盘",
+        "caption": "跑道形版将数字时间和健康信息分层纵向排列。"
+      }
+    ],
+    "accent": "#bff3df",
+    "color": "#bff3df",
+    "surface": "#111c1d",
+    "cover": "assets/watchfaces/phantom-night/square.webp",
+    "preview": "assets/watchfaces/phantom-night/square-thumb.webp",
+    "displayTitle": [
+      "幻夜时刻"
+    ],
+    "eyebrow": "智能表盘 / 数字科技 · 三种外形",
+    "number": "41"
+  },
+  {
+    "id": "archive-watch-29",
+    "title": "猫伴朝夕",
+    "name": "猫伴朝夕",
+    "group": "interface",
+    "category": "WATCHFACE DESIGN",
+    "summary": "以猫咪的日常为视觉线索，展示白天、黄昏和夜晚三组画面。",
+    "details": [
+      [
+        "表盘介绍",
+        "以猫咪的一天为视觉线索，画面会随着时间变化呈现不同的猫咪状态与场景，从晨间慵懒到夜晚静谧，让每个时段都有专属陪伴。大字号时间搭配日期、步数等基础信息，在实用功能之外，也多了一点温暖治愈的生活感。"
+      ]
+    ],
+    "items": [
+      {
+        "src": "assets/watchfaces/cat-day-cycle/square-day.webp",
+        "thumb": "assets/watchfaces/cat-day-cycle/square-day-thumb.webp",
+        "detail": "assets/watchfaces/cat-day-cycle/originals/square-day.png",
+        "label": "猫伴朝夕 · 方形 · 白天",
+        "chapter": "方形表盘",
+        "caption": "白天版以窗边小憩的猫咪为主体。"
+      },
+      {
+        "src": "assets/watchfaces/cat-day-cycle/square-dusk.webp",
+        "thumb": "assets/watchfaces/cat-day-cycle/square-dusk-thumb.webp",
+        "detail": "assets/watchfaces/cat-day-cycle/originals/square-dusk.png",
+        "label": "猫伴朝夕 · 方形 · 黄昏",
+        "chapter": "方形表盘",
+        "caption": "黄昏版将暖色光影和大号时间放在同一画面。"
+      },
+      {
+        "src": "assets/watchfaces/cat-day-cycle/square-night.webp",
+        "thumb": "assets/watchfaces/cat-day-cycle/square-night-thumb.webp",
+        "detail": "assets/watchfaces/cat-day-cycle/originals/square-night.png",
+        "label": "猫伴朝夕 · 方形 · 夜晚",
+        "chapter": "方形表盘",
+        "caption": "夜晚版以室内暖光衬托猫咪的轮廓。"
+      },
+      {
+        "src": "assets/watchfaces/cat-day-cycle/round-day.webp",
+        "thumb": "assets/watchfaces/cat-day-cycle/round-day-thumb.webp",
+        "detail": "assets/watchfaces/cat-day-cycle/originals/round-day.png",
+        "label": "猫伴朝夕 · 圆形 · 白天",
+        "chapter": "圆形表盘",
+        "caption": "圆形白天版围绕小憩的猫咪排列时间和健康数据。"
+      },
+      {
+        "src": "assets/watchfaces/cat-day-cycle/round-dusk.webp",
+        "thumb": "assets/watchfaces/cat-day-cycle/round-dusk-thumb.webp",
+        "detail": "assets/watchfaces/cat-day-cycle/originals/round-dusk.png",
+        "label": "猫伴朝夕 · 圆形 · 黄昏",
+        "chapter": "圆形表盘",
+        "caption": "圆形黄昏版以暖色光影衬托中央的猫咪。"
+      },
+      {
+        "src": "assets/watchfaces/cat-day-cycle/round-night.webp",
+        "thumb": "assets/watchfaces/cat-day-cycle/round-night-thumb.webp",
+        "detail": "assets/watchfaces/cat-day-cycle/originals/round-night.png",
+        "label": "猫伴朝夕 · 圆形 · 夜晚",
+        "chapter": "圆形表盘",
+        "caption": "圆形夜晚版保留猫咪与下方的分区数据。"
+      },
+      {
+        "src": "assets/watchfaces/cat-day-cycle/capsule-day.webp",
+        "thumb": "assets/watchfaces/cat-day-cycle/capsule-day-thumb.webp",
+        "detail": "assets/watchfaces/cat-day-cycle/originals/capsule-day.png",
+        "label": "猫伴朝夕 · 跑道形 · 白天",
+        "chapter": "跑道形表盘",
+        "caption": "跑道形白天版将时间、猫咪和步数依次纵向排布。"
+      },
+      {
+        "src": "assets/watchfaces/cat-day-cycle/capsule-dusk.webp",
+        "thumb": "assets/watchfaces/cat-day-cycle/capsule-dusk-thumb.webp",
+        "detail": "assets/watchfaces/cat-day-cycle/originals/capsule-dusk.png",
+        "label": "猫伴朝夕 · 跑道形 · 黄昏",
+        "chapter": "跑道形表盘",
+        "caption": "跑道形黄昏版在窄屏中保留暖色场景。"
+      },
+      {
+        "src": "assets/watchfaces/cat-day-cycle/capsule-night.webp",
+        "thumb": "assets/watchfaces/cat-day-cycle/capsule-night-thumb.webp",
+        "detail": "assets/watchfaces/cat-day-cycle/originals/capsule-night.png",
+        "label": "猫伴朝夕 · 跑道形 · 夜晚",
+        "chapter": "跑道形表盘",
+        "caption": "跑道形夜晚版将数字时间置于暗色场景上方。"
+      }
+    ],
+    "accent": "#bff3df",
+    "color": "#bff3df",
+    "surface": "#111c1d",
+    "cover": "assets/watchfaces/cat-day-cycle/square-day.webp",
+    "preview": "assets/watchfaces/cat-day-cycle/square-day-thumb.webp",
+    "displayTitle": [
+      "猫伴朝夕"
+    ],
+    "eyebrow": "智能表盘 / 趣味角色 · 三种外形",
+    "number": "42"
+  },
+  {
+    "id": "archive-watch-30",
+    "title": "萌爪时光",
+    "name": "萌爪时光",
+    "group": "interface",
+    "category": "WATCHFACE DESIGN",
+    "summary": "以蓝绿色和探头小狗为主视觉，搭配大号数字和日常健康信息。",
+    "details": [
+      [
+        "表盘介绍",
+        "清新的蓝绿色调里，小狗探出脑袋陪你一起看时间，俏皮又治愈。大号数字清晰醒目，并融入日期、步数、心率与电量信息，让日常状态一眼可见。"
+      ]
+    ],
+    "items": [
+      {
+        "src": "assets/watchfaces/puppy-time/square.webp",
+        "thumb": "assets/watchfaces/puppy-time/square-thumb.webp",
+        "detail": "assets/watchfaces/puppy-time/originals/square.png",
+        "label": "萌爪时光 · 方形",
+        "chapter": "方形表盘",
+        "caption": "蓝绿色方形界面突出大号时间和探头小狗。"
+      },
+      {
+        "src": "assets/watchfaces/puppy-time/round.webp",
+        "thumb": "assets/watchfaces/puppy-time/round-thumb.webp",
+        "detail": "assets/watchfaces/puppy-time/originals/round.png",
+        "label": "萌爪时光 · 圆形",
+        "chapter": "圆形表盘",
+        "caption": "圆形版将数字时间放在上方，小狗和运动信息沿下方排列。"
+      },
+      {
+        "src": "assets/watchfaces/puppy-time/capsule.webp",
+        "thumb": "assets/watchfaces/puppy-time/capsule-thumb.webp",
+        "detail": "assets/watchfaces/puppy-time/originals/capsule.png",
+        "label": "萌爪时光 · 跑道形",
+        "chapter": "跑道形表盘",
+        "caption": "跑道形版将大号数字分为两行，底部保留小狗和步数。"
+      }
+    ],
+    "accent": "#bff3df",
+    "color": "#bff3df",
+    "surface": "#111c1d",
+    "cover": "assets/watchfaces/puppy-time/square.webp",
+    "preview": "assets/watchfaces/puppy-time/square-thumb.webp",
+    "displayTitle": [
+      "萌爪时光"
+    ],
+    "eyebrow": "智能表盘 / 趣味角色 · 三种外形",
+    "number": "43"
+  },
+  {
+    "id": "archive-watch-31",
+    "title": "几何矩阵",
+    "name": "几何矩阵",
+    "group": "interface",
+    "category": "WATCHFACE DESIGN",
+    "summary": "用不规则几何色块组织时间、步数、心率、睡眠和压力等信息。",
+    "details": [
+      [
+        "表盘介绍",
+        "以不规则几何色块重新组织时间与健康数据，用柔和的多彩配色打破传统表盘的规整布局。心率、步数、睡眠、压力等信息各自成区，在清晰易读的同时，让每一次抬腕都多一份轻松有趣的节奏感。"
+      ]
+    ],
+    "items": [
+      {
+        "src": "assets/watchfaces/geometry-matrix/square.webp",
+        "thumb": "assets/watchfaces/geometry-matrix/square-thumb.webp",
+        "detail": "assets/watchfaces/geometry-matrix/originals/square.png",
+        "label": "几何矩阵 · 方形",
+        "chapter": "方形表盘",
+        "caption": "不规则色块在方形界面中划分时间、睡眠和运动等信息。"
+      },
+      {
+        "src": "assets/watchfaces/geometry-matrix/round.webp",
+        "thumb": "assets/watchfaces/geometry-matrix/round-thumb.webp",
+        "detail": "assets/watchfaces/geometry-matrix/originals/round.png",
+        "label": "几何矩阵 · 圆形",
+        "chapter": "圆形表盘",
+        "caption": "圆形版用放射状色块围绕中央时间与健康数据。"
+      },
+      {
+        "src": "assets/watchfaces/geometry-matrix/capsule.webp",
+        "thumb": "assets/watchfaces/geometry-matrix/capsule-thumb.webp",
+        "detail": "assets/watchfaces/geometry-matrix/originals/capsule.png",
+        "label": "几何矩阵 · 跑道形",
+        "chapter": "跑道形表盘",
+        "caption": "跑道形版压缩色块，沿纵向分区呈现数据。"
+      }
+    ],
+    "accent": "#bff3df",
+    "color": "#bff3df",
+    "surface": "#111c1d",
+    "cover": "assets/watchfaces/geometry-matrix/square.webp",
+    "preview": "assets/watchfaces/geometry-matrix/square-thumb.webp",
+    "displayTitle": [
+      "几何矩阵"
+    ],
+    "eyebrow": "智能表盘 / 简约日常 · 三种外形",
+    "number": "44"
+  },
+  {
+    "id": "archive-watch-32",
+    "title": "鸭探长",
+    "name": "鸭探长",
+    "group": "interface",
+    "category": "WATCHFACE DESIGN",
+    "summary": "以鸭探长夜巡为主题，用手电光束变化串起角色与时间信息。",
+    "details": [
+      [
+        "表盘介绍",
+        "鸭探长上线，开启腕间夜巡！手电光束缓缓展开，照亮时间与天气，电量和活动数据随时待命。酷酷的墨镜配上花短裤，把一点冒险感和小幽默装进手腕，每次抬腕，都有新发现。"
+      ]
+    ],
+    "items": [
+      {
+        "src": "assets/watchfaces/duck-detective/originals/square-native.gif",
+        "thumb": "assets/watchfaces/duck-detective/square-native-thumb.webp",
+        "detail": "assets/watchfaces/duck-detective/originals/square-native.gif",
+        "label": "鸭探长 · 方形",
+        "chapter": "方形表盘",
+        "caption": "方形动画用展开的手电光束照亮时间与天气。",
+        "still": "assets/watchfaces/duck-detective/square-native.webp"
+      },
+      {
+        "src": "assets/watchfaces/duck-detective/originals/round.gif",
+        "thumb": "assets/watchfaces/duck-detective/round-thumb.webp",
+        "detail": "assets/watchfaces/duck-detective/originals/round.gif",
+        "label": "鸭探长 · 圆形",
+        "chapter": "圆形表盘",
+        "caption": "圆形动画保留鸭探长和光束，运动数据分布于两侧。",
+        "still": "assets/watchfaces/duck-detective/round.webp"
+      },
+      {
+        "src": "assets/watchfaces/duck-detective/originals/capsule.gif",
+        "thumb": "assets/watchfaces/duck-detective/capsule-thumb.webp",
+        "detail": "assets/watchfaces/duck-detective/originals/capsule.gif",
+        "label": "鸭探长 · 跑道形",
+        "chapter": "跑道形表盘",
+        "caption": "跑道形动画在窄屏中纵向安排光束、角色和数据。",
+        "still": "assets/watchfaces/duck-detective/capsule.webp"
+      },
+      {
+        "src": "assets/watchfaces/duck-detective/flashlight-sequence.webp",
+        "thumb": "assets/watchfaces/duck-detective/flashlight-sequence-thumb.webp",
+        "label": "鸭探长 · 手电光束分镜",
+        "chapter": "动效说明",
+        "caption": "取自方形表盘原始动图的五帧。从夜巡起始、手电点亮到光束展开，时间和日期逐渐显现，最终定格在亮屏画面。"
+      }
+    ],
+    "accent": "#bff3df",
+    "color": "#bff3df",
+    "surface": "#111c1d",
+    "cover": "assets/watchfaces/duck-detective/square-native.webp",
+    "preview": "assets/watchfaces/duck-detective/square-native-thumb.webp",
+    "displayTitle": [
+      "鸭探长"
+    ],
+    "eyebrow": "智能表盘 / 趣味角色 · 三种外形",
+    "number": "45"
+  },
+  {
+    "id": "archive-watch-33",
+    "title": "赤速仪表",
+    "name": "赤速仪表",
+    "group": "interface",
+    "category": "WATCHFACE DESIGN",
+    "summary": "借用汽车仪表盘的弧形刻度和黑红配色，组织时间、天气与运动数据。",
+    "details": [
+      [
+        "表盘介绍",
+        "灵感源自汽车驾驶仪表盘，以黑红配色与弧形刻度构建速度感十足的视觉界面。将步数、心率、电量、天气等日常数据融入驾驶舱式布局，让每一次抬腕，都像点亮属于自己的数字座舱。"
+      ]
+    ],
+    "items": [
+      {
+        "src": "assets/watchfaces/red-speed-gauge/square-native.webp",
+        "thumb": "assets/watchfaces/red-speed-gauge/square-native-thumb.webp",
+        "detail": "assets/watchfaces/red-speed-gauge/originals/square-native.png",
+        "label": "赤速仪表 · 方形",
+        "chapter": "方形表盘",
+        "caption": "黑红界面借用汽车仪表的弧形刻度，下方排列健康数据。"
+      },
+      {
+        "src": "assets/watchfaces/red-speed-gauge/round.webp",
+        "thumb": "assets/watchfaces/red-speed-gauge/round-thumb.webp",
+        "detail": "assets/watchfaces/red-speed-gauge/originals/round.png",
+        "label": "赤速仪表 · 圆形",
+        "chapter": "圆形表盘",
+        "caption": "圆形版将红色弧形仪表与周边数据沿圆面组织。"
+      },
+      {
+        "src": "assets/watchfaces/red-speed-gauge/capsule.webp",
+        "thumb": "assets/watchfaces/red-speed-gauge/capsule-thumb.webp",
+        "detail": "assets/watchfaces/red-speed-gauge/originals/capsule.png",
+        "label": "赤速仪表 · 跑道形",
+        "chapter": "跑道形表盘",
+        "caption": "跑道形版沿纵向压缩仪表、时间和底部数据。"
+      }
+    ],
+    "accent": "#bff3df",
+    "color": "#bff3df",
+    "surface": "#111c1d",
+    "cover": "assets/watchfaces/red-speed-gauge/square-native.webp",
+    "preview": "assets/watchfaces/red-speed-gauge/square-native-thumb.webp",
+    "displayTitle": [
+      "赤速仪表"
+    ],
+    "eyebrow": "智能表盘 / 数字科技 · 三种外形",
+    "number": "46"
+  },
+  {
+    "id": "archive-watch-34",
+    "title": "霓虹机舱",
+    "name": "霓虹机舱",
+    "group": "interface",
+    "category": "WATCHFACE DESIGN",
+    "summary": "以青色霓虹边框、机械螺钉和撞色色条构成复古仪表盘风格。",
+    "details": [
+      [
+        "表盘介绍",
+        "以复古仪表盘为灵感，将青色霓虹边框、机械螺钉与红黄撞色色条融入腕间。淡绿色面板搭配醒目的数字，让时间、电量、天气与运动数据清晰呈现，仿佛随身携带一座微型驾驶舱，为日常增添动感与探索气息。"
+      ]
+    ],
+    "items": [
+      {
+        "src": "assets/watchfaces/neon-cockpit/square-native.webp",
+        "thumb": "assets/watchfaces/neon-cockpit/square-native-thumb.webp",
+        "detail": "assets/watchfaces/neon-cockpit/originals/square-native.png",
+        "label": "霓虹机舱 · 方形",
+        "chapter": "方形表盘",
+        "caption": "霓虹边框内叠放数字时间、撞色色条和大号步数。"
+      },
+      {
+        "src": "assets/watchfaces/neon-cockpit/round.webp",
+        "thumb": "assets/watchfaces/neon-cockpit/round-thumb.webp",
+        "detail": "assets/watchfaces/neon-cockpit/originals/round.png",
+        "label": "霓虹机舱 · 圆形",
+        "chapter": "圆形表盘",
+        "caption": "圆形版用机械边框围合时间和仪表式数据条。"
+      },
+      {
+        "src": "assets/watchfaces/neon-cockpit/capsule.webp",
+        "thumb": "assets/watchfaces/neon-cockpit/capsule-thumb.webp",
+        "detail": "assets/watchfaces/neon-cockpit/originals/capsule.png",
+        "label": "霓虹机舱 · 跑道形",
+        "chapter": "跑道形表盘",
+        "caption": "跑道形版在窄屏中纵向排列时间、电量和运动信息。"
+      }
+    ],
+    "accent": "#bff3df",
+    "color": "#bff3df",
+    "surface": "#111c1d",
+    "cover": "assets/watchfaces/neon-cockpit/square-native.webp",
+    "preview": "assets/watchfaces/neon-cockpit/square-native-thumb.webp",
+    "displayTitle": [
+      "霓虹机舱"
+    ],
+    "eyebrow": "智能表盘 / 数字科技 · 三种外形",
+    "number": "47"
+  },
+  {
+    "id": "archive-watch-35",
+    "title": "赤白序章",
+    "name": "赤白序章",
+    "group": "interface",
+    "category": "WATCHFACE DESIGN",
+    "summary": "以红白配色和模块化排版呈现时间、步数、心率、电量及天气。",
+    "details": [
+      [
+        "表盘介绍",
+        "以清爽的红白配色为视觉核心，将时间、步数、心率、电量与天气等信息有序分区呈现。简洁的模块化布局兼顾活力与秩序感，让丰富数据一目了然，为日常抬腕增添一份轻快节奏。"
+      ]
+    ],
+    "items": [
+      {
+        "src": "assets/watchfaces/red-white-prelude/square.webp",
+        "thumb": "assets/watchfaces/red-white-prelude/square-thumb.webp",
+        "detail": "assets/watchfaces/red-white-prelude/originals/square.jpg",
+        "label": "赤白序章 · 方形",
+        "chapter": "方形表盘",
+        "caption": "红白数据模块围绕黑色时间数字排布。"
+      },
+      {
+        "src": "assets/watchfaces/red-white-prelude/round.webp",
+        "thumb": "assets/watchfaces/red-white-prelude/round-thumb.webp",
+        "detail": "assets/watchfaces/red-white-prelude/originals/round.png",
+        "label": "赤白序章 · 圆形",
+        "chapter": "圆形表盘",
+        "caption": "圆形版将红色环形指标与数字时间并置。"
+      },
+      {
+        "src": "assets/watchfaces/red-white-prelude/capsule.webp",
+        "thumb": "assets/watchfaces/red-white-prelude/capsule-thumb.webp",
+        "detail": "assets/watchfaces/red-white-prelude/originals/capsule.png",
+        "label": "赤白序章 · 跑道形",
+        "chapter": "跑道形表盘",
+        "caption": "跑道形版按纵向顺序组织时间和红白数据。"
+      }
+    ],
+    "accent": "#bff3df",
+    "color": "#bff3df",
+    "surface": "#111c1d",
+    "cover": "assets/watchfaces/red-white-prelude/square.webp",
+    "preview": "assets/watchfaces/red-white-prelude/square-thumb.webp",
+    "displayTitle": [
+      "赤白序章"
+    ],
+    "eyebrow": "智能表盘 / 简约日常 · 三种外形",
+    "number": "48"
+  },
+  {
+    "id": "archive-watch-36",
+    "title": "摸鱼战甲",
+    "name": "摸鱼战甲",
+    "group": "interface",
+    "category": "WATCHFACE DESIGN",
+    "summary": "将机甲式数据面板与猫咪图案结合，用醒目的时间数字组织画面。",
+    "details": [
+      [
+        "表盘介绍",
+        "红黑机甲风，装着一只想躺平的猫。醒目的数字时间搭配趣味猫咪表情，让硬朗线条多一点慵懒与俏皮。天气、步数、心率、热量与电量清晰呈现，布局让日常信息一目了然。认真生活，也别忘了偶尔摸鱼。"
+      ]
+    ],
+    "items": [
+      {
+        "src": "assets/watchfaces/cat-mecha/square.webp",
+        "thumb": "assets/watchfaces/cat-mecha/square-thumb.webp",
+        "detail": "assets/watchfaces/cat-mecha/originals/square.png",
+        "label": "摸鱼战甲 · 方形",
+        "chapter": "方形表盘",
+        "caption": "红白机甲面板把猫咪插画放在功能数据之间。"
+      },
+      {
+        "src": "assets/watchfaces/cat-mecha/round.webp",
+        "thumb": "assets/watchfaces/cat-mecha/round-thumb.webp",
+        "detail": "assets/watchfaces/cat-mecha/originals/round.png",
+        "label": "摸鱼战甲 · 圆形",
+        "chapter": "圆形表盘",
+        "caption": "圆形版用黑红环形结构围合猫咪和运动数据。"
+      },
+      {
+        "src": "assets/watchfaces/cat-mecha/capsule.webp",
+        "thumb": "assets/watchfaces/cat-mecha/capsule-thumb.webp",
+        "detail": "assets/watchfaces/cat-mecha/originals/capsule.png",
+        "label": "摸鱼战甲 · 跑道形",
+        "chapter": "跑道形表盘",
+        "caption": "跑道形版在窄屏中交替排列猫咪插画和数据模块。"
+      }
+    ],
+    "accent": "#bff3df",
+    "color": "#bff3df",
+    "surface": "#111c1d",
+    "cover": "assets/watchfaces/cat-mecha/square.webp",
+    "preview": "assets/watchfaces/cat-mecha/square-thumb.webp",
+    "displayTitle": [
+      "摸鱼战甲"
+    ],
+    "eyebrow": "智能表盘 / 趣味角色 · 三种外形",
+    "number": "49"
+  },
+  {
+    "id": "archive-watch-37",
+    "title": "霓光心晴",
+    "name": "霓光心晴",
+    "group": "interface",
+    "category": "WATCHFACE DESIGN",
+    "summary": "以青紫渐变勾勒表盘轮廓，搭配大号时间和心情表情。",
+    "details": [
+      [
+        "表盘介绍",
+        "让时间有色彩，让心情有表情。青紫渐变勾勒霓光轮廓，大号数字让时间一目了然。开心、平静、低落、活力与未知，五种表情记录当下心境；天气、日期、电量与运动数据清晰呈现，陪你度过每一种心情的日常。"
+      ]
+    ],
+    "items": [
+      {
+        "src": "assets/watchfaces/neon-mood/square.webp",
+        "thumb": "assets/watchfaces/neon-mood/square-thumb.webp",
+        "detail": "assets/watchfaces/neon-mood/originals/square.png",
+        "label": "霓光心晴 · 方形",
+        "chapter": "方形表盘",
+        "caption": "青紫边框围绕大号时间，两侧排列日期、天气和健康数据。"
+      },
+      {
+        "src": "assets/watchfaces/neon-mood/round.webp",
+        "thumb": "assets/watchfaces/neon-mood/round-thumb.webp",
+        "detail": "assets/watchfaces/neon-mood/originals/round.png",
+        "label": "霓光心晴 · 圆形",
+        "chapter": "圆形表盘",
+        "caption": "圆形版以简洁霓光边框突出大数字时间。"
+      },
+      {
+        "src": "assets/watchfaces/neon-mood/capsule.webp",
+        "thumb": "assets/watchfaces/neon-mood/capsule-thumb.webp",
+        "detail": "assets/watchfaces/neon-mood/originals/capsule.png",
+        "label": "霓光心晴 · 跑道形",
+        "chapter": "跑道形表盘",
+        "caption": "跑道形版在窄屏中保留渐变时分数字，并在一侧排列数据。"
+      }
+    ],
+    "accent": "#bff3df",
+    "color": "#bff3df",
+    "surface": "#111c1d",
+    "cover": "assets/watchfaces/neon-mood/square.webp",
+    "preview": "assets/watchfaces/neon-mood/square-thumb.webp",
+    "displayTitle": [
+      "霓光心晴"
+    ],
+    "eyebrow": "智能表盘 / 趣味角色 · 三种外形",
+    "number": "50"
+  },
+  {
+    "id": "archive-watch-38",
+    "title": "荧光脉动",
+    "name": "荧光脉动",
+    "group": "interface",
+    "category": "WATCHFACE DESIGN",
+    "summary": "以荧光绿轮廓和金属质感卡片呈现时间、运动与健康信息。",
+    "details": [
+      [
+        "表盘介绍",
+        "以深邃黑色为底，搭配荧光绿轮廓与金属质感卡片，呈现鲜明的科技运动风格。大号时间清晰醒目，天气、步数、心率、电量及运动里程分区呈现，绿色分段进度条让每日活动一目了然。无论日常通勤还是运动时刻，都能抬腕掌握自己的节奏。"
+      ]
+    ],
+    "items": [
+      {
+        "src": "assets/watchfaces/fluorescent-pulse/square.webp",
+        "thumb": "assets/watchfaces/fluorescent-pulse/square-thumb.webp",
+        "detail": "assets/watchfaces/fluorescent-pulse/originals/square.png",
+        "label": "荧光脉动 · 方形",
+        "chapter": "方形表盘",
+        "caption": "荧光绿边框与分段进度条串起时间、运动和里程模块。"
+      },
+      {
+        "src": "assets/watchfaces/fluorescent-pulse/round.webp",
+        "thumb": "assets/watchfaces/fluorescent-pulse/round-thumb.webp",
+        "detail": "assets/watchfaces/fluorescent-pulse/originals/round.png",
+        "label": "荧光脉动 · 圆形",
+        "chapter": "圆形表盘",
+        "caption": "圆形版用弧形边框围合金属质感的数据区。"
+      },
+      {
+        "src": "assets/watchfaces/fluorescent-pulse/capsule.webp",
+        "thumb": "assets/watchfaces/fluorescent-pulse/capsule-thumb.webp",
+        "detail": "assets/watchfaces/fluorescent-pulse/originals/capsule.png",
+        "label": "荧光脉动 · 跑道形",
+        "chapter": "跑道形表盘",
+        "caption": "跑道形版在窄屏内纵向排布时间、进度条和运动数据。"
+      }
+    ],
+    "accent": "#bff3df",
+    "color": "#bff3df",
+    "surface": "#111c1d",
+    "cover": "assets/watchfaces/fluorescent-pulse/square.webp",
+    "preview": "assets/watchfaces/fluorescent-pulse/square-thumb.webp",
+    "displayTitle": [
+      "荧光脉动"
+    ],
+    "eyebrow": "智能表盘 / 数字科技 · 三种外形",
+    "number": "51"
+  },
+  {
+    "id": "archive-watch-39",
+    "title": "霓光脉冲",
+    "name": "霓光脉冲",
+    "group": "interface",
+    "category": "WATCHFACE DESIGN",
+    "summary": "以电光紫、荧光绿与几何刻度构建偏赛博风格的数字仪表盘。",
+    "details": [
+      [
+        "表盘介绍",
+        "以电光紫与荧光绿勾勒机械轮廓，将未来科技感融入腕间。大号数码时间醒目直观，天气、日出日落、电量与活动数据分区呈现，搭配几何刻度和能量色条，在深邃黑底上构建清晰而富有张力的视觉层次，展现独特的赛博风格。"
+      ]
+    ],
+    "items": [
+      {
+        "src": "assets/watchfaces/neon-pulse/square.webp",
+        "thumb": "assets/watchfaces/neon-pulse/square-thumb.webp",
+        "detail": "assets/watchfaces/neon-pulse/originals/square.png",
+        "label": "霓光脉冲 · 方形",
+        "chapter": "方形表盘",
+        "caption": "电光紫数字与荧光绿数据条构成方形机械仪表。"
+      },
+      {
+        "src": "assets/watchfaces/neon-pulse/round.webp",
+        "thumb": "assets/watchfaces/neon-pulse/round-thumb.webp",
+        "detail": "assets/watchfaces/neon-pulse/originals/round.png",
+        "label": "霓光脉冲 · 圆形",
+        "chapter": "圆形表盘",
+        "caption": "圆形版以紫绿边框围合中央时间和活动数据。"
+      },
+      {
+        "src": "assets/watchfaces/neon-pulse/capsule.webp",
+        "thumb": "assets/watchfaces/neon-pulse/capsule-thumb.webp",
+        "detail": "assets/watchfaces/neon-pulse/originals/capsule.png",
+        "label": "霓光脉冲 · 跑道形",
+        "chapter": "跑道形表盘",
+        "caption": "跑道形版纵向排列数码时间、几何刻度和能量色条。"
+      }
+    ],
+    "accent": "#bff3df",
+    "color": "#bff3df",
+    "surface": "#111c1d",
+    "cover": "assets/watchfaces/neon-pulse/square.webp",
+    "preview": "assets/watchfaces/neon-pulse/square-thumb.webp",
+    "displayTitle": [
+      "霓光脉冲"
+    ],
+    "eyebrow": "智能表盘 / 数字科技 · 三种外形",
+    "number": "52"
+  },
+  {
     "id": "archive-sanfu",
     "title": "三福 · 品牌策划",
     "name": "三福提案",

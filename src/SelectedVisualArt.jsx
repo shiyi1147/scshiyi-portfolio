@@ -21,7 +21,7 @@ export default function SelectedVisualArt({ item, surface, onOpen, onStep, onErr
   };
   return <div className={`selectedVisualArt layout-${item.layout}`} style={{ '--visual-surface': surface }}>
     {item.artworks.map((artwork, index) => <button type="button" key={artwork.src} className="selectedVisualPiece" onPointerDown={start} onPointerUp={end} onPointerCancel={() => { gesture.current = null; swiped.current = true; }} onClick={() => { if (!swiped.current) onOpen?.(index); swiped.current = false; }} tabIndex={onOpen ? 0 : -1} aria-label={`放大查看${artwork.label}`} aria-haspopup="dialog">
-      <img src={retryMediaUrl(artwork.src, attempt)} width={artwork.width} height={artwork.height} alt={artwork.label} draggable="false" onError={onError}/>
+      <img src={retryMediaUrl(artwork.src, attempt)} width={artwork.width} height={artwork.height} alt={artwork.label} fetchPriority={onOpen ? 'high' : undefined} draggable="false" onError={onError}/>
       {item.artworks.length > 1 && <span>{artwork.label}</span>}
     </button>)}
   </div>;

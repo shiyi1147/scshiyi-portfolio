@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
 // The exhibition remains usable while the optional WebGL effect downloads.
-export default function DeferredBackdrop(props) {
+export default function DeferredBackdrop({ ready = true, ...props }) {
   const [Effect, setEffect] = useState(null);
   useEffect(() => {
-    if (props.reduced) return;
+    if (!ready || props.reduced || navigator.connection?.saveData) return;
     let alive = true;
     const timer = window.setTimeout(() => {
       import('./RefractiveBackdrop').then(module => {
@@ -12,7 +12,8 @@ export default function DeferredBackdrop(props) {
       }).catch(() => { /* Keep the static background when offline or interrupted. */ });
     }, 1500);
     return () => { alive = false; window.clearTimeout(timer); };
-  }, [props.reduced]);
+  }, [ready, props.reduced]);
+  if (!ready) return null;
   if (Effect && !props.reduced) return <Effect {...props} />;
   return <div className="immersiveBackdrop" aria-hidden="true">
     <picture>

@@ -252,7 +252,9 @@ function App() {
         <button className="workAtlasMenu" type="button" onClick={() => setMenuOpen((value) => !value)} aria-expanded={menuOpen} aria-label={menuOpen ? "关闭导航" : "打开导航"}><Menu size={18} /><span>MENU</span></button>
       </header>
 
-      <ImmersiveWork hidden={page !== 'top'} suspended={Boolean(caseId) || page !== 'top'} stages={archiveProjects} featured={spatialShowcase} onOpen={(id, ids, rect) => {
+      <ImmersiveWork hidden={page !== 'top'} suspended={Boolean(caseId) || page !== 'top'} stages={archiveProjects} featured={spatialShowcase} onCancelPending={() => {
+        if (caseEntryRect?.kind === 'screen') setCaseId(null);
+      }} onOpen={(id, ids, rect) => {
         setCaseEntryRect(rect);
         setCaseSequence(ids);
         setCaseId(id);

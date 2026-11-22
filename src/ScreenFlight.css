@@ -10,7 +10,7 @@
 .exhibition.is-intro.has-screen-entry .exhibitionBackdrop {opacity:1;filter:none;transform:none;}
 .exhibition.has-screen-entry .exhibitionHeader,.exhibition.has-screen-entry .exhibitionFooter,.exhibition.has-screen-entry .exhibitionIntroBody {transition:opacity .35s;}
 .exhibition.has-screen-entry.is-entering .exhibitionHeader,.exhibition.has-screen-entry.is-entering .exhibitionFooter,.exhibition.has-screen-entry.is-entering .exhibitionIntroBody {opacity:0;pointer-events:none;}
-.screenFlightLoading {position:fixed;inset:0;z-index:300;background:transparent;}
+.screenFlightLoading {position:fixed;inset:0;z-index:300;background:transparent;pointer-events:none;}
 .screenFlightCancel {position:absolute;top:18px;left:calc(50% - 22px);width:44px;height:44px;border:0;background:#07121970;color:#def4ec;font:28px Arial,sans-serif;pointer-events:auto;cursor:pointer;}
 .screenFlightCancel:focus-visible {outline:2px solid #c5f9df;outline-offset:3px;}
 .screenFlightWaiting {position:absolute;left:38px;bottom:32px;color:#d0f3e9;font:12px var(--portfolio-font),sans-serif;}

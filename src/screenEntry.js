@@ -4,12 +4,18 @@ export default function captureScreenEntry(screen,{fallbackImage,motionAllowed=t
   const rect = screen?.getBoundingClientRect();
   if (!source || !rect?.width || !rect.height) return null;
   const portalWidth=screen.clientWidth, portalHeight=screen.clientHeight;
-  const quad=[[0,0],[portalWidth,0],[portalWidth,portalHeight],[0,portalHeight]].map(([left,top])=>{
+  const markers=[[0,0],[portalWidth,0],[portalWidth,portalHeight],[0,portalHeight]].map(([left,top])=>{
     const marker=document.createElement('span');
     marker.style.cssText=`position:absolute;left:${left}px;top:${top}px;width:0;height:0;pointer-events:none`;
-    screen.append(marker);const point=marker.getBoundingClientRect();marker.remove();return [point.left,point.top];
+    return marker;
   });
-  const media=[];let released=false;
+  screen.append(...markers);
+  const quad=markers.map(marker=>{
+    const {left,top}=marker.getBoundingClientRect();
+    return [left,top];
+  });
+  markers.forEach(marker=>marker.remove());
+  const media=[];let released=false,poster;
   const snapshot = (node,role) => {
     if (node.nodeType !== Node.ELEMENT_NODE) return node.cloneNode(false);
     if (node.matches('.workArchive,.immersiveCursor')) return null;
@@ -23,7 +29,7 @@ export default function captureScreenEntry(screen,{fallbackImage,motionAllowed=t
       const paint=()=>{
         if(released)return;
         const ready=node.naturalWidth || node.readyState>=2;
-        const image=ready ? node : node.closest('.spatialMedia.is-current') ? fallbackImage : null;
+        const image=ready ? node : node.matches('.spatialMedia.is-current video') ? poster : null;
         if(!image?.naturalWidth && !(image?.readyState>=2))return;
         const width=image.naturalWidth || image.videoWidth,height=image.naturalHeight || image.videoHeight;
         if(canvas.width!==width)canvas.width=width;if(canvas.height!==height)canvas.height=height;
@@ -63,6 +69,11 @@ export default function captureScreenEntry(screen,{fallbackImage,motionAllowed=t
   const videos=[...new Set(media.filter(item=>item.video&&item.source.closest('.spatialMedia.is-current')).map(item=>item.source))];
   const entry={ kind:'screen', scene, surface, media, videos, motionAllowed, quad, portalWidth, portalHeight, listScroll:source.querySelector('.immersiveList')?.scrollTop || 0, left:rect.left, top:rect.top, width:rect.width, height:rect.height, viewportWidth:innerWidth, viewportHeight:innerHeight };
   entry.paintAll=()=>media.forEach(item=>item.paint());
+  fallbackImage?.then(image=>{
+    if(released || !image)return;
+    poster=image;
+    entry.paintAll();
+  });
   entry.release=()=>{entry.pauseMotion?.();released=true;media.forEach(item=>item.detach());};
   return entry;
 }

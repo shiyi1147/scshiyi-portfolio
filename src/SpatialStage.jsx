@@ -6,6 +6,7 @@ import WallpaperCarousel from './WallpaperCarousel';
 import landingMedia from './landingMedia.json';
 import LandingImage from './LandingImage';
 import filmPreview from './filmPreviewMedia.json';
+import projectCoverPreview from './projectCoverPreview';
 
 const asset = name => `${import.meta.env.BASE_URL}assets/${name}`;
 export function stageMedia(project,variant=innerWidth<=760?'mobile':'desktop') {
@@ -14,7 +15,8 @@ export function stageMedia(project,variant=innerWidth<=760?'mobile':'desktop') {
   const bobo = project.id === 'archive-bobo' || project.id === 'watchface';
   const film = project.items.find(item => item.video);
   const preview=project.id==='archive-film'&&film?.video?.endsWith(filmPreview.source) ? filmPreview[variant] : null;
-  return { bobo, src: bobo ? asset('posters/bobo/home-landscape.webp') : (film?.src || project.cover), video: preview?asset(preview.src.replace(/^assets\//,'')):film?.video };
+  const cover = project.group === 'interface' ? project.cover : projectCoverPreview(project);
+  return { bobo, src: bobo ? asset('posters/bobo/home-landscape.webp') : (film?.src || cover), video: preview?asset(preview.src.replace(/^assets\//,'')):film?.video };
 }
 
 // One image-coordinate system keeps the photographed bezel and live content aligned.

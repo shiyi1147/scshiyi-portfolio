@@ -27,7 +27,7 @@ export function useReducedMotion() {
 }
 
 // Selection responds immediately; decoded media follows without a blank screen.
-export default function ImmersiveWork({ stages, featured, onOpen, hidden = false, suspended = false }) {
+export default function ImmersiveWork({ stages, featured, onOpen, onCancelPending, hidden = false, suspended = false }) {
   const [filter, setFilter] = useState('all');
   const [overview, setOverview] = useState(() => new URLSearchParams(window.location.search).get('view') === 'overview');
   const [archiveMounted, setArchiveMounted] = useState(overview && !hidden && !suspended);
@@ -139,26 +139,19 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
     gsap.killTweensOf(listRef.current);wheelState.current.running=false;
     const version=++pendingOpen.current.version;pendingOpen.current.id=id;
     if(reduced){pendingOpen.current.id=null;onOpen(id,visible.map(work=>work.id),null);return;}
-    setOpeningId(id);setActive(id);
-    let deadline;
-    const fallbackImage=await Promise.race([prepareImage(candidate,'high'),new Promise(resolve=>{deadline=setTimeout(()=>resolve(null),450);})]);
-    clearTimeout(deadline);
+    const shown = screenRef.current?.querySelector('.spatialMedia.is-current');
+    const alreadyShowing = shown?.dataset.project === id && shown.style.opacity === '1';
+    if (!alreadyShowing) setOpeningId(id);
+    setActive(id);
+    // Leave the controls available for a rapid change of selection before swapping the screen.
+    if (id !== preview.id) await new Promise(resolve => setTimeout(resolve, 180));
+    else await Promise.resolve();
     if(pendingOpen.current.version!==version)return;
-    flushSync(()=>{setPreviewId(id);setActive(id);});
-    await new Promise(resolve=>{
-      const start=performance.now();
-      const ready=()=>{
-        if(pendingOpen.current.version!==version)return resolve();
-        const layer=screenRef.current?.querySelector('.spatialMedia.is-current'),images=layer?.querySelectorAll('img');
-        const video=layer?.querySelector('video');
-        if(layer?.dataset.project===id&&((images?.length&&[...images].every(image=>image.complete&&image.naturalWidth))||(video?.readyState>=2)))return resolve();
-        if(performance.now()-start>240)return resolve();
-        requestAnimationFrame(ready);
-      };requestAnimationFrame(ready);
-    });
-    if(pendingOpen.current.version!==version)return;
-    const rect=screenRef.current?.getBoundingClientRect();
+    if (!alreadyShowing) flushSync(() => setPreviewId(id));
+    const video=screenRef.current?.querySelector('.spatialMedia.is-current video');
+    const fallbackImage=video && video.readyState<2 ? prepareImage(candidate,'high') : null;
     const entry = captureScreenEntry(screenRef.current,{fallbackImage,motionAllowed:!motionPaused});
+    const rect=entry?null:screenRef.current?.getBoundingClientRect();
     pendingOpen.current.id=null;setOpeningId(null);
     onOpen(id, visible.map(work => work.id), entry || (rect ? {left:rect.left,top:rect.top,width:rect.width,height:rect.height} : null));
   };
@@ -229,7 +222,7 @@ export default function ImmersiveWork({ stages, featured, onOpen, hidden = false
     root.addEventListener('wheel', wheel, {passive:false});
     return () => {root.removeEventListener('wheel', wheel);gsap.killTweensOf(listRef.current);wheelState.current.running=false;};
   }, [hidden, suspended, reduced, overview]);
-  const chooseFilter = key => {cancelOpen();cancelSelection();cancelAnimationFrame(scrollFrame.current);clearTimeout(scrollActivity.current.timer);scrollActivity.current.active=false;scrollActivity.current.manual=false;setFilter(key);setActive(null);setPreviewId(null);};
+  const chooseFilter = key => {cancelOpen();onCancelPending?.();cancelSelection();cancelAnimationFrame(scrollFrame.current);clearTimeout(scrollActivity.current.timer);scrollActivity.current.active=false;scrollActivity.current.manual=false;setFilter(key);setActive(null);setPreviewId(null);};
   const selectRelative = delta => {
     gsap.killTweensOf(listRef.current);wheelState.current.running=false;
     const index=visible.findIndex(work=>work.id===selected.id);
