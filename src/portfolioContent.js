@@ -75,6 +75,13 @@ const projects = [
         "caption": "点阵时间构成主要信息，黑白显示区与机械面板细节形成对照，少量红色标记作为点缀。"
       },
       {
+        "src": "assets/portfolio/shixu-shapes-aod-comparison.webp",
+        "thumb": "assets/portfolio/shixu-shapes-aod-comparison-thumb.webp",
+        "label": "时序方舟 · 三种屏形与息屏对照",
+        "chapter": "时序方舟",
+        "caption": "同一屏形上下对照亮屏与息屏。跑道形亮屏将电量移到日期下方，息屏将日期与星期分行。"
+      },
+      {
         "src": "assets/portfolio/shixu-layout.webp",
         "thumb": "assets/portfolio/shixu-layout-thumb.webp",
         "label": "同一组信息，三种布局",

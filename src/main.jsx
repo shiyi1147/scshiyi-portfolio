@@ -233,6 +233,10 @@ function App() {
     const index = ids.indexOf(caseId);
     return index >= 0 && ids.length > 1 ? projects.find(project => project.id === ids[(index + 1) % ids.length]) : null;
   }, [caseId, caseSequence]);
+  const openResumeCase = id => {
+    setCaseSequence(archiveProjects.map(project => project.id));
+    setCaseId(id);
+  };
   const closeCase=()=>{setCaseId(null);setCaseEntryRect(null);};
   const exhibition=(close,flight)=><Suspense fallback={flight ? <div className="screenFlightLoading" aria-busy="true"/> : <div className="exhibitionLoading" role="status">正在打开作品…<button type="button" onClick={closeCase}>返回首页</button></div>}><ProjectExhibition key={caseId} project={selectedCase} nextProject={nextCase} entryRect={flight ? null : caseEntryRect} screenFlight={flight} onClose={close} onNextProject={()=>{setCaseEntryRect(null);if(nextCase)setCaseId(nextCase.id);}}/></Suspense>;
 
@@ -281,8 +285,8 @@ function App() {
         <p className="workAtlasEyebrow">SELECTED EXPERIENCE</p>
         <div className="workAtlasResumeHeading"><span>2025 - 2026</span><h2>实习经历</h2></div>
         <div className="workAtlasExperienceGrid">
-          <article><p className="workAtlasResumeDate">2026.05 - 2026.08</p><h3>视觉中国</h3><p className="workAtlasResumeRole">AI VISUAL DESIGN INTERN / vivo 项目组 · 静态与动态壁纸</p><ul><li>围绕 vivo 壁纸主题调整构图、色彩与光影，优化动态节奏与视觉连贯性。</li><li>使用小云雀搭建视频生成工作流，参与工具配置与模型选择；整理可复用提示词模板，结合可灵 AI、Seedance、Gemini 开展生成测试、素材筛选与后期优化。</li><li>个人独立完成制作与优化，日均最终交付约 <strong>72 张静态壁纸</strong>、<strong>30 条动态壁纸</strong>。</li></ul><button className="workAtlasInlineCase" type="button" onClick={() => { setCaseSequence(archiveProjects.map(project => project.id)); setCaseId('archive-vcg'); }}>查看案例档案 <ArrowUpRight size={15} /></button></article>
-          <article><p className="workAtlasResumeDate">2025.12 - 2026.04</p><h3>吉林变刻科技有限公司</h3><p className="workAtlasResumeRole">UI DESIGN INTERN / 小米智能穿戴表盘外包项目</p><ul><li>使用 Figma 完成表盘界面、配色、图形与信息层级方案。</li><li>梳理时间、健康数据与功能信息的阅读优先级，兼顾视觉表现与使用效率。</li><li>月均完成约 <strong>8 款表盘</strong> 的设计与交付，配合需求迭代保持多主题方案的统一性。</li></ul></article>
+          <article><p className="workAtlasResumeDate">2026.05 - 2026.08</p><h3>视觉中国</h3><p className="workAtlasResumeRole">AI VISUAL DESIGN INTERN / vivo 项目组 · 静态与动态壁纸</p><ul><li>围绕 vivo 壁纸主题调整构图、色彩与光影，优化动态节奏与视觉连贯性。</li><li>使用小云雀搭建视频生成工作流，参与工具配置与模型选择；整理可复用提示词模板，结合可灵 AI、Seedance、Gemini 开展生成测试、素材筛选与后期优化。</li><li>个人独立完成制作与优化，日均最终交付约 <strong>72 张静态壁纸</strong>、<strong>30 条动态壁纸</strong>。</li></ul><button className="workAtlasInlineCase" type="button" onClick={() => openResumeCase('archive-vcg')}>查看 vivo 壁纸案例 <ArrowUpRight size={15} /></button></article>
+          <article><p className="workAtlasResumeDate">2025.12 - 2026.04</p><h3>吉林变刻科技有限公司</h3><p className="workAtlasResumeRole">UI DESIGN INTERN / 小米智能穿戴表盘外包项目</p><ul><li>使用 Figma 完成表盘界面、配色、图形与信息层级方案。</li><li>梳理时间、健康数据与功能信息的阅读优先级，兼顾视觉表现与使用效率。</li><li>月均完成约 <strong>8 款表盘</strong> 的设计与交付，配合需求迭代保持多主题方案的统一性。</li></ul><button className="workAtlasInlineCase" type="button" onClick={() => openResumeCase('archive-watchfaces')}>查看腕间万象 <ArrowUpRight size={15} /></button></article>
         </div>
       </div>
       <div id="credentials" className="workAtlasCredentials">
@@ -290,7 +294,7 @@ function App() {
         <div className="workAtlasCredentialsGrid">
           <article className="workAtlasCredentialProjects">
             <p className="workAtlasCredentialLabel">SELECTED PROJECTS</p><h2>项目与荣誉</h2>
-            <div><b>营养快线品牌创意策划</b><span>2025.09｜领队，带领 4 人团队完成品牌调研及全案视觉设计</span><span>第 17 届全国大学生广告艺术大赛</span><span className="workAtlasProjectAward">全国优秀奖｜作品收录大赛年鉴</span></div>
+            <div><b>营养快线品牌创意策划</b><span>2025.09｜领队，带领 4 人团队完成品牌调研及全案视觉设计</span><span>第 17 届全国大学生广告艺术大赛</span><span className="workAtlasProjectAward">全国优秀奖｜作品收录大赛年鉴</span><button className="workAtlasInlineCase" type="button" onClick={() => openResumeCase('archive-nutrition')}>查看营养快线案例 <ArrowUpRight size={15} /></button></div>
             <div><b>广告艺术大赛命题创作</b><span>2024.09｜队员，参与命题创意、系列海报及宣传物料设计</span><span>第 15 届湖南省大学生广告艺术大赛</span><span className="workAtlasProjectAward">湖南省三等奖</span></div>
             <div><b>校学生会主席</b><span>2023.09 - 2025.06｜主导活动主视觉及传播物料设计，累计完成 20 余件设计内容</span><span>统筹校级活动 30 余场，累计服务 5,000 余名师生</span></div>
           </article>

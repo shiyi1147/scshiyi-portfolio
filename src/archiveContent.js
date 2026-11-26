@@ -71,6 +71,10 @@ const projects = [
         "背景、图标和界面排版等视觉内容。"
       ],
       [
+        "不同屏形的布局",
+        "方形和圆形将电量放在下部中央。跑道形更窄，将电量移到日期下方。息屏时减少装饰和信息模块，保留时间、日期和星期。"
+      ],
+      [
         "制作方式",
         "使用 ChatGPT 辅助生成部分视觉元素，在 Figma 中进行手动修改与视觉整理。"
       ]
@@ -82,6 +86,13 @@ const projects = [
         "label": "时序方舟 · 复古电子仪器语言",
         "chapter": "时序方舟",
         "caption": "点阵时间构成主要信息，黑白显示区与机械面板细节形成对照，少量红色标记作为点缀。"
+      },
+      {
+        "src": "assets/portfolio/shixu-shapes-aod-comparison.webp",
+        "thumb": "assets/portfolio/shixu-shapes-aod-comparison-thumb.webp",
+        "label": "时序方舟 · 三种屏形与息屏对照",
+        "chapter": "时序方舟",
+        "caption": "同一屏形上下对照亮屏与息屏。跑道形亮屏将电量移到日期下方，息屏将日期与星期分行。"
       },
       {
         "src": "assets/portfolio/shixu-layout.webp",
@@ -2922,6 +2933,10 @@ const projects = [
     "summary": "以鸭探长夜巡为主题，用手电光束变化串起角色与时间信息。",
     "details": [
       [
+        "动效设计",
+        "用手电亮起和光束展开引导视线，从角色手中的光点移到上方的时间与日期。圆形把数据分在两侧，跑道形沿纵向安排角色、光束和数据。"
+      ],
+      [
         "表盘介绍",
         "鸭探长上线，开启腕间夜巡！手电光束缓缓展开，照亮时间与天气，电量和活动数据随时待命。酷酷的墨镜配上花短裤，把一点冒险感和小幽默装进手腕，每次抬腕，都有新发现。"
       ]
@@ -3840,6 +3855,7 @@ const projects = [
   },
   {
     "id": "archive-qiang",
+    "zoomPaging": true,
     "title": "一羌一绣",
     "name": "一羌一绣",
     "group": "brand",
@@ -3848,49 +3864,56 @@ const projects = [
     "details": [],
     "items": [
       {
-        "src": "assets/archive/qiang-01.webp",
+        "src": "assets/archive/qiang-01-gallery.webp",
+        "detail": "assets/archive/qiang-01-hd.webp",
         "thumb": "assets/archive/qiang-01-thumb.webp",
         "label": "一羌一绣 · 第 3 页",
         "chapter": "项目页面",
         "caption": "一羌一绣 · 第 3 页"
       },
       {
-        "src": "assets/archive/qiang-02.webp",
+        "src": "assets/archive/qiang-02-gallery.webp",
+        "detail": "assets/archive/qiang-02-hd.webp",
         "thumb": "assets/archive/qiang-02-thumb.webp",
         "label": "一羌一绣 · 第 4 页",
         "chapter": "项目页面",
         "caption": "一羌一绣 · 第 4 页"
       },
       {
-        "src": "assets/archive/qiang-03.webp",
+        "src": "assets/archive/qiang-03-gallery.webp",
+        "detail": "assets/archive/qiang-03-hd.webp",
         "thumb": "assets/archive/qiang-03-thumb.webp",
         "label": "一羌一绣 · 第 5 页",
         "chapter": "项目页面",
         "caption": "一羌一绣 · 第 5 页"
       },
       {
-        "src": "assets/archive/qiang-04.webp",
+        "src": "assets/archive/qiang-04-gallery.webp",
+        "detail": "assets/archive/qiang-04-hd.webp",
         "thumb": "assets/archive/qiang-04-thumb.webp",
         "label": "一羌一绣 · 第 6 页",
         "chapter": "项目页面",
         "caption": "一羌一绣 · 第 6 页"
       },
       {
-        "src": "assets/archive/qiang-05.webp",
+        "src": "assets/archive/qiang-05-gallery.webp",
+        "detail": "assets/archive/qiang-05-hd.webp",
         "thumb": "assets/archive/qiang-05-thumb.webp",
         "label": "一羌一绣 · 第 7 页",
         "chapter": "项目页面",
         "caption": "一羌一绣 · 第 7 页"
       },
       {
-        "src": "assets/archive/qiang-06.webp",
+        "src": "assets/archive/qiang-06-gallery.webp",
+        "detail": "assets/archive/qiang-06-hd.webp",
         "thumb": "assets/archive/qiang-06-thumb.webp",
         "label": "一羌一绣 · 第 8 页",
         "chapter": "项目页面",
         "caption": "一羌一绣 · 第 8 页"
       },
       {
-        "src": "assets/archive/qiang-07.webp",
+        "src": "assets/archive/qiang-07-gallery.webp",
+        "detail": "assets/archive/qiang-07-hd.webp",
         "thumb": "assets/archive/qiang-07-thumb.webp",
         "label": "一羌一绣 · 第 9 页",
         "chapter": "项目页面",
@@ -3900,8 +3923,8 @@ const projects = [
     "accent": "#e5ad83",
     "color": "#e5ad83",
     "surface": "#111c1d",
-    "cover": "assets/archive/qiang-01.webp",
-    "preview": "assets/archive/qiang-01-thumb.webp",
+    "cover": "assets/archive/qiang-cover-left.webp",
+    "preview": "assets/archive/qiang-cover-left.webp",
     "displayTitle": [
       "一羌一绣"
     ],
@@ -3912,6 +3935,7 @@ const projects = [
   },
   {
     "id": "archive-anyue",
+    "zoomPaging": true,
     "title": "安岳时刻",
     "name": "安岳时刻",
     "group": "brand",
@@ -3920,49 +3944,56 @@ const projects = [
     "details": [],
     "items": [
       {
-        "src": "assets/archive/anyue-01.webp",
+        "src": "assets/archive/anyue-01-gallery.webp",
+        "detail": "assets/archive/anyue-01-hd.webp",
         "thumb": "assets/archive/anyue-01-thumb.webp",
         "label": "安岳时刻 · 第 11 页",
         "chapter": "项目页面",
         "caption": "安岳时刻 · 第 11 页"
       },
       {
-        "src": "assets/archive/anyue-02.webp",
+        "src": "assets/archive/anyue-02-gallery.webp",
+        "detail": "assets/archive/anyue-02-hd.webp",
         "thumb": "assets/archive/anyue-02-thumb.webp",
         "label": "安岳时刻 · 第 12 页",
         "chapter": "项目页面",
         "caption": "安岳时刻 · 第 12 页"
       },
       {
-        "src": "assets/archive/anyue-03.webp",
+        "src": "assets/archive/anyue-03-gallery.webp",
+        "detail": "assets/archive/anyue-03-hd.webp",
         "thumb": "assets/archive/anyue-03-thumb.webp",
         "label": "安岳时刻 · 第 13 页",
         "chapter": "项目页面",
         "caption": "安岳时刻 · 第 13 页"
       },
       {
-        "src": "assets/archive/anyue-04.webp",
+        "src": "assets/archive/anyue-04-gallery.webp",
+        "detail": "assets/archive/anyue-04-hd.webp",
         "thumb": "assets/archive/anyue-04-thumb.webp",
         "label": "安岳时刻 · 第 14 页",
         "chapter": "项目页面",
         "caption": "安岳时刻 · 第 14 页"
       },
       {
-        "src": "assets/archive/anyue-05.webp",
+        "src": "assets/archive/anyue-05-gallery.webp",
+        "detail": "assets/archive/anyue-05-hd.webp",
         "thumb": "assets/archive/anyue-05-thumb.webp",
         "label": "安岳时刻 · 第 15 页",
         "chapter": "项目页面",
         "caption": "安岳时刻 · 第 15 页"
       },
       {
-        "src": "assets/archive/anyue-06.webp",
+        "src": "assets/archive/anyue-06-gallery.webp",
+        "detail": "assets/archive/anyue-06-hd.webp",
         "thumb": "assets/archive/anyue-06-thumb.webp",
         "label": "安岳时刻 · 第 16 页",
         "chapter": "项目页面",
         "caption": "安岳时刻 · 第 16 页"
       },
       {
-        "src": "assets/archive/anyue-07.webp",
+        "src": "assets/archive/anyue-07-gallery.webp",
+        "detail": "assets/archive/anyue-07-hd.webp",
         "thumb": "assets/archive/anyue-07-thumb.webp",
         "label": "安岳时刻 · 第 17 页",
         "chapter": "项目页面",
@@ -3972,8 +4003,8 @@ const projects = [
     "accent": "#e5ad83",
     "color": "#e5ad83",
     "surface": "#111c1d",
-    "cover": "assets/archive/anyue-01.webp",
-    "preview": "assets/archive/anyue-01-thumb.webp",
+    "cover": "assets/archive/anyue-cover-left.webp",
+    "preview": "assets/archive/anyue-cover-left.webp",
     "displayTitle": [
       "安岳时刻"
     ],
@@ -3984,6 +4015,7 @@ const projects = [
   },
   {
     "id": "archive-hostel",
+    "zoomPaging": true,
     "title": "万能青旅",
     "name": "万能青旅",
     "group": "web",
@@ -3992,35 +4024,40 @@ const projects = [
     "details": [],
     "items": [
       {
-        "src": "assets/archive/hostel-01.webp",
+        "src": "assets/archive/hostel-01-gallery.webp",
+        "detail": "assets/archive/hostel-01-hd.webp",
         "thumb": "assets/archive/hostel-01-thumb.webp",
         "label": "万能青旅 · 第 19 页",
         "chapter": "项目页面",
         "caption": "万能青旅 · 第 19 页"
       },
       {
-        "src": "assets/archive/hostel-02.webp",
+        "src": "assets/archive/hostel-02-gallery.webp",
+        "detail": "assets/archive/hostel-02-hd.webp",
         "thumb": "assets/archive/hostel-02-thumb.webp",
         "label": "万能青旅 · 第 20 页",
         "chapter": "项目页面",
         "caption": "万能青旅 · 第 20 页"
       },
       {
-        "src": "assets/archive/hostel-03.webp",
+        "src": "assets/archive/hostel-03-gallery.webp",
+        "detail": "assets/archive/hostel-03-hd.webp",
         "thumb": "assets/archive/hostel-03-thumb.webp",
         "label": "万能青旅 · 第 21 页",
         "chapter": "项目页面",
         "caption": "万能青旅 · 第 21 页"
       },
       {
-        "src": "assets/archive/hostel-04.webp",
+        "src": "assets/archive/hostel-04-gallery.webp",
+        "detail": "assets/archive/hostel-04-hd.webp",
         "thumb": "assets/archive/hostel-04-thumb.webp",
         "label": "万能青旅 · 第 22 页",
         "chapter": "项目页面",
         "caption": "万能青旅 · 第 22 页"
       },
       {
-        "src": "assets/archive/hostel-05.webp",
+        "src": "assets/archive/hostel-05-gallery.webp",
+        "detail": "assets/archive/hostel-05-hd.webp",
         "thumb": "assets/archive/hostel-05-thumb.webp",
         "label": "万能青旅 · 第 23 页",
         "chapter": "项目页面",
@@ -4030,8 +4067,8 @@ const projects = [
     "accent": "#e5ad83",
     "color": "#e5ad83",
     "surface": "#111c1d",
-    "cover": "assets/archive/hostel-01.webp",
-    "preview": "assets/archive/hostel-01-thumb.webp",
+    "cover": "assets/archive/hostel-cover-left.webp",
+    "preview": "assets/archive/hostel-cover-left.webp",
     "displayTitle": [
       "万能青旅"
     ],
@@ -4074,7 +4111,11 @@ const projects = [
       "role": "AI 视觉设计实习生 / vivo 项目组",
       "period": "2026.05 - 2026.08",
       "headline": "静态与动态壁纸设计",
-      "intro": "围绕 vivo 壁纸主题开展视觉设计，调整构图、色彩与光影，并优化动态节奏和视觉连贯性。个人独立完成制作与优化。",
+      "intro": "我独立完成静态与动态壁纸的制作和优化。静态作品重点调整构图、色彩与光影，动态作品重点处理节奏与画面连贯性。",
+      "motionReview": {
+        "title": "雪山云光 · 制作复盘",
+        "text": "我调整了镜头视角与云雾动效。成片以雪峰为视觉中心，云层沿山势流动，拉开画面的空间层次。暖光逐渐点亮山脊，让光影变化与云雾的流动形成呼应。"
+      },
       "metricsLabel": "个人日均最终交付约",
       "metrics": [
         [
@@ -4104,7 +4145,6 @@ const projects = [
           "结合画面内容完成后期优化，调整动态节奏与视觉连贯性。"
         ]
       ],
-      "selectionNote": "四组静态精选展示光影、材质、自然与角色表达，动态壁纸可单独观看。",
       "comparisons": [
        {
         "id": "tea",
@@ -4166,24 +4206,6 @@ const projects = [
           ["趣味焦点", "保留眼神、笑容和扶墙动作，让小尺寸下的表情依然清晰。"]
         ]
        }
-      ],
-      "previewImages": [
-        {
-          "src": "assets/vcg-selected/light-tea-thumb.webp",
-          "label": "圆窗茶影"
-        },
-        {
-          "src": "assets/vcg-selected/material-gold-thumb.webp",
-          "label": "暗涌鎏金"
-        },
-        {
-          "src": "assets/vcg-selected/nature-sea-thumb.webp",
-          "label": "椰影透蓝"
-        },
-        {
-          "src": "assets/vcg-selected/character-otter-thumb.webp",
-          "label": "探墙的小水獭"
-        }
       ]
     },
     "items": [

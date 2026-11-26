@@ -29,6 +29,9 @@ export default function SiteEntrance({ onComplete }) {
     const frame = frameRef.current;
     const number = frame.querySelector('.siteEntranceNumber');
     const noise = frame.querySelector('.siteEntranceNoise');
+    const signal = noise.parentElement;
+    const tubeGlow = frame.querySelector('.siteEntranceTubeGlow');
+    const borders = frame.querySelectorAll('.siteEntranceProgress');
     const curtain = frame.querySelector('.siteEntranceCurtain');
     const context = noise.getContext('2d');
     let paintNoise=()=>{};
@@ -94,23 +97,25 @@ export default function SiteEntrance({ onComplete }) {
       number.textContent = String(Math.round(counter.value));
       frame.style.setProperty('--entrance-progress', String(counter.value / 100));
     } }, 0);
-    timeline.to(number, { opacity: 0, duration: .18, ease: 'power2.in' }, .48);
-    timeline.to(noise, { opacity: .74, duration: .16, ease:'power1.out' }, .54);
+    timeline.to(number, { opacity: 0, duration: .24, ease: 'sine.inOut' }, .43);
+    timeline.to(borders, { opacity: 0, duration: .32, ease: 'sine.inOut' }, .53);
+    timeline.fromTo(tubeGlow, { opacity: 0, scale: .88 }, { opacity: .64, scale: 1.12, duration: .44, ease: 'sine.out' }, .39);
+    timeline.to(tubeGlow, { opacity: 0, scale: 1.2, duration: .66, ease: 'sine.inOut' }, .83);
+    timeline.to(signal, { opacity: .46, duration: .31, ease: 'sine.inOut' }, .49);
     const noiseTone={phase:0};
-    timeline.to(noiseTone,{phase:Math.PI*2,duration:1.02,ease:'none',onUpdate:()=>paintNoise(noiseTone.phase)},.54);
-    // Clear the black curtain before revealing the image: avoid two stacked fades.
-    timeline.to(curtain,{opacity:0,duration:.52,ease:'power2.inOut'},.76);
-    timeline.to(noise,{opacity:0,duration:.58,ease:'power2.inOut'},1.02);
-    timeline.to(frame,{opacity:0,duration:.3,ease:'power2.out'},1.52);
+    timeline.to(noiseTone,{phase:Math.PI*2,duration:.93,ease:'none',onUpdate:()=>paintNoise(noiseTone.phase)},.49);
+    // Put the artwork behind the opaque screen so the curtain alone controls its reveal.
+    if (media) timeline.set(media, { opacity: 1 }, .74);
+    timeline.to(curtain,{opacity:0,duration:.74,ease:'sine.inOut'},.83);
+    timeline.to(signal,{opacity:0,duration:.62,ease:'sine.inOut'},.8);
     if(lightRef.current){
-      timeline.to(lightRef.current,{opacity:.8,duration:.4,ease:'power2.out'},.65);
-      timeline.to(lightRef.current,{opacity:0,duration:.76,ease:'power2.inOut'},1.05);
+      timeline.to(lightRef.current,{opacity:.5,duration:.49,ease:'sine.inOut'},.62);
+      timeline.to(lightRef.current,{opacity:0,duration:.7,ease:'sine.inOut'},1.11);
     }
     timeline.fromTo(near,{opacity:.025},{opacity:(_,node)=>node.classList.contains('cyberFloorTint') ? .64 : 1,duration:.74,ease:'power2.inOut'},.67);
     timeline.fromTo(far,{opacity:.025},{opacity:1,duration:.82,ease:'power2.inOut'},.84);
     timeline.fromTo(ambient,{opacity:.025},{opacity:1,duration:.76,ease:'power2.inOut'},1);
     timeline.fromTo(page,{'--entrance-camera':1.012},{'--entrance-camera':1,duration:1,ease:'power2.out'},.62);
-    timeline.fromTo(media,{opacity:0},{opacity:1,duration:.58,ease:'power2.inOut'},.98);
     timeline.fromTo(controls,{opacity:.1},{opacity:1,duration:.58,ease:'power2.out'},1.2);
     if(header)timeline.fromTo(header,{opacity:.12},{opacity:1,duration:.6,ease:'power2.out'},1.2);
     if(list)timeline.fromTo(list,{opacity:.025},{opacity:1,duration:.54,ease:'power2.inOut'},1.33);
@@ -144,7 +149,13 @@ export default function SiteEntrance({ onComplete }) {
 
   if (!screen) return null;
   return <>
-    {createPortal(<div ref={frameRef} className="siteEntranceFrame" aria-hidden="true"><span className="siteEntranceCurtain"/><canvas className="siteEntranceNoise" width="320" height="160"/><span className="siteEntranceScanlines"/><span className="siteEntranceProgress siteEntranceProgressTop"/><span className="siteEntranceProgress siteEntranceProgressRight"/><span className="siteEntranceProgress siteEntranceProgressBottom"/><span className="siteEntranceProgress siteEntranceProgressLeft"/><span className="siteEntranceNumber">0</span></div>, screen)}
+    {createPortal(<div ref={frameRef} className="siteEntranceFrame" aria-hidden="true">
+      <span className="siteEntranceCurtain"/>
+      <span className="siteEntranceTubeGlow"/>
+      <div className="siteEntranceSignal"><canvas className="siteEntranceNoise" width="320" height="160"/><span className="siteEntranceScanlines"/></div>
+      <span className="siteEntranceProgress siteEntranceProgressTop"/><span className="siteEntranceProgress siteEntranceProgressRight"/><span className="siteEntranceProgress siteEntranceProgressBottom"/><span className="siteEntranceProgress siteEntranceProgressLeft"/>
+      <span className="siteEntranceNumber">0</span>
+    </div>, screen)}
     {screen.closest('.cyberWorld')&&createPortal(<div ref={lightRef} className="siteEntranceLight" aria-hidden="true"/>,screen.closest('.cyberWorld'))}
     {createPortal(<div className="siteEntranceControls"><button type="button" className="siteEntranceSkip" onClick={() => finishRef.current?.()}>立即进入 <span aria-hidden="true">↗</span></button></div>, document.body)}
   </>;

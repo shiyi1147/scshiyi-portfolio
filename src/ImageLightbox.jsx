@@ -6,15 +6,20 @@ import retryMediaUrl from './retryMediaUrl';
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const INITIAL = { scale: 1, x: 0, y: 0 };
+const accumulateEdge = (total, movement, overflow) =>
+  (Math.sign(total) === Math.sign(movement) ? total : 0) + overflow;
 
 export default function ImageLightbox({ src, label, onClose, backgroundRef, navigation, surface }) {
   const artworkPaging = navigation?.kind === 'artwork';
+  const spreadPaging = navigation?.kind === 'spread';
   const rootRef = useRef(null);
   const viewportRef = useRef(null);
   const imageRef = useRef(null);
   const geometryRef = useRef({ width: 0, height: 0, imageWidth: 0, imageHeight: 0 });
   const cameraRef = useRef(INITIAL);
   const pointers = useRef(new Map());
+  const swipe = useRef(null);
+  const wheelSwipe = useRef({ time:-Infinity, edge:0, axis:null, turned:false });
   const closeRef = useRef(onClose);
   const navigationRef = useRef(navigation);
   const pageTurn = useRef(false);
@@ -38,6 +43,7 @@ export default function ImageLightbox({ src, label, onClose, backgroundRef, navi
   useLayoutEffect(() => {
     setLoaded(false); setFailed(false); setDragging(false); setAttempt(0);
     pointers.current.clear();
+    swipe.current = null;
   }, [src]);
 
   const commit = useCallback(next => {
@@ -49,6 +55,12 @@ export default function ImageLightbox({ src, label, onClose, backgroundRef, navi
     cameraRef.current = value;
     setCamera(value);
   }, []);
+
+  const pan = useCallback((x, y) => {
+    const current = cameraRef.current;
+    commit({ ...current, x:current.x + x, y:current.y + y });
+    return { x:current.x + x - cameraRef.current.x, y:current.y + y - cameraRef.current.y };
+  }, [commit]);
 
   const measure = useCallback(() => {
     const viewport = viewportRef.current, image = imageRef.current;
@@ -96,8 +108,29 @@ export default function ImageLightbox({ src, label, onClose, backgroundRef, navi
     const onWheel = event => {
       event.preventDefault();
       if (!imageRef.current?.naturalWidth) return;
-      const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? geometryRef.current.height : 1);
-      zoom(Math.exp(-delta * .002), localPoint(event));
+      const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? geometryRef.current.height : 1;
+      if (!spreadPaging || event.ctrlKey || event.metaKey) {
+        zoom(Math.exp(-event.deltaY * unit * .002), localPoint(event));
+        return;
+      }
+      const time = performance.now();
+      const gesture = wheelSwipe.current;
+      const axis = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? 'x' : 'y';
+      if (time - gesture.time > 230) {
+        gesture.edge = 0;
+        gesture.turned = false;
+      }
+      gesture.time = time;
+      if (gesture.turned) return;
+      if (gesture.axis !== axis) gesture.edge = 0;
+      gesture.axis = axis;
+      const x = -event.deltaX * unit, y = -event.deltaY * unit;
+      const overflow = pan(x, y)[axis];
+      gesture.edge = accumulateEdge(gesture.edge, axis === 'x' ? x : y, overflow);
+      if (Math.abs(gesture.edge) >= 80) {
+        gesture.turned = true;
+        turnPage(gesture.edge < 0 ? 1 : -1);
+      }
     };
     const viewport = viewportRef.current;
     viewport.addEventListener('wheel', onWheel, { passive: false });
@@ -133,12 +166,14 @@ export default function ImageLightbox({ src, label, onClose, backgroundRef, navi
       if (background) background.inert = previousInert;
       if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true });
     };
-  }, [backgroundRef, commit, measure, zoom, turnPage]);
+  }, [backgroundRef, commit, measure, pan, spreadPaging, zoom, turnPage]);
 
   const onPointerDown = event => {
     if (event.button !== 0 || !loaded || failed || event.target.closest('a,button')) return;
     event.preventDefault();
-    pointers.current.set(event.pointerId, localPoint(event));
+    const point = localPoint(event);
+    pointers.current.set(event.pointerId, point);
+    swipe.current = spreadPaging && pointers.current.size === 1 ? { start:point, x:0, y:0 } : null;
     event.currentTarget.setPointerCapture(event.pointerId);
     setDragging(true);
   };
@@ -150,8 +185,13 @@ export default function ImageLightbox({ src, label, onClose, backgroundRef, navi
     pointers.current.set(event.pointerId, next);
     const after = [...pointers.current.values()];
     if (before.length === 1) {
-      const c = cameraRef.current;
-      commit({ ...c, x: c.x + next.x - old.x, y: c.y + next.y - old.y });
+      const x = next.x - old.x, y = next.y - old.y;
+      const overflow = pan(x, y);
+      const gesture = swipe.current;
+      if (gesture) {
+        if (x) gesture.x = accumulateEdge(gesture.x, x, overflow.x);
+        if (y) gesture.y = accumulateEdge(gesture.y, y, overflow.y);
+      }
     } else {
       const midpoint = points => ({ x: (points[0].x + points[1].x) / 2, y: (points[0].y + points[1].y) / 2 });
       const distance = points => Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y);
@@ -160,26 +200,34 @@ export default function ImageLightbox({ src, label, onClose, backgroundRef, navi
     }
   };
   const onPointerEnd = event => {
+    if (!pointers.current.has(event.pointerId)) return;
+    const gesture = swipe.current;
+    swipe.current = null;
     pointers.current.delete(event.pointerId);
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
     setDragging(pointers.current.size > 0);
+    if (event.type === 'pointerup' && gesture) {
+      const point = localPoint(event);
+      const axis = Math.abs(point.x - gesture.start.x) > Math.abs(point.y - gesture.start.y) ? 'x' : 'y';
+      if (Math.abs(gesture[axis]) >= 55) turnPage(gesture[axis] < 0 ? 1 : -1);
+    }
   };
 
   return createPortal(<section ref={rootRef} className={`imageLightbox${navigation ? ' is-paged' : ''}${surface ? ' has-artwork-surface' : ''}`} style={surface ? { '--artwork-surface':surface } : undefined} role="dialog" aria-modal="true" aria-labelledby="image-lightbox-title" onPointerMove={event => event.stopPropagation()}>
-    <header className="imageLightboxHeader"><div><span>DETAIL VIEW</span><h2 id="image-lightbox-title">{label}</h2></div><button type="button" onClick={onClose} aria-label="关闭大图"><X size={21} /><span>{artworkPaging ? '返回精选视觉' : navigation ? '返回阅读' : '返回展厅'}</span></button></header>
+    <header className="imageLightboxHeader"><div><span>DETAIL VIEW</span><h2 id="image-lightbox-title">{label}</h2></div><button type="button" onClick={onClose} aria-label="关闭大图"><X size={21} /><span>{artworkPaging ? '返回精选视觉' : navigation && !spreadPaging ? '返回阅读' : '返回展厅'}</span></button></header>
     <div ref={viewportRef} className={`imageLightboxViewport ${dragging ? 'is-dragging' : ''}`} data-scale={camera.scale.toFixed(3)} data-x={camera.x.toFixed(1)} data-y={camera.y.toFixed(1)} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerEnd} onPointerCancel={onPointerEnd} onLostPointerCapture={onPointerEnd} onDoubleClick={event => { if (loaded && !failed) cameraRef.current.scale > 1.1 ? commit(INITIAL) : zoom(2.5, localPoint(event)); }}>
       <img key={`${src}:${attempt}`} ref={imageRef} src={retryMediaUrl(src, attempt)} alt={label} draggable="false" onLoad={() => { setLoaded(true); measure(); }} onError={() => setFailed(true)} style={{ width: geometry.imageWidth || undefined, height: geometry.imageHeight || undefined, opacity: loaded && !failed ? 1 : 0, transform: `translate(-50%, -50%) translate(${camera.x}px, ${camera.y}px) scale(${camera.scale})` }} />
       {!loaded && !failed && <p className="imageLightboxStatus" role="status">正在载入大图…</p>}
       {failed && <div className="imageLightboxStatus" role="status">大图暂时无法载入<button type="button" onClick={() => { pageTurn.current = true; setFailed(false); setLoaded(false); setAttempt(Date.now()); }}>重新加载</button><a href={src} target="_blank" rel="noreferrer">在新窗口打开图片</a></div>}
     </div>
-    <footer className="imageLightboxFooter">{navigation && <nav className="imageLightboxPagination" aria-label={artworkPaging ? '精选作品切换' : '策划案翻页'}><button type="button" disabled={navigation.index === 0} aria-label={artworkPaging ? '上一件作品' : '上一页策划案'} onClick={() => turnPage(-1)}><ChevronLeft size={17}/><span>{artworkPaging ? '上一件' : '上一页'}</span></button><output aria-live="polite">{String(navigation.index + 1).padStart(2, '0')} / {String(navigation.total).padStart(2, '0')}</output><button type="button" disabled={navigation.index === navigation.total - 1} aria-label={artworkPaging ? '下一件作品' : '下一页策划案'} onClick={() => turnPage(1)}><span>{artworkPaging ? '下一件' : '下一页'}</span><ChevronRight size={17}/></button></nav>}<div className="imageLightboxTools" role="group" aria-label="大图缩放工具">
+    <footer className="imageLightboxFooter">{navigation && <nav className="imageLightboxPagination" aria-label={artworkPaging ? '精选作品切换' : spreadPaging ? '作品翻页' : '策划案翻页'}><button type="button" disabled={navigation.index === 0} aria-label={artworkPaging ? '上一件作品' : spreadPaging ? '上一页作品' : '上一页策划案'} onClick={() => turnPage(-1)}><ChevronLeft size={17}/><span>{artworkPaging ? '上一件' : '上一页'}</span></button><output aria-live="polite">{String(navigation.index + 1).padStart(2, '0')} / {String(navigation.total).padStart(2, '0')}</output><button type="button" disabled={navigation.index === navigation.total - 1} aria-label={artworkPaging ? '下一件作品' : spreadPaging ? '下一页作品' : '下一页策划案'} onClick={() => turnPage(1)}><span>{artworkPaging ? '下一件' : '下一页'}</span><ChevronRight size={17}/></button></nav>}<div className="imageLightboxTools" role="group" aria-label="大图缩放工具">
       <button type="button" aria-label="缩小图片" disabled={!loaded || failed || camera.scale <= 1} onClick={() => zoom(1 / 1.35)}><Minus size={19}/></button>
       <output aria-label="相对适屏比例">{Math.round(camera.scale * 100)}%</output>
       <button type="button" aria-label="放大图片" disabled={!loaded || failed || camera.scale >= 8} onClick={() => zoom(1.35)}><Plus size={19}/></button>
       <i/>
       <button type="button" disabled={!loaded || failed} onClick={fitWidth}><ScanLine size={17}/><span>适宽阅读</span></button>
       <button type="button" disabled={!loaded || failed} onClick={() => { widthMode.current = false; commit(INITIAL); }}><RotateCcw size={17}/><span>复位</span></button>
-    </div><p>{artworkPaging ? 'PageUp / PageDown 切换作品 · 滚轮 / 双指缩放 · Esc 返回' : navigation ? 'PageUp / PageDown 翻页 · 滚轮 / 双指缩放 · Esc 返回阅读' : '滚轮 / 双指缩放 · 拖动查看 · 双击缩放 · 0 复位 · Esc 返回'}</p></footer>
+    </div><p>{spreadPaging ? '滑动 / 滚轮翻页 · 放大后滑到边缘翻页 · Ctrl + 滚轮 / 双指缩放' : artworkPaging ? 'PageUp / PageDown 切换作品 · 滚轮 / 双指缩放 · Esc 返回' : navigation ? 'PageUp / PageDown 翻页 · 滚轮 / 双指缩放 · Esc 返回阅读' : '滚轮 / 双指缩放 · 拖动查看 · 双击缩放 · 0 复位 · Esc 返回'}</p></footer>
   </section>, document.body);
 }
 

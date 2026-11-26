@@ -1,5 +1,6 @@
 import previewMap from './homePreviewMap.json';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import watchfaceCover from './watchfaceCover';
 
 export default function WatchfaceCarousel({ project, playing }) {
   const slides = useMemo(() => {
@@ -7,9 +8,9 @@ export default function WatchfaceCarousel({ project, playing }) {
     if (project.id !== "archive-watchfaces") return project.items.filter(item => item.src && !item.video).map(preview);
     const seen = new Set();
     return project.items.filter(item => {
-      if (!item.src.includes('/watchfaces/') || !item.label.includes('方形') || seen.has(item.sourceProjectId)) return false;
+      if (seen.has(item.sourceProjectId)) return false;
       seen.add(item.sourceProjectId); return true;
-    }).map(preview);
+    }).map(item => ({...item, src:watchfaceCover(item)}));
   }, [project]);
   const host = useRef(null);
   const [index, setIndex] = useState(0);

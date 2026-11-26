@@ -12,9 +12,11 @@
 .projectStrategyCopy li>span {padding-top:2px;font-size:11px;line-height:1.8;color:#c8b58c;font-variant-numeric:tabular-nums;}
 .projectStrategyCopy h4 {margin:0 0 7px;font-size:14px;font-weight:400;line-height:1.6;color:#eee6cd;}
 .projectStrategyCopy li p {margin:0;color:#b8c6b7;font-size:12px;line-height:1.9;}
-.projectStrategyActions {display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;}
+.projectStrategyActions {display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;}
 .projectStrategy .projectStrategyActions button,.projectStrategy .projectStrategyActions a {display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:44px;padding:11px 15px;border:1px solid #ffdda755;background:#ffdda710;color:#eee6cd;font-size:11px;text-decoration:none;}
 .projectStrategy .projectStrategyActions button:hover,.projectStrategy .projectStrategyActions a:hover {background:#ffdda724;border-color:#ffdda7aa;}
+.projectStrategy .projectStrategyActions button:first-child {background:#ffdda728;border-color:#ffdda78c;}
+.projectStrategy .projectStrategyActions button:first-child:hover {background:#ffdda73a;}
 @media(max-width:760px) {
  .projectStrategyHeading>p {font-size:10px;margin-bottom:11px;}
  .projectStrategyHeading h3 {font-size:26px;margin-bottom:12px;}
@@ -25,5 +27,5 @@
  .projectStrategyCopy ol {gap:17px;}
  .projectStrategyCopy li {gap:12px;}
  .projectStrategyCopy h4 {font-size:13px;}
- .projectStrategyActions {margin-top:22px;}
+ .projectStrategy .projectStrategyActions button,.projectStrategy .projectStrategyActions a {gap:10px;padding-inline:11px;}
 }

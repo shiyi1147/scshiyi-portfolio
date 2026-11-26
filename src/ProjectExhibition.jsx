@@ -99,6 +99,11 @@ function StandardProjectExhibition({ project, coverPreview, nextProject, onClose
     if (isIntro) { if (delta > 0) select(0); }
     else select(frame + delta);
   };
+  const zoomNavigation = project.zoomPaging
+    ? { index:frame, total:project.items.length, onChange:select, kind:'spread' }
+    : item.artworks?.length > 1
+      ? { index:zoomArtwork, total:item.artworks.length, onChange:setZoomArtwork, kind:'artwork' }
+      : undefined;
   navigation.current = { step, infoOpen, zoomOpen, readerOpen, close };
 
   useLayoutEffect(() => {
@@ -296,7 +301,7 @@ function StandardProjectExhibition({ project, coverPreview, nextProject, onClose
         <span><small>下个项目</small><strong>{nextProject.name || nextProject.title}</strong></span><ArrowUpRight size={15}/>
       </button>}
     </footer>
-    {zoomOpen && <ImageLightbox src={zoomItem?.src || (reduced && item.still) || item.detail || item.src} label={zoomItem?.label || item.label} surface={zoomItem ? project.visualSurface : undefined} navigation={item.artworks?.length > 1 ? { index:zoomArtwork, total:item.artworks.length, onChange:setZoomArtwork, kind:'artwork' } : undefined} backgroundRef={rootRef} onClose={() => setZoomOpen(false)} />}
+    {zoomOpen && <ImageLightbox src={zoomItem?.src || (reduced && item.still) || item.detail || item.src} label={zoomItem?.label || item.label} surface={zoomItem ? project.visualSurface : undefined} navigation={zoomNavigation} backgroundRef={rootRef} onClose={() => setZoomOpen(false)} />}
     {infoOpen && <div className="exhibitionInfoScrim" onClick={event=>{if(event.target===event.currentTarget)setInfoOpen(false);}}><aside ref={infoRef} id="exhibition-info" className="exhibitionInfoPanel" aria-label="项目说明"><div className="exhibitionInfoHeader"><span>PROJECT NOTES</span><button type="button" onClick={() => setInfoOpen(false)} aria-label="关闭项目说明"><X size={20}/></button></div><p className="exhibitionEyebrow">{notes.eyebrow}</p><h3>{notes.title}</h3><p className="exhibitionSummary">{notes.summary}</p><dl>{notes.details.map(([label,value])=><div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>{plan ? <button type="button" className="exhibitionDocument" onClick={openReader} aria-haspopup="dialog">阅读完整策划案 <ArrowDown size={16}/></button> : project.document && <a className="exhibitionDocument" href={project.document} target="_blank" rel="noreferrer">{project.documentLabel || '查看完整策划案 PDF'} <ArrowUpRight size={16}/></a>}</aside></div>}
     {readerOpen && <PlanReader project={project} plan={plan} backgroundRef={rootRef} initialScroll={readerScroll.current} onClose={scroll => { readerScroll.current = scroll; setReaderOpen(false); }}/>}
   </section>, document.body);

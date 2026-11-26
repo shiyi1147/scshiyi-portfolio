@@ -11,15 +11,30 @@ export default function ProjectBrief({ project, onBrowse, entryMotion }) {
   const comparison = comparisons[comparisonIndex] || comparisons[0];
   const motionIndex = project.items.findIndex(item => item.video);
   const motionCount = project.items.filter(item => item.video).length;
+  const featured = [[0, '静态壁纸'], [motionIndex, '动态壁纸']].filter(([index]) => index >= 0);
   return <section className="exhibitionBrief" aria-label="实习项目概览" tabIndex={0}>
     <header className="projectBriefHeading"><p>{brief.role}<span>{brief.period}</span></p><h3>{brief.headline}</h3><p className="projectBriefIntro">{brief.intro}</p></header>
     <div className="projectBriefColumns">
+      <div className="projectBriefSelection">
+        <div className="projectBriefSelectionPreview">{featured.map(([index, kind]) => {
+          const item = project.items[index];
+          return <button key={item.src} type="button" className="projectBriefSample" onClick={()=>onBrowse(index)} aria-label={`查看${item.label}，${kind}`}>
+            <img src={item.thumb || item.src} alt="" />
+            <span><small>{kind}</small><strong>{item.label}</strong></span>
+            {item.video ? <Play size={14} aria-hidden="true"/> : <ArrowUpRight size={14} aria-hidden="true"/>}
+          </button>;
+        })}</div>
+        <div className="projectBriefActions"><button type="button" onClick={()=>onBrowse(0)}>浏览壁纸作品 <ArrowUpRight size={16} aria-hidden="true"/></button>{motionIndex>=0&&<button className="projectBriefMotion" type="button" onClick={()=>onBrowse(motionIndex)}><Play size={14} aria-hidden="true"/>观看动态壁纸<span>{motionCount} 条</span></button>}{comparison&&<button type="button" onClick={()=>comparisonRef.current?.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'})}>查看优化示意 <ArrowUpRight size={16} aria-hidden="true"/></button>}{entryMotion}</div>
+        {brief.motionReview && <div className="projectBriefReview">
+          <h4>{brief.motionReview.title}</h4>
+          <p>{brief.motionReview.text}</p>
+        </div>}
+      </div>
       <div>
-        <div className="projectBriefMetrics"><p>{brief.metricsLabel}</p><div>{brief.metrics.map(([value,label])=><div key={label}><strong>{value}</strong><span>{label}</span></div>)}</div></div>
         <h4 className="projectBriefWorkflowTitle">我的工作与制作流程</h4>
         <ol className="projectBriefWorkflow">{brief.workflow.map(([title,description],index)=><li key={title}><span>{String(index+1).padStart(2,'0')}</span><div><h4>{title}</h4><p>{description}</p></div></li>)}</ol>
+        <div className="projectBriefMetrics"><p>{brief.metricsLabel}</p><div>{brief.metrics.map(([value,label])=><div key={label}><strong>{value}</strong><span>{label}</span></div>)}</div></div>
       </div>
-      <aside className="projectBriefSelection">{brief.previewImages?.length ? <div className="projectBriefSelectionPreview">{brief.previewImages.map(item=><img key={item.src} src={item.src} alt={item.label}/>)}</div> : <img src={project.cover} alt="视觉中国实习项目静态壁纸选览"/>}<p>{brief.selectionNote}</p><div className="projectBriefActions"><button type="button" onClick={()=>onBrowse(0)}>浏览壁纸作品 <ArrowUpRight size={16} aria-hidden="true"/></button>{motionIndex>=0&&<button className="projectBriefMotion" type="button" onClick={()=>onBrowse(motionIndex)}><Play size={14} aria-hidden="true"/>观看动态壁纸<span>{motionCount} 条</span></button>}{comparison&&<button type="button" onClick={()=>comparisonRef.current?.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'})}>查看优化示意 <ArrowUpRight size={16} aria-hidden="true"/></button>}{entryMotion}</div></aside>
     </div>
     {comparison&&<section className="projectBriefComparison" ref={comparisonRef} aria-labelledby="project-comparison-title">
       <header><div><p>VISUAL REFINEMENT / {String(comparisons.length).padStart(2,'0')} STUDIES</p><h3 id="project-comparison-title">从生成到成品</h3></div></header>
